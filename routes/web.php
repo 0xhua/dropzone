@@ -20,4 +20,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/post', [ItemController::class, 'index']);
+Route::post('/post', [ItemController::class, 'index']);
+
