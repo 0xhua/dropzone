@@ -1,0 +1,489 @@
+
+body{
+  background-color:#222222 !important;
+overflow-x: hidden;
+}
+
+.droptxt{
+	margin-top:70px;
+	margin-left: 80px;
+	color: white;
+	font-size:55px;
+}
+.pickuptxt{
+	margin-left: 80px;
+	color:  #ffbf00;
+	line-height: 2px;
+	font-size:55px;
+}
+.trusttxt{
+
+	margin-left: 80px;
+	color:  white;
+	margin-top: 25px;
+}
+
+.arrow1{
+	margin-top: 20px;
+	width:98px;
+	margin-left: 150px;
+}
+.arrow2{
+	width:80px;
+	margin-top: -140px;
+	margin-left: 250px;
+}
+
+/*LETTER D LOGO*/
+.dlogo{
+display:none;
+}
+
+/*LOGIN BTN*/
+.btn-first{
+	margin-left: 80px;
+	border-radius: 40px !important;
+  border: 2px solid #ffbf00!important;
+  text-transform: uppercase;
+  font-size: 15px !important;
+  background-color: #222222; /* GRAY */
+  color:white !important;
+	margin-top: 20px;
+  width: 200px;
+}
+/*SIGNUP BTN*/
+.btn-second{
+	border-radius: 40px !important;
+  border: 2px solid #ffbf00!important;
+  text-transform: uppercase;
+  font-size: 15px !important;
+  background-color: #222222; /* GRAY */
+  color:white !important;
+	margin-top: 20px;
+  width: 100px;
+}
+/*LOGIN BTN*/
+.btn-third{
+	border-radius: 40px !important;
+  border: 2px solid #ffbf00!important;
+  text-transform: uppercase;
+  font-size: 15px !important;
+  background-color: #222222; /* GRAY */
+  color:white !important;
+	margin-top: 20px;
+  width: 100px;
+}
+
+
+#bootstrap-overrides  button:hover{
+ color: black;
+  background: #ffbf00;
+}
+/*FIRST CONTAINER BG */
+#bgonly{
+	display: block;
+	background-image: url('../images/bgonly.jpg');
+  background-repeat:no-repeat;
+   background-size:contain;
+}
+#newcontainer{
+	
+ }
+ #whycontainer{
+	background-color:  #ffbf00;
+	height: 10vh;
+}
+#columncontainer{
+	height: 40vh;
+	 background-color:#222222 !important;
+	 margin: 20px;
+	 margin-left: 30px;
+}
+
+/*LAPTOP IMAGE*/
+#vector{
+width: 90% !important;
+}
+#vector1{
+	display:none;
+}
+#txt1new{
+padding-right: 0px;
+
+}
+
+.txt1{
+	color: white;
+	font-size:25px;
+		margin-top: -60px;
+		margin-left: 220px;
+}
+.txt2{
+	color:  #ffbf00;
+margin-top: -10px;
+	font-size:25px;
+margin-left: 250px;
+}
+
+.txt3{
+	margin-top: 80px;
+	color: white;
+	font-size:25px;
+	margin-left: 150px;
+}
+.txt4{
+	color:  #ffbf00;
+	margin-top: -5px;
+	line-height: 2px;
+	font-size:25px;
+	margin-left: 150px;
+}
+
+/* CELLPHONE IMG */
+#cp{
+padding-bottom: 10px;
+	width: 70%;
+margin-left: 50px;
+
+}
+
+/* TEXT FOR ROW 2*/
+.allitemstxt{
+	margin-top: 150px;
+	color: white;
+  font-size: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.fblink{
+	margin-top: 50px;
+	color: white;
+  font-size: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.bxl-facebook-square {
+	color:  #ffbf00;
+}
+#why{
+	text-align: center;
+	color: white;
+
+}
+
+/* TEXT FOR WHY COLUMNS */
+#col1{
+	border: 2px solid #292929;
+	border-radius:10px ;
+	background-color:#292929;
+	padding: 70px;
+	margin: 5px;
+	width: 32% !important;
+	color: white;
+		text-align: center;
+}
+#col2{
+	border: 2px solid #292929;
+	border-radius:10px ;
+background-color:#292929;
+	padding: 70px;
+	margin: 5px;
+	width: 32% !important;
+	color: white;
+		text-align: center;
+}
+#col3{
+	border: 2px solid #292929;
+	border-radius:10px ;
+	background-color:#292929;
+	padding: 70px;
+	margin: 5px;
+	width: 32% !important;
+	color: white;
+	text-align: center;
+}
+
+.titletxt{
+	color: #ffbf00 ;
+	font-size: 20px;
+	font-weight: bold;
+
+}
+.descriptiontxt{
+	color: white ;
+}
+
+.modal-header{
+	background-color: #ffbf00;
+	border-bottom: 0px !important;
+}
+.modal-body{
+	text-align: center;
+	background-color: #ffbf00;
+  
+}
+.modal-footer{
+	background-color: #ffbf00;
+	border-top: 0px !important;
+}
+.close{
+	font-size:30px !important;
+}
+.hello_img{
+	width: 50%;
+}
+.create_img{
+	width: 70%;
+}
+.form-group{
+	padding-right: 20px;
+	padding-left: 20px;
+}
+.form-control{
+	border-radius: 20px !important;
+	padding: 0px;
+	font-size: 15px !important;
+}
+#createbtn{
+	color: white;
+  background:black ;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 40%;
+  border-radius: 40px;
+  font-size: 16px;
+}
+
+#createbtn:hover {
+  color: black !important;
+  background: white !important;
+}
+
+
+
+
+
+
+
+@media (max-width: 576px) {
+	#newcontainer{
+		display: none;
+	}
+	#bgonly{
+		display: block;
+			background-image: url('../images/fadebg.jpg');
+  	background-repeat:no-repeat;
+  	 background-size:cover;
+   	height: 40vh;
+}
+
+	.droptxt{
+	margin-top:70px;
+	margin-left: 50px;
+	color: white;
+	font-size:35px;
+}
+.pickuptxt{
+	margin-left: 50px;
+	color:  #ffbf00;
+	line-height: 2px;
+	font-size:35px;
+}
+.trusttxt{
+	margin-left: 50px;
+	color:  white;
+	margin-top: 25px;
+}
+.btn-first{
+	margin-left: 50px;
+ font-size: 10px !important;
+ width: 150px;
+}
+.btn-second,.btn-third{
+ font-size: 10px !important;
+ width: 70px;
+}
+
+ #vector{
+ 	display: none;
+ }
+ .txt1,.txt2,.txt3,.txt4{
+ 	display: none;
+ }
+ .arrow1,.arrow2, #cp{
+ 	display: none;
+ }
+ #col1,#col2,#col3{
+ 	width: 100% !important;
+ }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width:768px) {  
+   #vector{
+ 	display: none;
+ }
+ 	#newcontainer{
+		display: none;
+	}
+	#bgonly{
+		display: block;
+	background-image: url('../images/fadebg.jpg');
+  background-repeat:no-repeat;
+   background-size:cover;
+   height: 40vh;
+}
+
+
+	.droptxt{
+	margin-top:70px;
+	margin-left: 50px;
+	color: white;
+	font-size:35px;
+}
+.pickuptxt{
+	margin-left: 50px;
+	color:  #ffbf00;
+	line-height: 2px;
+	font-size:35px;
+}
+.trusttxt{
+	margin-left: 50px;
+	color:  white;
+	margin-top: 25px;
+}
+.btn-first{
+	margin-left: 50px;
+ font-size: 10px !important;
+ width: 150px;
+}
+.btn-second,.btn-third{
+ font-size: 10px !important;
+ width: 70px;
+}
+
+ #vector{
+ 	display: none;
+ }
+ .txt1,.txt2,.txt3,.txt4{
+ 	display: none;
+ }
+ .arrow1,.arrow2, #cp{
+ 	display: none;
+ }
+ #col1,#col2,#col3{
+ 	width: 100% !important;
+ }
+
+}
+ 
+/* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
+@media (min-width: 768px) and (max-width:998px) {  
+	#vector{
+display: none;
+}
+#newcontainer{
+	display: none;
+}
+#whycontainer{
+	height: 8vh;
+}
+#columncontainer{
+	height: 20vh;
+}
+#col1,#col2,#col3{
+padding: 40px;
+width: 33%;
+}
+.whytxt{
+	font-size: 25px;
+}
+ .droptxt{
+	margin-top:70px;
+	margin-left: 80px;
+	color: white;
+	font-size:35px;
+}
+.pickuptxt{
+	margin-left: 80px;
+	color:  #ffbf00;
+	line-height: 2px;
+	font-size:35px;
+}
+.trusttxt{
+	margin-left: 80px;
+	color:  white;
+	margin-top: 25px;
+}
+#bgonly{
+		display: block;
+	background-image: url('../images/fadebg.jpg');
+  background-repeat:no-repeat;
+   background-size:cover;
+}
+.btn-first{
+ font-size: 10px !important;
+ width: 150px;
+}
+.btn-second{
+ font-size: 10px !important;
+ width: 70px;
+}
+.btn-third{
+ font-size: 10px !important;
+ width: 70px;
+}
+#txt1new{
+	margin-top: 40px;
+}
+.txt1{
+	font-size:15px;
+	margin-left: 100px;
+}
+.txt2{
+	font-size:15px;
+	margin-left: 100px;
+}
+.txt3{
+	font-size:15px;
+	margin-left: 170px;
+	margin-top: 40px;
+}
+.txt4{
+	font-size:15px;
+	margin-left: 170px;
+}
+
+.arrow1{
+	width:50px;
+	margin-left: 50px;
+}
+.arrow2{
+	width:50px;
+	margin-left: 250px;
+}
+}
+ 
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width:1200px) { 
+
+}
+ 
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {  
+    
+}
+
+
+
+
+
+
+
+
+
+
+

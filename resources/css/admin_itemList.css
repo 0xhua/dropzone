@@ -1,0 +1,178 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+
+
+.container-fluid {
+    color: white;
+    margin-left: 0px;
+    margin-top: 80px;
+}
+
+h2{
+    color: #ffbf00;
+    margin-left: 0px;
+}
+
+@media screen and (min-width: 768px) {
+      body{
+        margin: calc(var(--header-height) + 1rem) 0 0 0;
+        padding-left: calc(var(--nav-width) + 0.2rem);
+    }
+    
+    .header{
+        height: calc(var(--header-height) + 1rem);
+        padding: 0 2rem 0 calc(var(--nav-width) + 2rem);
+    }
+
+    .header_img {
+        width: 40px;
+        height: 40px
+    }
+
+    .header_img img {
+        width: 45px
+    }
+
+    .l-navbar {
+        left: 0;
+        padding: 1rem 1rem 0 0
+    }
+
+    .show {
+        width: calc(var(--nav-width) + 156px)
+    }
+
+    .body-pd {
+        padding-left: calc(var(--nav-width) + 188px)
+    }
+}
+
+
+.btn:hover {
+    color: #fff;
+}
+
+.input-text:focus {
+    box-shadow: 0px 0px 0px;
+}
+
+.searchIcon{
+    border: none;
+    outline: none;
+    background-color: #3e3e3e;
+    border-radius: 0;
+    height: 50px;
+    color: white;
+}
+
+.searchIcon:hover{
+    font-size: 25px;
+    transition: .2s;
+}
+
+.form-control {
+    border: none;
+    outline: none;
+    border-radius: 0;
+    height:50;
+}
+
+.addNew, .delete{
+    border: none;
+    outline: none;
+    background-color: #3e3e3e;
+    color: white;
+    height: 50px;
+    width: 100%;
+    border-radius: 0;
+}
+
+.addNew:hover, .delete:hover{
+    color: white;
+    font-size: 20px;
+    transition: .2s;
+}
+
+.printBtn {
+    outline: none;
+    border: none;
+    background-color: #222222;
+    font-size: 40px;
+    color: white;
+    float: right;
+    height: 50px;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+.downloadBtn{
+    outline: none;
+    border: none;
+    background-color: #222222;
+    font-size: 40px;
+    color: white;
+    float: right;
+    height: 50px;
+    border-radius: 0;
+    cursor: pointer;
+    margin-left: 4%;
+}
+
+.printBtn i:hover, .downloadBtn i:hover{
+    color: #ffbf00;
+    background-color: #222222;
+    transition: .2s;
+}
+
+/* Table */
+
+
+.search {
+    top: 6px;
+    left: 10px
+}
+
+.form-control {
+    border: none;
+    padding-left: 32px
+}
+
+.form-control:focus {
+    border: none;
+    box-shadow: none
+}
+
+.green {
+    color: green
+}
+
+.table{
+    color: white;
+    border-collapse: collapse;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    text-align: center;
+}
+
+.tHead{
+    color:  white;
+    text-align: center;
+    background:#3e3e3e !important;
+    border: 1px solid #222222;
+}
+
+
+
+table tr, table td, table th{
+  border: 1px solid #222222;
+}
+
+
+tr:hover{
+    background: #ddd;
+}
+
+tr{
+    background: white;
+    color: #3e3e3e;
+}
