@@ -7,16 +7,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"/>
 
-    <!---- SCRIPTS --->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 </head>
 
 
 <body id="bootstrap-overrides">
-<!-------------------------- NAVIGATION BAR ------------------------------------------------->
 <header class="header">
     <nav class="navbar navbar-style">
         <div class="container">
@@ -40,7 +36,6 @@
         </div>
     </nav>
 
-    <!-------------------------- 1ST ROW/ LOGIN/SIGNUP ------------------------------------------------>
     <div class="container-fluid">
         <div class="row" id="bgonly">
             <div class="col-md-6">
@@ -52,7 +47,7 @@
                 <img src="{{asset('images/human.png')}}" class="img-responsive" id="vector1">
                 <div class="btn-center">
                     <button class="btn btn-first" onclick="trackbtn()"> TRACK YOUR ITEMS</button>
-                    <button class="btn btn-second" data-toggle="modal" data-target="#loginModal">LOG IN</button>
+                    <button class="btn btn-second" data-toggle="modal" data-target="#loginModal" onclick="changeurl()">LOG IN</button>
                     <button class="btn btn-third" data-toggle="modal" data-target="#signUpmodal"> SIGN UP</button>
                 </div>
             </div>
@@ -62,7 +57,6 @@
             </div>
         </div>
 
-        <!-------------------------- LOGIN MODAL ------------------------------------------------------------>
         <div class="modal fade" id="loginModal" role="dialog">
             <div class="modal-dialog modal-md">
                 <div class="modal-content">
@@ -73,7 +67,11 @@
                     <div class="modal-body" style="padding-right:70px; padding-left:70px;">
                         <img src="{{asset('images/hello.png')}}" class="hello_img">
                         <p style="padding-bottom: 30px;">Join the community.</p>
-
+                        @if($errors->any())
+                            @foreach($errors->all() as $error)
+                                <p style="color: red;">{{$error}}</p>
+                            @endforeach
+                        @endif
                         <form method="post" action="{{route('login')}}">
                             {{csrf_field()}}
                             <div class="form-group row">
@@ -103,7 +101,6 @@
                 </div>
             </div>
         </div>
-        <!-------------------------- SIGN UP MODAL ------------------------------------------------------------>
         <div class="modal fade" id="signUpmodal" role="dialog">
             <div class="modal-dialog modal-md">
                 <div class="modal-content">
@@ -161,7 +158,6 @@
                 </div>
             </div>
         </div>
-        <!-------------------------- 2ND ROW/ FACEBOOK INFO ------------------------------------------------->
         <div class="row" id="newcontainer">
             <div class="col-sm-4" id="txt1new">
                 <p><img src="{{asset('images/arrowright.png')}}" class="arrow1"></p>
@@ -182,15 +178,11 @@
             </div>
         </div>
 
-        <!-------------------------- 3RD ROW / WHY CHOOSE US ------------------------------------------------->
-
         <div class="row" id="whycontainer">
             <div class="col-sm-12" id="why">
                 <h1 class="whytxt">WHY CHOOSE US?</h1>
             </div>
         </div>
-
-        <!-------------------------- 4TH ROW / REASONS ------------------------------------------------->
 
         <div class="row" id="columncontainer">
             <div class="col-sm-4" id="col1">
@@ -211,12 +203,27 @@
 </header>
 
 
-<!------------- SCRIPT FOR TRACK BTN ------------>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
     function trackbtn() {
         location.replace("scan.html")
     }
+    function changeurl(){
+        window.history.pushState('page2', 'Title', '/#login');
+        return false;
+    }
+    $(document).ready(function() {
 
+        url = '{{ url()->previous() }}';
+        if(url.indexOf('#login') !== -1){
+            $('#loginModal').modal('show');
+        }
+        if(window.location.href.indexOf('#login') !== -1) {
+            $('#loginModal').modal('show');
+        }
+
+    });
 </script>
-</body>
 </html>
