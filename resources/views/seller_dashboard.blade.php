@@ -1,96 +1,18 @@
-<html>
-<title>DropZone | Seller Dashboard</title>
-<head>
-    <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title> Dropzone </title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"/>   <!---BOXICON - ICONS--->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script> 
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    
-        <link rel="stylesheet" href="css/sidenav.css">
-         <link rel="stylesheet" href="css/dashboard.css">
-</head>
+@extends("layouts.master")
+@section("title")
+    Drop Zone | Seller Dashboard
+@endsection
 
-<body id="body-pd">
-    
-<!----------------------TOP NAV FOR HAMBUGER BTN AND PROFILE---------------------->
-    <header class="header" id="header">
-        
-        
-        <div class="col-sm-11" style="height: 50px; margin-top: 15px;">
-            <i class='bx bx-menu' id="header-toggle"></i>
-        </div>
-    
-        <div class="col-sm-1" style="height: 50px;">
-            <img src="images/logo.png" class="logo" alt="">
-        </div>
-        
-        
-    </header>
-<!----------------------------------SIDE NAV--------------------------------------> 
-    <div class="l-navbar" id="nav-bar">
-        <nav class="nav">
-            <div> 
-                <a href="#" class="nav_logo">
-                    <img src="images/profile.png" class="header_img" alt="">
-                    <lable id="uname">Username</lable> <br>
-                    <lable id="role">Seller's Location</lable>
-                </a>
-                
-                
-                <div class="nav_list"> 
-                    <a href="seller_dashboard.html" class="nav_link active"> 
-                        <i class='bx bxs-dashboard nav_icon'></i> 
-                        <span class="nav_name">Dashboard</span> 
-                    </a> 
-                    
-                    <a href="seller_itemlist.html" class="nav_link"> 
-                        <i class='bx bx-list-ul nav_icon'></i> 
-                        <span class="nav_name">Item List</span> 
-                    </a> 
-                    
-                    <a href="seller_request.html" class="nav_link"> 
-                        <i class="bx bxs-message-alt-add nav_icon"></i>
-                        <span class="nav_name">Request</span>
-                    </a>
-                    
-                    <a href="seller_updates.html" class="nav_link">
-                        <i class='bx bxs-message-alt-check nav_icon'></i>
-                        <span class="nav_name">Updates Tab</span>
-                    </a>
-                    
-                    <a href="seller_tutor.html" class="nav_link">
-                        <i class='bx bx-book-bookmark nav_icon '></i>
-                        <span class="nav_name">Tutorial</span>
-                    </a>
-                    
-                    <a href="seller_setting.html" class="nav_link">
-                         <i class='bx bxs-cog nav_icon'></i>
-                        <span class="nav_name">Account Setting</span>
-                    </a>
-                </div>
-                
-                
-            </div>
-            
-            <a href="#" class="nav_link">
-                <i class='bx bx-log-out nav_icon'></i>
-                <span class="nav_name">LOGOUT</span>
-            </a>
-            
-        </nav>
-    </div>
-    
-    
+@section("content")
+
+
 <!-----------TITLE/HEADER, CARDTEXT/NUMBERS , CARD FOOTER/BUTTONS-------->
 <div class="container">
-        <h1> Seller Dashboard 
+        <h1> Seller Dashboard
             <a href="#" class="icon_top"> <i class='bx bxs-cog bx-pull-right'></i></a>
-            <a href="#" class="icon_top"> <i class="bx bxs-bell bx-pull-right" id="notifbell"></i></a> 
+            <a href="#" class="icon_top"> <i class="bx bxs-bell bx-pull-right" id="notifbell"></i></a>
         </h1>
-        
+
         <div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 row-cols-lg-8 row-cols-xl-12">
 
           <div class="col mb-4">
@@ -166,53 +88,52 @@
               </div>
             </div>
           </div>
- 
+
     </div>
-  </div>  
+  </div>
 
-    
-</body>
-    
-<!---------------------------------SCRIPT----------------------------------------->
+@endsection
+@section('javascript')
     <script>
-       document.addEventListener("DOMContentLoaded", function(event) {
+        document.addEventListener("DOMContentLoaded", function(event) {
 
-        const showNavbar = (toggleId, navId, bodyId, headerId) =>{
-        const toggle = document.getElementById(toggleId),
-        nav = document.getElementById(navId),
-        bodypd = document.getElementById(bodyId),
-        headerpd = document.getElementById(headerId)
+            const showNavbar = (toggleId, navId, bodyId, headerId) =>{
+                const toggle = document.getElementById(toggleId),
+                    nav = document.getElementById(navId),
+                    bodypd = document.getElementById(bodyId),
+                    headerpd = document.getElementById(headerId)
 
-        // Validate that all variables exist
-        if(toggle && nav && bodypd && headerpd){
-        toggle.addEventListener('click', ()=>{
-        // show navbar
-        nav.classList.toggle('show')
-        // change icon
-        toggle.classList.toggle('bx-x')
-        // add padding to body
-        bodypd.classList.toggle('body-pd')
-        // add padding to header
-        headerpd.classList.toggle('body-pd')
-        })
-        }
-        }
+                // Validate that all variables exist
+                if(toggle && nav && bodypd && headerpd){
+                    toggle.addEventListener('click', ()=>{
+                        // show navbar
+                        nav.classList.toggle('show')
+                        // change icon
+                        toggle.classList.toggle('bx-x')
+                        // add padding to body
+                        bodypd.classList.toggle('body-pd')
+                        // add padding to header
+                        headerpd.classList.toggle('body-pd')
+                    })
+                }
+            }
 
-        showNavbar('header-toggle','nav-bar','body-pd','header')
+            showNavbar('header-toggle','nav-bar','body-pd','header')
 
-        /*===== LINK ACTIVE =====*/
-        const linkColor = document.querySelectorAll('.nav_link')
+            /*===== LINK ACTIVE =====*/
+            const linkColor = document.querySelectorAll('.nav_link')
 
-        function colorLink(){
-        if(linkColor){
-        linkColor.forEach(l=> l.classList.remove('active'))
-        this.classList.add('active')
-        }
-        }
-        linkColor.forEach(l=> l.addEventListener('click', colorLink))
+            function colorLink(){
+                if(linkColor){
+                    linkColor.forEach(l=> l.classList.remove('active'))
+                    this.classList.add('active')
+                }
+            }
+            linkColor.forEach(l=> l.addEventListener('click', colorLink))
 
         });
-    
-    </script>
 
-</html>
+    </script>
+    @parent
+@endsection
+
