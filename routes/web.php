@@ -22,11 +22,16 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::get('login', function (){
+    return redirect()->to(route('home').'#login');
+})->name('login');
 Route::post('login', [AuthController::class, 'authenticate'])->name('login');
-Route::get('logout', [AuthController::class, 'authenticate'])->name('logout');
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('get-user', [PassportAuthController::class, 'userInfo']);
+    Route::get('seller_dashboard', [ItemController::class, 'seller_dashboard'])->name('seller_dashboard');
+    Route::get('seller_itemlist', [ItemController::class, 'seller_itemlist'])->name('seller_itemlist');
 
     Route::resource('items', ItemController::class);
 
