@@ -8,7 +8,7 @@
     --white-color: #F7F6FB;
     --body-font: 'Nunito', sans-serif;
     --normal-font-size: 1rem;
-    --z-fixed: 100
+    --z-fixed: 0
 }
 
 *,
@@ -210,7 +210,7 @@ h2{
     }
 
     .header_img {
-        width: 40px;
+        width: 50px;
         height: 40px
     }
 

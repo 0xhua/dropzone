@@ -3,7 +3,7 @@
         <div>
             <a href="#" class="nav_logo">
                 <img src="{{asset('images/profile.png')}}" class="header_img" alt="profile">
-                <lable id="uname">Username</lable>
+                <lable id="uname">{{ auth()->user()->name }}</lable>
                 <br>
                 <lable id="role">Seller's Location</lable>
             </a>
@@ -32,7 +32,7 @@
                     <span class="nav_name">Updates Tab</span>
                 </a>
 
-                <a href="seller_tutor.html" class="nav_link">
+                <a href="{{route('tutor.1')}}" class="nav_link {{request()->is('seller_itemlist')?'active':''}}">
                     <i class='bx bx-book-bookmark nav_icon '></i>
                     <span class="nav_name">Tutorial</span>
                 </a>
