@@ -6,7 +6,7 @@
     </div>
 
     <div class="col-sm-1" style="height: 50px;">
-        <img src="images/logo.png" class="logo" alt="">
+        <img src="{{asset('images/logo.png')}}" class="logo" alt="">
     </div>
 
 
