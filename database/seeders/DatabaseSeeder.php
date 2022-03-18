@@ -13,6 +13,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call([
+            amenItemTableNewIdColumnSeeder::class,
+            approvalStatusSeeder::class,
+            ItemSizeSeeder::class,
+            itemStatusSeeder::class,
+            locationSeeder::class,
+            locationTownCodeSeeder::class,
+            paidStatusSeeder::class,
+            PermissionTableSeeder::class,
+            transactionFeeSeeder::class,
+            CreateAdminUserSeeder::class
+
+        ]);
     }
 }
