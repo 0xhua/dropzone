@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
 //        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
 
         /*
