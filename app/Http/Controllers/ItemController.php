@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use function PHPUnit\Framework\isNull;
 
 class ItemController extends Controller
 {
@@ -26,11 +27,10 @@ class ItemController extends Controller
         try {
             //Get fees
             $base_fee = transactionFee::find(1)['amount'];
-            $size_catergory_fee = transactionFee::where('size_id',$request->size)->first();
-            $weight_base_fee = transactionFee::find(2)['amount'];
+            $size_catergory_fee = transactionFee::where('size_id', $request->size)->first();
+            $weight_base_fee = transactionFee::find(2)->amount;
             //Formula for calculating fees
             $fee = $base_fee + $size_catergory_fee->amount + ($weight_base_fee * 10);
-
             $item = new Item();
 
             $item->code = self::generateCode($request->origin_id);
@@ -44,13 +44,14 @@ class ItemController extends Controller
             $item->payment_status_id = $request->payment_status_id;
 
             if ($item->save()) {
-                notify()->success('Hi '.$request->name.', welcome to codelapan');
+                notify()->success('Hi ' . $request->name . ', welcome to codelapan');
                 return back();
 //                return response()->json(['status' => 'success', 'message' => 'Item created successfully']);
             }
 
         } catch (\Exception $e) {
-            return back()->withErrors($e);
+            notify()->success($e->getMessage());
+            return back()->withErrors($e->getMessage());
 //            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
@@ -113,7 +114,11 @@ class ItemController extends Controller
         $sizes = item_size::orderby('id', 'asc')->get();
         $paid_statuses = paid_status::orderby('id', 'asc')->get();
         $items = DB::table('items')
-            ->select('items.code', 'items.date as drop_date', 'items.origin_id', DB::raw('(SELECT users.`name` FROM users LEFT JOIN items ON users.id = items.seller_id LIMIT 1) as seller'), DB::raw('( SELECT users.`name` FROM users LEFT JOIN items ON users.id = items.buyer_id LIMIT 1) AS buyer'), 'o.area as origin', 'd.area as destination', 'items.fee', 'items.amount', 'paid_statuses.status as payment_status', 'item_statuses.status as status', 'approval_statuses.status as approval_status')
+            ->select('items.code', 'items.date as drop_date', 'items.origin_id',
+                DB::raw('(SELECT users.`name` FROM users LEFT JOIN items ON users.id = items.seller_id LIMIT 1) as seller'),
+                DB::raw('( SELECT users.`name` FROM users LEFT JOIN items ON users.id = items.buyer_id LIMIT 1) AS buyer'),
+                'o.area as origin', 'd.area as destination',
+                'items.fee', 'items.amount', 'paid_statuses.status as payment_status', 'item_statuses.status as status', 'approval_statuses.status as approval_status')
             ->leftJoin('approval_statuses', 'items.approval_status_id', '=', 'approval_statuses.id')
             ->leftJoin('paid_statuses', 'items.payment_status_id', '=', 'paid_statuses.id')
             ->leftJoin('item_statuses', 'items.status_id', '=', 'item_statuses.id')
@@ -131,31 +136,39 @@ class ItemController extends Controller
             ]);
     }
 
-    public function generateItemQr(Request $request){
-        $path = public_path().'item/qr';
-        if(!File::exists($path)) {
+    public function generateItemQr(Request $request)
+    {
+        $path = public_path() . 'item/qr';
+        if (!File::exists($path)) {
             File::makeDirectory($path, $mode = 0777, true, true);
         }
         $qr = \QrCode::size(500)
             ->format('png')
-            ->generate($request->code, public_path($path.'/'.$request->code));
+            ->generate($request->code, public_path($path . '/' . $request->code));
         return view('seller_itemList', $qr);
     }
 
     private function getNextId()
     {
-        $id = Item::orderBy('id', 'DESC')->first()->id;
+        $current_id = Item::orderBy('id', 'DESC')->first();
+        if (!$current_id->id) {
+            $id = 0;
+        } else {
+            $id = $current_id->id;
+        }
         return $id + 1;
     }
 
-    private function generateCode($area){
+    private function generateCode($area)
+    {
         $loc_code = Location::find($area)->code;
-        $number = sprintf('%04d',self::getNextId());
+        $number = sprintf('%04d', self::getNextId());
         $now = Carbon::now();
-        return $loc_code.'-'.$number.'-'.$now->format('md');
+        return $loc_code . '-' . $number . '-' . $now->format('md');
     }
 
-    private function createItemRequest(){
+    private function createItemRequest()
+    {
 
     }
 
