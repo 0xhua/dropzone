@@ -6,8 +6,11 @@
 @section("content")
 
     <div class="container-fluid">
-
-        <h2>SELLER'S ITEM LIST</h2>
+        @if(auth()->user()->hasRole('Admin'))
+            <h2>ADMIN SELLER'S ITEM LIST</h2>
+        @else
+            <h2>SELLER'S ITEM LIST</h2>
+        @endif
 
         <div class="row" style=" margin-top: 40px;">
             <div class="col-sm-3">
@@ -42,10 +45,10 @@
                                     <div class="col-sm-6 mb-3">
                                         {{csrf_field()}}
                                         <label id="seller_id">Seller</label><br>
-                                        <input type="text" placeholder="123" name="seller_id"><br>
+                                        <input style="color:#222222;" type="text" placeholder="123" name="seller_id"><br>
 
                                         <label id="buyer">Buyer</label><br>
-                                        <input type="text" placeholder="" name="buyer_id"><br>
+                                        <input style="color:#222222;" type="text" placeholder="" name="buyer_id"><br>
 
                                         <label id="">Paid</label>
                                         <select value="" name="payment_status_id" id="paid">
@@ -85,7 +88,7 @@
                                         <br>
 
                                         <label id="" style="margin-top: 20px;"> Item Amount</label><br>
-                                        <input type="text" placeholder="₱100.00" name="amount">
+                                        <input style="color:#222222;" type="text" placeholder="₱100.00" name="amount">
                                     </div>
 
                                 </div>
