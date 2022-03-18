@@ -5,6 +5,8 @@ use App\Http\Controllers\Api\PassportAuthController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ItemController;
 
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,34 +21,42 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    if (auth()->user()) {
+        return redirect('seller_dashboard');
+    }
     return view('home');
 })->name('home');
 
-Route::get('login', function (){
-    return redirect()->to(route('home').'#login');
+Route::get('login', function () {
+    return redirect()->to(route('home') . '#login');
 })->name('login');
 Route::post('login', [AuthController::class, 'authenticate'])->name('login');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
+    Route::resource('items', ItemController::class);
+    Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
+
+
     Route::get('get-user', [PassportAuthController::class, 'userInfo']);
     Route::get('seller_dashboard', [ItemController::class, 'seller_dashboard'])->name('seller_dashboard');
     Route::get('seller_itemlist', [ItemController::class, 'seller_itemlist'])->name('seller_itemlist');
 
     //tutorial
-    Route::prefix('tutorial')->group(function(){
-        Route::view('/1','tutorial.1')->name('tutor.1');
-        Route::view('/2','tutorial.2')->name('tutor.2');
-        Route::view('/3','tutorial.3')->name('tutor.3');
-        Route::view('/4','tutorial.4')->name('tutor.4');
+    Route::prefix('tutorial')->group(function () {
+        Route::view('/1', 'tutorial.1')->name('tutor.1');
+        Route::view('/2', 'tutorial.2')->name('tutor.2');
+        Route::view('/3', 'tutorial.3')->name('tutor.3');
+        Route::view('/4', 'tutorial.4')->name('tutor.4');
     });
 
     //add-item
-    Route::post('add-item', [ItemController::class,'saveItem'])->name('add-item');
+    Route::post('add-item', [ItemController::class, 'saveItem'])->name('add-item');
 
     //GENERATE QR FOR ITEM
     Route::get('item-generate-qr', [ItemController::class, 'generateItemQr']);
-    Route::resource('items', ItemController::class);
+
 
 });
 
