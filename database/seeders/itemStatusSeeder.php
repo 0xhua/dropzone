@@ -19,7 +19,8 @@ class itemStatusSeeder extends Seeder
             ['status'=>'In-Transit'],
             ['status'=>'Pull-Out'],
             ['status'=>'Ready'],
-            ['status'=>'Transfered']
+            ['status'=>'Transfered'],
+            ['status'=>'Released']
         ];
         item_status::insert($data);
     }

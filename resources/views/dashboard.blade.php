@@ -1,14 +1,14 @@
 @extends("layouts.master")
 @section("title")
-    Drop Zone | Seller Dashboard
-@endsection
 
+    Drop Zone | Dashboard
+@endsection
 @section("content")
 
 
 <!-----------TITLE/HEADER, CARDTEXT/NUMBERS , CARD FOOTER/BUTTONS-------->
 <div class="container">
-        <h1> Seller Dashboard
+        <h1>Dashboard
             <a href="#" class="icon_top"> <i class='bx bxs-cog bx-pull-right'></i></a>
             <a href="#" class="icon_top"> <i class="bx bxs-bell bx-pull-right" id="notifbell"></i></a>
         </h1>
@@ -19,7 +19,7 @@
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">TOTAL DROPPED ITEMS</h5>
-                <p class="card-text"><i class='bx bxl-dropbox' id="card_icon"></i> 165</p>
+                <p class="card-text"><i class='bx bxl-dropbox' id="card_icon"></i> {{$total_items}}</p>
                 <div class="card-footer">
                 <p class="footer_text"><i class='bx bx-plus' id="icon_footer"></i> Add new Items </p>
                </div>
@@ -31,7 +31,7 @@
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">READY FOR PICK UP</h5>
-                <p class="card-text"> <i class='bx bx-package' id="card_icon"></i> 2,340</p>
+                <p class="card-text"> <i class='bx bx-package' id="card_icon"></i> {{$pick_up}}</p>
                <div class="card-footer">
                <p class="footer_text"><i class='bx bx-show' id="icon_footer"></i> View Items </p>
                </div>
@@ -43,7 +43,7 @@
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">FOR PULL-OUT</h5>
-                <p class="card-text"><i class="bx bxs-archive-out" id="card_icon"></i> 8</p>
+                <p class="card-text"><i class="bx bxs-archive-out" id="card_icon"></i> {{$pull_out}}</p>
                <div class="card-footer">
                <p class="footer_text"><i class='bx bx-show' id="icon_footer"></i> View Items </p>
                </div>
@@ -55,7 +55,7 @@
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">IN TRANSIT</h5>
-                <p class="card-text"><i class='bx bx-cart' id="card_icon"></i></i>290</p>
+                <p class="card-text"><i class='bx bx-cart' id="card_icon"></i>{{$in_transit}}</p>
                <div class="card-footer">
                <p class="footer_text"><i class='bx bx-show' id="icon_footer"></i> View Items </p>
                </div>
@@ -68,7 +68,7 @@
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">TOTAL INCOME</h5>
-                <p class="card-text"><i class="bx bxs-badge-dollar" id="card_icon"></i>1,340</p>
+                <p class="card-text"><i class="bx bxs-badge-dollar" id="card_icon"></i>{{$income}}</p>
                <div class="card-footer">
                <p class="footer_text"><i class='bx bx-calendar' id="icon_footer"></i> Today </p>
                </div>
@@ -81,7 +81,7 @@
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">PENDING REQUEST</h5>
-                <p class="card-text"><i class="bx bx-loader" id="card_icon"></i>3</p>
+                <p class="card-text"><i class="bx bx-loader" id="card_icon"></i>{{$pending}}</p>
                 <div class="card-footer">
                  <p class="footer_text"><i class='bx bx-show' id="icon_footer"></i> View Requests</p>
                </div>

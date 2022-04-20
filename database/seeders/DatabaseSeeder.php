@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
             paidStatusSeeder::class,
             PermissionTableSeeder::class,
             transactionFeeSeeder::class,
-            CreateAdminUserSeeder::class
-
+            CreateAdminUserSeeder::class,
+            request_catergory_seeder::class
         ]);
     }
 }

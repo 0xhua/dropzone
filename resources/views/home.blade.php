@@ -208,7 +208,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
     function trackbtn() {
-        location.replace("scan.html")
+        location.replace("scan.blade.php")
     }
     function changeurl(){
         window.history.pushState('page2', 'Title', '/#login');

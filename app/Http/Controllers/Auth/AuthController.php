@@ -24,8 +24,8 @@ class AuthController extends Controller
 
         if (Auth::attempt($validator)) {
             $request->session()->regenerate();
-
-            return redirect()->intended('seller_dashboard');
+            smilify('Hello', 'Welcome back '. Auth::user()->name);
+            return redirect()->intended('dashboard');
         }
 
         return Redirect::to(route('home'). "#login")->withErrors([

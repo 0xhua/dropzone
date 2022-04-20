@@ -164,7 +164,7 @@ return [
         Laravel\Passport\PassportServiceProvider::class,
         Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
-//        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        andcarpi\Popper\PopperServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -233,7 +233,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-//        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'Popper' => andcarpi\Popper\Facades\Popper::class,
 
     ],
 

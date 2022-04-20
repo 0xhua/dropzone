@@ -27,11 +27,13 @@
             <th>Name</th>
             <th>Email</th>
             <th>Roles</th>
+            <th>Da ID</th>
+            <th>Da Location</th>
             <th width="280px">Action</th>
         </tr>
         @foreach ($data as $key => $user)
             <tr>
-                <td>{{ ++$i }}</td>
+                <td>{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>
@@ -40,6 +42,12 @@
                             <label class="badge badge-success">{{ $v }}</label>
                         @endforeach
                     @endif
+                </td>
+                <td>
+                    {{$user->da_id}}
+                </td>
+                <td>
+                    {{$user->code}}
                 </td>
                 <td>
                     <a class="btn btn-info" href="{{ route('users.show',$user->id) }}">Show</a>

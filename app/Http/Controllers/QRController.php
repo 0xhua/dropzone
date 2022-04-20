@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Http\Request;
+
+class QRController extends Controller
+{
+    public function generateQrCode()
+    {
+        QrCode::size(500)
+            ->format('png')
+            ->generate('codingdriver.com', public_path('images/qrcode.png'));
+
+        return view('qr-code');
+    }
+}
