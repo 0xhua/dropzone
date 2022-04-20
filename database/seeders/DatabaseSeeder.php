@@ -15,14 +15,10 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             PermissionTableSeeder::class,
-            addDaPermissions::class,
-            addGenerateQrPermission::class,
             amenItemTableNewIdColumnSeeder::class,
             approvalStatusSeeder::class,
-            buyersellerseeder::class,
             CreateAdminUserSeeder::class,
-            daseeder::class,
-            itemRequestPermissionSeeder::class,
+            CreateRoles::class,
             ItemSizeSeeder::class,
             itemStatusSeeder::class,
             locationSeeder::class,
@@ -30,6 +26,8 @@ class DatabaseSeeder extends Seeder
             paidStatusSeeder::class,
             request_catergory_seeder::class,
             transactionFeeSeeder::class,
+            daseeder::class,
+            buyersellerseeder::class,
         ]);
     }
 }
