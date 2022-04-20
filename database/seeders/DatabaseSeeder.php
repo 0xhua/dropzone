@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            PermissionTableSeeder::class,
             addDaPermissions::class,
             addGenerateQrPermission::class,
             amenItemTableNewIdColumnSeeder::class,
@@ -27,7 +28,6 @@ class DatabaseSeeder extends Seeder
             locationSeeder::class,
             locationTownCodeSeeder::class,
             paidStatusSeeder::class,
-            PermissionTableSeeder::class,
             request_catergory_seeder::class,
             transactionFeeSeeder::class,
         ]);
