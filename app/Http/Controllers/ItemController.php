@@ -80,7 +80,6 @@ class ItemController extends Controller
             }
 
         } catch (\Exception $e) {
-            dd($e);
             notify()->error($e->getMessage());
             return back()->withErrors($e->getMessage());
 //            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
