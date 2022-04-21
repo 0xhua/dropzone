@@ -1,0 +1,132 @@
+/* Nav Bar */
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+    }
+
+
+body {
+  background-color:#222222 !important;
+    }
+
+
+
+
+/* TRANSFER SCHED AND RATES TEXT */
+h1{
+	font-size: 35px;
+	text-align: center;
+	color: #ffbf00 !important;
+	margin-top: 10px;
+    }
+
+
+/* REMIT SAME AS ERRAND DAY TEXT */
+h3{
+    font-size: 22px;
+    color: white !important;
+    text-align: center;
+}
+
+/* NOTE */
+p{
+	text-align: center;
+	font-size: 20px;
+	color: #ffbf00;
+    margin-top: 10px;
+    }
+
+/* FOR TABLE */
+table {
+  border-collapse: collapse  !important;
+  border-spacing: 0 !important;
+  width: 70% !important;
+  border: 1px solid #ddd !important;
+    }
+
+th{
+    font-size: 22px !important;
+    color:  white !important;
+    padding: 10px !important;
+}
+
+th{
+    text-align: center !important;
+}
+
+td {
+  text-align: center !important;
+  padding: 8px !important;
+    }
+
+tr:nth-child(even){
+    background-color: #f2f2f2  !important;
+    }
+
+tr:nth-child(odd){
+    background-color: darkgray !important;
+    }
+
+tr:hover{
+    background-color: #ffbf00 !important;
+    color: white;
+    font-weight: 800;
+}
+
+/* SCREEN IS 650PX */
+@media screen and (max-width:650px){
+
+    h1{
+        font-size: 30px !important;
+    }
+
+    p{
+        font-size: 15px !important;
+    }
+
+    table {
+        width: 80% !important;
+    }
+
+    th{
+        font-size: 15px !important;
+    }
+
+    td{
+        font-size: 12.5px !important;
+    }
+
+}
+
+/* SCREEN IS 550PX */
+@media screen and (max-width:550px){
+
+    h1{
+        font-size: 20px !important;
+    }
+
+    h3{
+        font-size: 15px !important;
+    }
+
+    p{
+        font-size: 10px !important;
+    }
+
+
+    th{
+        font-size: 10px !important;
+    }
+
+    td{
+        font-size: 8px !important;
+    }
+
+}
+
+.content{
+    margin-top: 70px;
+}
