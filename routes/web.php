@@ -28,6 +28,10 @@ Route::get('/', function () {
     }
     return view('home');
 })->name('home');
+Route::view('/contact-us','contact')->name('contact-us');;
+Route::view('/rules','rules')->name('rules');;
+Route::view('/trasnfer-schedule','transfer')->name('trasnfer-schedule');;
+Route::view('/branches','branches')->name('branches');;
 
 Route::get('login', function () {
     return redirect()->to(route('home') . '#login');
@@ -103,6 +107,11 @@ Route::middleware('auth')->group(function () {
     //cashout-request
     Route::get('cashout', [CashoutController::class, 'index'])->name('cashout');
 
+    //create cashout-reqeust
+    Route::post('CreatePayOutRequest', [CashoutController::class, 'CreatePayOutRequest'])->name('request_cashout');
+
+    //
+    Route::post('update-cr-status', [CashoutController::class, 'updateCashOutRequestStatus'])->name('update-cr-status');
 
 
 });

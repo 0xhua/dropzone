@@ -27,10 +27,10 @@
             <div class="collapse navbar-collapse" id="micon">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a class="active" href="front.html">Home</a></li>
-                    <li><a href="branches.html">Branches</a></li>
-                    <li><a href="transfer.html">Transfer Schedule</a></li>
-                    <li><a href="rules.html">Rules</a></li>
-                    <li><a href="contact.html">Contact Us </a></li>
+                    <li><a href="branches.blade.php">Branches</a></li>
+                    <li><a href="transfer.blade.php">Transfer Schedule</a></li>
+                    <li><a href="rules.blade.php">Rules</a></li>
+                    <li><a href="contact.blade.php">Contact Us </a></li>
                 </ul>
             </div>
         </div>
@@ -149,7 +149,7 @@
                             <div class="form-group row">
                                 <div class="col-xs-12">
                                     <button class="btn" id="createbtn"> CREATE</button>
-                                    <p><i>By creating an account you agree to our <a href="rules.html">Terms &
+                                    <p><i>By creating an account you agree to our <a href="rules.blade.php">Terms &
                                                 Conditions.</a></i></p>
                                 </div>
                             </div>

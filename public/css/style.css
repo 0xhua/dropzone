@@ -1,13 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 
 *{
-	margin:0;
 	padding:0;
 	  font-family: 'Poppins', sans-serif;
 }
 /*body{
   background-color:#222222 !important;
 }*/
+.row{
+    margin-top: 70px;
+}
 .container-fluid {
   padding-right:0px !important;
   padding-left:0px !important;
