@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class cashoutRequest extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
 }

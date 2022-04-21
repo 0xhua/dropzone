@@ -28,8 +28,15 @@
 
         <!------ ADD NEW BUTTON ------------------>
         <div class="col-sm-5 mb-3" style="padding-top: 0px;">
-            <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-bs-toggle="modal" data-bs-target="#addNewItem">Request for cashout</button>
+            <form method="post" action="{{route('request_cashout')}}">
+                @csrf
+                <button type="submit" class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-bs-toggle="modal" data-bs-target="#addNewItem">Request for cashout</button>
 
+                {{--                <button type="submit" class='fas fa-arrow-right-from-bracket'--}}
+{{--                        style="font-size: 24px;"--}}
+{{--                        data-toggle="tooltip" data-placement="top" title="Pull Out item"--}}
+{{--                ></button>--}}
+            </form>
         </div>
 
 
@@ -151,17 +158,27 @@
                 </thead>
 
                 <tbody id="myTable">
-
-                <tr>
-                    <td>KDS-253</td>
-                    <td>03-18-2022</td>
-                    <td>Heather Calica</td>
-                    <td>200</td>
-                    <td>Claimed</td>
-                    <td>
-                        <i class="bx bx-edit" type="button" data-bs-toggle="modal" data-bs-target="#editItem"></i>
-                    </td>
-                </tr>
+                @foreach($items as $cashout)
+                    <tr>
+                        <td>{{$cashout->code}}</td>
+                        <td>{{$cashout->date}}</td>
+                        <td>{{$cashout->name}}</td>
+                        <td>{{$cashout->amount}}</td>
+                        <td>{{$cashout->status}}</td>
+                        <td>
+                            @if(is_null($cashout->status))
+                                <form method="post" action="{{route('update-cr-status')}}">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{$cashout->id}}">
+                                    <input type="hidden" name="status" value="1">
+                                    <button type="submit" class='fas fa-thumbs-up' style="font-size: 24px;"
+                                            data-toggle="tooltip" data-placement="top" title="approveitem"
+                                    ></button>
+                                </form>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
 
                 </tbody>
             </center>
