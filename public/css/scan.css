@@ -87,25 +87,25 @@ body{
 .back button:hover{
     color: white;
   background: #ffbf00;
-    
+
 }
 
 /* The Modal */
-.modal {
-  display: none;
-  z-index: 1;
-  margin-left: 35%;
-  margin-top: -20%;
-  width: 30%;
-  height: 300%;
-  background-color: #303030;
-}
+/*.modal {*/
+/*  display: none;*/
+/*  z-index: 1;*/
+/*  margin-left: 35%;*/
+/*  margin-top: -20%;*/
+/*  width: 30%;*/
+/*  height: 300%;*/
+/*  background-color: #303030;*/
+/*}*/
 
 .content-modal{
   background-color: #303030;
   color: white;
 text-align: left;
-  width: 50%; 
+  width: 50%;
 }
 
 

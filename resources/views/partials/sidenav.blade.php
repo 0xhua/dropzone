@@ -37,19 +37,37 @@
                     <i class='bx bxs-wallet nav_icon'></i>
                     <span class="nav_name">Pay-out List</span>
                 </a>
-
+                @if(auth()->user()->hasRole('da'))
+                <a href="{{route('da-sellers')}}"
+                   class="nav_link {{request()->is('da-sellers')?'active':''}}">
+                    <i class='bx bxs-user-detail nav_icon'></i>
+                    <span class="nav_name">View Sellers</span>
+                </a>
+                    <a href="{{route('da-scanner')}}"
+                       class="nav_link {{request()->is('da-scanner')?'active':''}}">
+                        <i class='bx bx-qr nav_icon'></i>
+                        <span class="nav_name">QR Scanner</span>
+                    </a>
+                @endif
+                @if(auth()->user()->hasRole('seller'))
                 <a href="{{route('updates')}}"
                    class="nav_link {{request()->is('updates')?'active':''}}">
                     <i class='bx bxs-message-alt-check nav_icon'></i>
                     <span class="nav_name">Updates Tab</span>
                 </a>
-
+                @endif
+                <a href="{{route('announcement')}}"
+                   class="nav_link {{request()->is('announcement')?'active':''}}">
+                    <i class='bx bx-calendar-exclamation nav_icon'></i>
+                    <span class="nav_name">Updates Tab</span>
+                </a>
+                @if(auth()->user()->hasRole('seller'))
                 <a href="{{route('tutor.1')}}"
                    class="nav_link {{request()->is('tutor.1')?'active':''}}">
                     <i class='bx bx-book-bookmark nav_icon '></i>
                     <span class="nav_name">Tutorial</span>
                 </a>
-
+                @endif
                 <a href="{{route('settings')}}"
                    class="nav_link {{request()->is('settings')?'active':''}}">
                     <i class='bx bxs-cog nav_icon'></i>

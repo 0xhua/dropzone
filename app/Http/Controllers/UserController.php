@@ -6,6 +6,7 @@ use App\Models\da_info;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Spatie\Permission\Models\Role;
 use DB;
@@ -195,12 +196,14 @@ class UserController extends Controller
             $input['password'] = Hash::make($input['password']);
 
             $user = User::create($input);
+            $user->status_id = $request->status_id;
+            $user->save();
             $user->assignRole([2]);
 
             $token = $user->createToken('Laravel8PassportAuth')->accessToken;
 
-            if($request->wantsJson()){
-                return response()->json(['status' => 'success', 'message' => 'Item created successfully','token'=>$token]);
+            if ($request->wantsJson()) {
+                return response()->json(['status' => 'success', 'message' => 'Item created successfully', 'token' => $token]);
             }
 
             notify()->success('User successfully registered');
@@ -257,25 +260,26 @@ class UserController extends Controller
             )
                 ->leftJoin('da_infos', 'users.id', '=', 'da_infos.da_id')
                 ->leftJoin('locations', 'da_infos.location_id', '=', 'locations.id')
-               ->leftJoin('locations as ul','users.location_id','ul.id')
-            ;
-            if(auth()->user()->hasRole('seller')){
-                $data = $data->where('seller_id',auth()->id());
+                ->leftJoin('locations as ul', 'users.location_id', 'ul.id');
+            if (auth()->user()->hasRole('seller')) {
+                $data = $data->where('seller_id', auth()->id());
             }
 
 
             $data = $data->orderBy('users.id', 'asc')->paginate(5);
-            return view('userlist', compact(['data','locations']))
+            return view('userlist', compact(['data', 'locations']))
                 ->with('i', ($request->input('page', 1) - 1) * 5);
         } else {
             return abort(403);
         }
     }
+
     //USER update = email contact no
-    public function update_user(Request $request){
+    public function update_user(Request $request)
+    {
         try {
             $user = User::query()->findOrFail($request->id);
-            $user->email =$request->input('email', $user->email);
+            $user->email = $request->input('email', $user->email);
             $user->phone_number = $request->input('phone_no', $user->phone_number);
 
             if ($user->save()) {
@@ -291,17 +295,18 @@ class UserController extends Controller
         }
     }
 
-    public function update_settings(Request $request){
+    public function update_settings(Request $request)
+    {
         try {
             $user = User::query()->findOrFail(auth()->id());
-            $user->name =$request->input('name', $user->name);
-            $user->email =$request->input('email', $user->email);
+            $user->name = $request->input('name', $user->name);
+            $user->email = $request->input('email', $user->email);
             $user->phone_number = $request->input('phone_no', $user->phone_no);
 //            $user->password = Hash::make($request->input('password', $user->password));
-            $user->password = ($request->filled('password')?Hash::make($request->input('password')):$user->password);
+            $user->password = ($request->filled('password') ? Hash::make($request->input('password')) : $user->password);
 
             if ($user->save()) {
-                if($request->wantsJson()){
+                if ($request->wantsJson()) {
                     return response()->json(['status' => 'success', 'message' => 'User details updated successfully']);
                 }
                 notify()->success('User successfully updated');
@@ -310,12 +315,63 @@ class UserController extends Controller
             }
 
         } catch (\Exception $e) {
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
             }
             notify()->error($e->getMessage());
             return back()->withErrors($e->getMessage());
 //            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function da_sellers()
+    {
+        $locations = \App\Models\Location::all();
+        $da_loc = da_info::where('da_id', Auth::id())->firstOrFail();
+        $da_sellers = User::select('users.*', 'locations.area', 'user_statuses.status')
+            ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
+            ->leftJoin('user_statuses', 'user_statuses.id', '=', 'users.status_id')
+            ->where('locations.id', $da_loc->location_id)
+            ->whereHas(
+                'roles', function ($q) {
+                $q->where('name', 'seller');
+            })
+            ->get();
+        return view('da_sellers', [
+            'da_sellers' => $da_sellers,
+            'locations' =>$locations,
+            'da_loc' =>$da_loc->location_id
+        ]);
+    }
+
+    public function updateSellerStatus(Request $request)
+    {
+        try {
+            $this->validate($request, [
+                'id' => 'required',
+                'status' => 'required',
+            ]);
+
+            $message = '';
+
+            $user = User::query()->findOrFail($request->id);
+            switch ($request->status) {
+                case 1://set status to in approved
+                    $user->status_id = 2;
+                    $message = 'User successfully activated';
+                    break;
+                case 2://set status to in approved
+                    $user->status_id = 1;
+                    $message = 'User successfully deactivated';
+                    break;
+            }
+            if ($user->save()) {
+                notify()->success($message);
+                return back();
+            }
+        } catch (\Exception $e) {
+            notify()->error($e->getMessage());
+            return back()->withErrors($e->getMessage());
         }
     }
 }

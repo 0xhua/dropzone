@@ -21,7 +21,23 @@
                         <th scope="col" width="15%">Date</th>
                     </tr>
                     </thead>
-                    <tbody id="data"></tbody>
+                    <tbody id="data">
+                    @foreach($announcements as $announcement)
+                        <tr>
+                            <td>
+                                @if($announcement->area)
+                                    {{$announcement->area}}
+                                @else
+                                    All
+                                @endif
+                            </td>
+                            <td>
+                                {{$announcement->announcement}}
+                            </td>
+                            <td> {{$announcement->created_at}}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>

@@ -1,0 +1,70 @@
+/*Tracking Page css*/
+body{
+    background: #222222 !important;
+}
+h1{
+    padding-top: 30px;
+}
+.btn-warning{
+    width: 60%;border: 2px solid #2E2E2E; background-color: #2E2E2E;border-radius: 25px;color: white;font-size: 15px;margin-top: 10px; margin-bottom: 10px;
+}
+
+.btn-warning:hover{
+    background-color: #ffbf00;
+    color: white;
+}
+.scan{
+    color:  #ffbf00;
+    margin-top:  15%;
+
+}
+
+.point{
+    text-align: center;
+    color: #a9a9a9;
+}
+
+.input{
+    text-align: center;
+    color: #a9a9a9;
+    margin-top: 1%;
+}
+
+.content{
+    margin-top: 2%;
+    text-align: center;
+}
+
+.content input[type=text]{
+    padding: 8px 0px;
+    font-size: 15px;
+    margin: 8px 8px;
+    border: 2px solid grey;
+    width: 180px;
+    border-radius: 25px;
+    background: #f1f1f1;
+    text-align: center;
+}
+
+.content button{
+    width: 100px;
+    font-size: 15px;
+    border: none;
+    background-color: #373737;
+    color: white;
+    padding: 8px 0px;
+    border-radius: 20px;
+}
+
+.content button:hover{
+    border: 2px solid;
+    background-color: #ffbf00;
+    cursor: pointer;
+    color: white;
+}
+
+.back{
+    margin-top: 2%;
+    text-align: center;
+}
+

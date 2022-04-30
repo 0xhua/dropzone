@@ -8,6 +8,7 @@
 //request update = category, request DONE
 //SETTINGS DONE
 //REGISTER done
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\Api\PassportAuthController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CashoutController;
@@ -58,6 +59,7 @@ Route::middleware('auth')->group(function () {
     Route::get('user-list', [UserController::class, 'userList'])->name('user-list');
     Route::post('regiter-buyer', [UserController::class, 'register_buyer'])->name('register-buyer');
     Route::post('regiter-da', [UserController::class, 'register_da'])->name('register-da');
+    Route::post('regiter-seller', [UserController::class, 'register_seller'])->name('register-seller');
 
 
     Route::get('get-user', [PassportAuthController::class, 'userInfo']);
@@ -74,7 +76,7 @@ Route::middleware('auth')->group(function () {
     });
 
     //updates
-    Route::view('/updates', 'updates')->name('updates');
+    Route::get('updates',[AnnouncementController::class,'seller_updates'])->name('updates');
 
     //settings
 //    Route::view('/settings', 'setting')->name('settings');
@@ -152,6 +154,20 @@ Route::middleware('auth')->group(function () {
 
     //update user setting
     Route::post('update-setting', [UserController::class, 'update_settings'])->name('update-setting');
+
+    //announcement
+    Route::get('announcement', [AnnouncementController::class, 'index'])->name('announcement');
+    Route::post('add-announcement', [AnnouncementController::class, 'store'])->name('add-announcement');
+
+    //da_sellers
+    Route::get('da-sellers', [UserController::class, 'da_sellers'])->name('da-sellers');
+
+    //update-user status
+    Route::post('update-seller-status', [UserController::class, 'updateSellerStatus'])->name('update-seller-status');
+
+    //da-scanner
+    Route::get('da-scanner', [ItemController::class, 'da_scanner'])->name('da-scanner');
+
 });
 
 Route::post('/post', [ItemController::class, 'index']);

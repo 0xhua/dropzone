@@ -9,7 +9,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://gitcdn.link/cdn/0xhua/font-awesome-6-pro/main/css/all.min.css" rel="stylesheet">
 
-
+    @yield('js')
     <link rel="stylesheet" href="{{asset('css/sidenav.css')}}">
     <link rel="stylesheet" href="{{asset('css/dashboard.css')}}">
     <link rel="stylesheet" href="{{asset('css/tablelist.css')}}">

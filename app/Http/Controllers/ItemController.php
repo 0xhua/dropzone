@@ -424,9 +424,8 @@ class ItemController extends Controller
                 ->leftJoin('users as buyer', 'items.buyer_id', '=', 'buyer.id')
                 ->leftJoin('users as seller', 'items.seller_id', '=', 'seller.id')
                 ->where('items.code', '=', $request->code)
-                ->get();
-            $response = array('success' => '1', 'data' => $item);
-            return json_encode($response);
+                ->first();
+            return response()->json(['status' => 'success', 'data' => $item]);
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
@@ -514,15 +513,8 @@ class ItemController extends Controller
             return back()->withErrors($e->getMessage());
         }
     }
+
+    public function da_scanner(){
+        return view('da_scanner');
+    }
 }
-
-
-//TODO
-//1. update item status ✅
-//2. DA transfer, received ✅
-//3. DA SIDE ✅
-//4. payment release
-//5. payment model ✅
-//      -if payment request is release all claimed and not release items will set to rlease
-//6. branches
-//seller request edit approved
