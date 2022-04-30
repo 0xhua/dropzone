@@ -9,10 +9,14 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    @notifyCss
+    <style type="text/css"> .notify{ z-index: 1000000; margin-top: 5%; } </style>
 </head>
 
 
 <body id="bootstrap-overrides">
+@include('notify::components.notify')
+<x:notify-messages/>
 @include('partials.home.nav')
     <div class="container-fluid">
         <div class="row" id="bgonly">
