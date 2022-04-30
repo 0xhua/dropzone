@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\cashoutRequest;
+use App\Models\da_info;
 use App\Models\Item;
 use App\Models\Location;
 use App\Models\payment;
@@ -28,10 +29,33 @@ class CashoutController extends Controller
 		cashout_id IS NULL
 		AND items.seller_id = cashout_requests.seller_id
 	) AS amount,
-	cashout_requests.`status` ')
-            ->leftJoin('users', 'cashout_requests.id', '=', 'users.id')
-            ->where('cashout_requests.seller_id', '=', 5)
-            ->get();
+	cashout_statuses.`status`,
+	cashout_requests.`status` as status_id
+	')
+            ->leftJoin('users', 'cashout_requests.seller_id', '=', 'users.id')
+            ->leftJoin('cashout_statuses', 'cashout_requests.status','cashout_statuses.id');
+        if (auth()->user()->hasRole('Admin')) {
+            $items = $items->get();
+        } elseif (auth()->user()->hasRole('da')) {
+            $da_loc = da_info::where('da_id', Auth::id())->firstOrFail()->location_id;
+            $items = $items->where('users.location_id', '=', $da_loc)->get();
+        } else {
+            $items = $items->where('cashout_requests.seller_id', '=', auth()->id())->get();
+        }
+//        $items = cashoutRequest::select('cashout_requests.code', 'cashout_requests.date', 'users.name', 'cashout_statuses.status')
+//            ->leftJoin('users','cashout_requests.id','=','users.id')
+//            ->leftJoin('cashout_statuses','cashout_requests.status','=','cashout_statuses.id')
+//            ->addSelect(
+//                [
+//                    'amount' =>
+//                        payment::select('items.amount')
+//                            ->leftJoin('items','payments.item_id','=','items.id')
+//                            ->whereNull('cashout_id')
+//                            ->where('items.seller_id','=','cashout_requests.seller_id')
+//                            ->sum('items.amount')
+//                ]
+//            )
+//            ->get();
         return view('cashoutrequest', [
             'items' => $items
         ]);
@@ -86,12 +110,34 @@ class CashoutController extends Controller
 
             $message = '';
 
-            $cr = cashoutRequest::query()->findOrFail($request->id);
+            $cr = cashoutRequest::findOrFail($request->id);
 
             switch ($request->status) {
                 case 1:
                     $cr->status = 1;
                     $message = 'Request successfully approved';
+                    break;
+                case 2:
+                    $items = payment::select('items.id')
+                        ->leftJoin('items','payments.item_id','=','items.id')
+                        ->where('payments.seller_id', $cr->seller_id);
+
+                    $items->update(['cashout_id'=>$cr->id]);
+
+                    Item::select('id')
+                        ->whereIn('id',$items->get()->toArray())
+                        ->update(
+                            [
+                                'status_id'=>'6',
+                                'release_date'=>Carbon::now()
+                            ]);
+                    $message = 'Request successfully Released';
+
+                    $cr->status = 2;
+                    break;
+                case 3:
+                    $cr->status = 3;
+                    $message = 'Request Rejected';
                     break;
             }
 

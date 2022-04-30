@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Add in boot function
+//         Add in boot function
         DB::listen(function($query) {
             File::append(
                 storage_path('/logs/query.log'),

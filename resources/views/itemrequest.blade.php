@@ -52,7 +52,7 @@
                                                 <option value="{{$category->id}}">{{$category->name}}</option>
                                             @endforeach
                                         </select><br>
-
+                                        @if(auth()->user()->hasRole(['Admin','da']))
                                         <label id="">Seller</label><br>
                                         <select value="" name="seller_id" id="paid">
                                             <option disabled selected value> -- buyer --</option>
@@ -60,7 +60,7 @@
                                                 <option value="{{$seller->id}}">{{$seller->name}}</option>
                                             @endforeach
                                         </select>
-
+                                        @endif
                                         <label id="">ContactNo.</label><br>
                                         <input type="text" placeholder="" name="contact_no"><br>
                                     </div>
@@ -91,6 +91,55 @@
                                 </div>
                         </form>
                     </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal" id="editrequest">
+                <div class="modal-dialog  modal-md">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="color:#222222;">Update request</h4>
+                            <button type="button" class="btn-close" data-dismiss="modal"></button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <form method="post" action="{{route('update-request')}}">
+                            <div class="modal-body">
+
+                                <div class="row" style="margin-left: 5px;">
+                                    <div class="col-sm-6 mb-3">
+                                        {{csrf_field()}}
+                                        <input type="hidden" name="id" id="id" value="">
+                                        <label id="">Request</label><br>
+                                        <input style="color:#222222;" id="request" type="text" placeholder="" name="request" value=""><br>
+                                        <label id="">Contact No</label><br>
+                                        <input style="color:#222222;" id="phone" type="text" placeholder="" name="contact_no" value=""><br>
+                                    </div>
+                                    <div class="col-sm-6 mb-3">
+                                        <label id="">Category</label><br>
+                                        <select value="" name="category" id="category">
+                                            <option disabled selected value> -- select category --</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                            @endforeach
+                                        </select><br>
+                                    </div>
+                                </div>
+
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Discard</button>
+
+                                    <button type="submit" class="btn btn-success">Update</button>
+                                </div>
+                        </form>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -102,7 +151,7 @@
                     <center>
                         <thead>
                         <tr class="tHead">
-                            <th scope="col" width="8%">ReqID</th>
+                            <th scope="col" width="5%">ReqID</th>
                             <th scope="col" width="8%">Date</th>
                             <th scope="col" width="7%">Category</th>
                             <th scope="col" width="10%">Seller</th>
@@ -111,6 +160,7 @@
                             <th scope="col" width="14%">Location</th>
                             <th scope="col" width="3%">Fee</th>
                             <th scope="col" width="5%">Status</th>
+                            <th scope="col" width="10%">action</th>
                         </tr>
                         </thead>
 
@@ -177,24 +227,65 @@
                                     @if($request->status)
                                         {{$request->status}}
                                     @else
-                                        N/A
+                                        Pending
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(auth()->user()->hasRole('seller'))
+                                        <button class='fas fa-pen-to-square' style="font-size: 24px;"
+                                                data-request="{{$request->request}}"
+                                                data-id="{{$request->id}}"
+                                                data-phone="{{$request->contact_no}}"
+                                                data-toggle="modal"
+                                                data-target="#editrequest"
+                                        ></button>
+                                    @endif
+                                    @if(auth()->user()->hasRole('Admin'))
+                                        @if(is_null($request->status_id))
+                                            <form method="post" action="{{route('update-request-status')}}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{$request->id}}">
+                                                <input type="hidden" name="status" value="1">
+                                                <button type="submit" class='fas fa-thumbs-up' style="font-size: 24px;"
+                                                        data-toggle="tooltip" data-placement="top" title="approveitem"
+                                                ></button>
+                                            </form>
+                                            <form method="post" action="{{route('update-request-status')}}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{$request->id}}">
+                                                <input type="hidden" name="status" value="2">
+                                                <button type="submit" class='fas fa-xmark-to-slot'
+                                                        style="font-size: 24px;"
+                                                        data-toggle="tooltip" data-placement="top" title="Release item"
+                                                ></button>
+                                            </form>
+                                        @endif
+                                        @if($request->status_id == '1')
+                                            <form method="post" action="{{route('update-request-status')}}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{$request->id}}">
+                                                <input type="hidden" name="status" value="3">
+                                                <button type="submit" class='fas fa-truck'
+                                                        style="font-size: 24px;"
+                                                        data-toggle="tooltip" data-placement="top" title="Release item"
+                                                ></button>
+                                            </form>
+                                            @endif
+                                            @if($request->status_id ==3)
+                                            <form method="post" action="{{route('update-request-status')}}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{$request->id}}">
+                                                <input type="hidden" name="status" value="4">
+                                                <button type="submit" class='fas fa-check'
+                                                        style="font-size: 24px;"
+                                                        data-toggle="tooltip" data-placement="top" title="Release item"
+                                                ></button>
+                                            </form>
+                                            @endif
                                     @endif
                                 </td>
                             </tr>
                         @endforeach
-
-
-                        <tr>
-                            <td>KDS-253</td>
-                            <td>03-18-2022</td>
-                            <td>Pick-up</td>
-                            <td>Gracie</td>
-                            <td>09****</td>
-                            <td>Pick up 24 items.</td>
-                            <td>SFC</td>
-                            <td>20</td>
-                            <td>Approved</td>
-                        </tr>
                         </tbody>
                     </center>
                 </table>
@@ -215,6 +306,17 @@
                 $("#myTable tr").filter(function () {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
+            });
+            $('#editrequest').on('shown.bs.modal', function (e) {
+                let link = e.relatedTarget,
+                    modal = $(this),
+                    id = $(link).data("id"),
+                    request = $(link).data("request");
+                    phone = $(link).data("phone");
+                console.log(request)
+                modal.find("#id").val(id);
+                modal.find("#phone").val(phone);
+                modal.find("#request").val(request);
             });
         });
     </script>

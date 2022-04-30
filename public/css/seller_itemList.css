@@ -137,3 +137,7 @@ input:hover{
 @media (min-width: 1200px) {
 
 }
+
+input{
+    color: #222222;
+}

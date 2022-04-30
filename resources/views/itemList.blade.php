@@ -51,16 +51,19 @@
                                 <div class="row" style="margin-left: 5px;">
                                     <div class="col-sm-6 mb-3">
                                         {{csrf_field()}}
+                                        @if(!auth()->user()->hasRole('seller'))
                                         <label id="">Seller</label>
-                                        <select value="" name="seller_id" id="paid">
+
+
+                                        <select value="" name="seller_id" id="paid" required>
                                             <option disabled selected value> -- seller --</option>
                                             @foreach($sellers as $seller)
                                                 <option value="{{$seller->id}}">{{$seller->name}}</option>
                                             @endforeach
                                         </select>
-
+                                        @endif
                                         <label id="">Buyer</label>
-                                        <select value="" name="buyer_id" id="paid">
+                                        <select value="" name="buyer_id" id="paid" required>
                                             <option disabled selected value> -- buyer --</option>
                                             @foreach($buyers as $buyer)
                                                 <option value="{{$buyer->id}}">{{$buyer->name}}</option>
@@ -68,7 +71,7 @@
                                         </select>
 
                                         <label id="">Paid</label>
-                                        <select value="" name="payment_status_id" id="paid">
+                                        <select value="" name="payment_status_id" id="paid" required>
                                             <option disabled selected value> -- paid/unpaid --</option>
                                             @foreach($paid_statuses as $status)
                                                 <option value="{{$status->id}}">{{$status->status}}</option>
@@ -79,17 +82,17 @@
 
                                     <div class="col-sm-6 mb-3">
                                         @if(auth()->user()->hasRole('Admin') || auth()->user()->hasRole('seller'))
-                                        <label id="">Origin</label><br>
-                                        <select value="" name="origin_id" id="itemOrigin">
-                                            <option disabled selected value> -- select origin --</option>
-                                            @foreach($location as $area)
-                                                <option value="{{$area->id}}">{{$area->area}}</option>
-                                            @endforeach
-                                        </select> <br>
+                                            <label id="">Origin</label><br>
+                                            <select value="" name="origin_id" id="itemOrigin" required>
+                                                <option disabled selected value> -- select origin --</option>
+                                                @foreach($location as $area)
+                                                    <option value="{{$area->id}}">{{$area->area}}</option>
+                                                @endforeach
+                                            </select> <br>
                                         @endif
 
                                         <label id="" style="margin-top: 20px;">Destination </label><br>
-                                        <select value="" name="destination_id" id="itemDesti">
+                                        <select value="" name="destination_id" id="itemDesti" required>
                                             <option disabled selected value> -- select destination --</option>
                                             @foreach($location as $area)
                                                 <option value="{{$area->id}}">{{$area->area}}</option>
@@ -97,7 +100,7 @@
                                         </select> <br>
 
                                         <label id="" style="margin-top: 20px;">Item Size</label><br>
-                                        <select value="" name="itemSize" id="itemSize">
+                                        <select value="" name="itemSize" id="itemSize" required>
                                             <option disabled selected value> -- select size --</option>
                                             @foreach($sizes as $size)
                                                 <option value="{{$size->id}}">{{$size->size}}</option>
@@ -106,7 +109,8 @@
                                         <br>
 
                                         <label id="" style="margin-top: 20px;"> Item Amount</label><br>
-                                        <input style="color:#222222;" type="text" placeholder="₱100.00" name="amount">
+                                        <input style="color:#222222;" type="text" placeholder="₱100.00" name="amount"
+                                               required>
                                     </div>
 
                                 </div>
@@ -124,7 +128,8 @@
                     </div>
                 </div>
             </div>
-        @if(auth()->user()->hasRole('Admin'))
+        @if(auth()->user()->hasRole('seller'))
+
             <!---------------------- UPDATE/EDIT ITEM MODAL------------------------->
                 <div class="modal" id="editItem">
                     <div class="modal-dialog  modal-lg">
@@ -133,79 +138,52 @@
                             <!-- Modal Header -->
                             <div class="modal-header">
                                 <h4 class="modal-title" style="color:#222222;">Update Item</h4>
-                                <button type="button" class="btn-close" data-dismiss="modal"></button>
+                                <button type="hidden" class="btn-close" data-dismiss="modal"></button>
                             </div>
 
                             <!-- Modal body -->
-                            <form>
+                            <form action="{{route('update-item')}}" method="post">
+                                {{csrf_field()}}
+                                <input type="hidden" name="id" id="id" value="">
                                 <div class="modal-body">
                                     <div class="row" style="margin-left: 5px;">
-                                        <div class="col-sm-4 mb-3">
-                                            <label id="" style="font-size: 18px;">Code</label><br>
-                                            <input readonly type="text" placeholder=""><br>
-
-                                            <label id="">Buyer</label><br>
-                                            <input readonly type="text" placeholder=""><br>
-
-                                            <label id="">Seller</label><br>
-                                            <input readonly type="text" placeholder=""><br>
-
+                                        <div class="col-sm-6 mb-3">
+                                            <label id="">Buyer</label>
+                                            <select value="" name="buyer_id" id="paid" >
+                                                <option disabled selected value> -- buyer --</option>
+                                                @foreach($buyers as $buyer)
+                                                    <option value="{{$buyer->id}}">{{$buyer->name}}</option>
+                                                @endforeach
+                                            </select>
+                                            <label id="">Destination</label><br>
+                                            <select value="" name="destination_id" id="itemDesti" >
+                                                <option disabled selected value> -- select destination --</option>
+                                                @foreach($location as $area)
+                                                    <option value="{{$area->id}}">{{$area->area}}</option>
+                                                @endforeach
+                                            </select>
+                                            <br>
                                         </div>
-
-
-                                        <div class="col-sm-4 mb-3">
-
+                                        <div class="col-sm-6 mb-3">
                                             <label id="">Amount</label><br>
-                                            <input id="status" readonly type="text" placeholder=""><br>
-
-                                            <label id="" style="font-size: 18px;">Status</label>
-                                            <select value="" name="status" id="status">
-                                                <option disabled selected value> -- select status --</option>
-                                                <option value="claimed">Claimed</option>
-                                                <option value="intransit">In-Transit</option>
-                                                <option value="pullout">Pull-Out</option>
-                                                <option value="ready">Ready</option>
-                                                <option value="transfered">Transfered</option>
-                                            </select><br>
-
-                                            <label id="" style="font-size: 18px;margin-top: 19px;"> Claimed Date</label><br>
-                                            <input type="date" placeholder=""><br>
-
-                                        </div>
-
-                                        <div class="col-sm-4 mb-3">
-
-                                            <label id="" style="font-size: 18px;margin-top: 19px;"> Released
-                                                Date</label><br>
-                                            <input type="date" placeholder=""><br>
-
-                                            <label id="" style="font-size: 18px; ">Paid</label>
-                                            <select value="" name="paid" id="paid">
+                                            <input style="color:#222222;" type="text" placeholder="" id="amount" name="amount"><br>
+                                            <label id="">Payment Status</label><br>
+                                            <select value="" name="payment_status_id" id="paid" >
                                                 <option disabled selected value> -- paid/unpaid --</option>
-                                                <option value="paid">Paid</option>
-                                                <option value="unpaid">Unpaid</option>
+                                                @foreach($paid_statuses as $status)
+                                                    <option value="{{$status->id}}">{{$status->status}}</option>
+                                                @endforeach
                                             </select>
-
-
-                                            <label id="" style="font-size: 18px; margin-top: 19px;">Approval</label><br>
-
-                                            <select value="" name="approval" id="approval">
-                                                <option disabled selected value> -- approved/pending --</option>
-                                                <option value="approved">Approved</option>
-                                                <option value="pending">Pending</option>
-                                            </select>
-
                                         </div>
-
                                     </div>
 
 
                                     <!-- Modal footer -->
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Discard
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Discard
                                         </button>
 
-                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Update
+                                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Update
                                         </button>
                                     </div>
 
@@ -370,108 +348,123 @@
                                 @endif
                             </td>
                             <td>
-                                @if($item->approval_status_id == 2) {{--if item status is pending show approve button--}}
-                                {{--approve item--}}
-                                <form method="post" action="{{route('update-item-status')}}">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{$item->id}}">
-                                    <input type="hidden" name="status" value="1">
-                                    <button type="submit" class='fas fa-thumbs-up' style="font-size: 24px;"
-                                            data-toggle="tooltip" data-placement="top" title="approveitem"
+                                @if(auth()->user()->hasRole('seller') && $item->approval_status_id==2)
+                                    <button class='fas fa-pen-to-square' style="font-size: 24px;"
+                                            data-id="{{$item->id}}"
+                                            data-buyer="{{$item->buyer}}"
+                                            data-d="{{$item->destination}}"
+                                            data-amount="{{$item->amount}}"
+                                            data-p_id="{{$item->payment_status_id}}"
+                                            data-toggle="modal"
+                                            data-target="#editItem"
                                     ></button>
-                                </form>
-                                @elseif($item->status_id!==3) {{--if item status is not pull out show buttons--}}
-                                @if(is_null($item->status_id) && $da_loc!==$item->destination_id){{--if item status is null show ready and intransit button--}}
-                                {{--transfer item--}}
-                                <form method="post" action="{{route('update-item-status')}}">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{$item->id}}">
-                                    <input type="hidden" name="status" value="2">
-                                    <button type="submit" class='fas fa-truck' style="font-size: 24px;"
-                                            data-toggle="tooltip" data-placement="top" title="transfer item"
-                                    ></button>
-                                </form>
                                 @endif
-                                @if(is_null($item->status_id) || $item->status_id==5){{--if item status is not pull or item status is transffered--}}
-                                {{--ready item--}}
-                                <form method="post" action="{{route('update-item-status')}}">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{$item->id}}">
-                                    <input type="hidden" name="status" value="3">
-                                    <button type="submit" class='fas fa-clipboard-check' style="font-size: 24px;"
-                                            data-toggle="tooltip" data-placement="top" title="ready item"
-                                    ></button>
-                                </form>
-                                @else
-                                    @if($item->status_id==2 && is_null($item->current_location_id) &&  $da_loc==$item->destination_id)
-                                        {{--transferred item--}}
-                                        <form method="post" action="{{route('update-item-status')}}">
-                                            @csrf
-                                            <input type="hidden" name="id" value="{{$item->id}}">
-                                            <input type="hidden" name="status" value="4">
-                                            <button type="submit" class='fas fa-arrow-down' style="font-size: 24px;"
-                                                    data-toggle="tooltip" data-placement="top" title="receive item"
-                                            ></button>
-                                        </form>
-                                    @elseif($item->status_id==4)
-                                        @if($item->payment_status_id ==2)
-                                            {{--paid item--}}
-                                            <form method="post" action="{{route('update-item-status')}}">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{$item->id}}">
-                                                <input type="hidden" name="status" value="5">
-                                                <button type="submit" class='fas fa-file-invoice-dollar'
-                                                        style="font-size: 24px;"
-                                                        data-toggle="tooltip" data-placement="top" title="Pay item"
-                                                ></button>
-                                            </form>
-                                        @else
-                                            {{--claim item--}}
-                                            <form method="post" action="{{route('update-item-status')}}">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{$item->id}}">
-                                                <input type="hidden" name="status" value="6">
-                                                <button type="submit" class='fas fa-box-check'
-                                                        style="font-size: 24px;"
-                                                        data-toggle="tooltip" data-placement="top" title="Claim item"
-                                                ></i></button>
-                                            </form>
-                                        @endif
-                                    @elseif($item->status_id == 1)
-                                        {{--release item--}}
-                                        <form method="post" action="{{route('update-item-status')}}">
-                                            @csrf
-                                            <input type="hidden" name="id" value="{{$item->id}}">
-                                            <input type="hidden" name="status" value="8">
-                                            <button type="submit" class='fas fa-inbox-out'
-                                                    style="font-size: 24px;"
-                                                    data-toggle="tooltip" data-placement="top" title="Release item"
-                                            ></button>
-                                        </form>
-                                    @endif
-                                @endif
-                                @if($item->status_id !== 3 && $item->status_id !== 6)
-                                    {{--pull out item--}}
+                                @if(auth()->user()->hasRole('Admin'))
+
+                                    @if($item->approval_status_id == 2) {{--if item status is pending show approve button--}}
+                                    {{--approve item--}}
                                     <form method="post" action="{{route('update-item-status')}}">
                                         @csrf
                                         <input type="hidden" name="id" value="{{$item->id}}">
-                                        <input type="hidden" name="status" value="7">
-                                        <button type="submit" class='fas fa-arrow-right-from-bracket'
-                                                style="font-size: 24px;"
-                                                data-toggle="tooltip" data-placement="top" title="Pull Out item"
+                                        <input type="hidden" name="status" value="1">
+                                        <button type="submit" class='fas fa-thumbs-up' style="font-size: 24px;"
+                                                data-toggle="tooltip" data-placement="top" title="approveitem"
                                         ></button>
                                     </form>
-                                @if(auth()->user()->hasPermissionTo('item-show-qr'))
-                                    <a class='fas fa-qrcode'
-                                       style="font-size: 24px;"
-                                       data-toggle="modal"
-                                       data-target="#generateQr"
-                                       data-code="{{$item->code}}"
-                                       data-toggle="tooltip" data-placement="top" title="Show item QR code"
-                                    ></a>
+                                    @elseif($item->status_id!==3) {{--if item status is not pull out show buttons--}}
+                                    @if(is_null($item->status_id) && $da_loc!==$item->destination_id){{--if item status is null show ready and intransit button--}}
+                                    {{--transfer item--}}
+                                    <form method="post" action="{{route('update-item-status')}}">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{$item->id}}">
+                                        <input type="hidden" name="status" value="2">
+                                        <button type="submit" class='fas fa-truck' style="font-size: 24px;"
+                                                data-toggle="tooltip" data-placement="top" title="transfer item"
+                                        ></button>
+                                    </form>
+                                    @endif
+                                    @if(is_null($item->status_id) || $item->status_id==2){{--if item status is not pull or item status is transffered--}}
+                                    {{--ready item--}}
+                                    <form method="post" action="{{route('update-item-status')}}">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{$item->id}}">
+                                        <input type="hidden" name="status" value="3">
+                                        <button type="submit" class='fas fa-clipboard-check' style="font-size: 24px;"
+                                                data-toggle="tooltip" data-placement="top" title="ready item"
+                                        ></button>
+                                    </form>
+                                    @else
+                                        @if($item->status_id==2 && is_null($item->current_location_id) &&  $da_loc==$item->destination_id)
+                                            {{--transferred item--}}
+                                            <form method="post" action="{{route('update-item-status')}}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{$item->id}}">
+                                                <input type="hidden" name="status" value="4">
+                                                <button type="submit" class='fas fa-arrow-down' style="font-size: 24px;"
+                                                        data-toggle="tooltip" data-placement="top" title="receive item"
+                                                ></button>
+                                            </form>
+                                        @elseif($item->status_id==4)
+                                            @if($item->payment_status_id ==2)
+                                                {{--paid item--}}
+                                                <form method="post" action="{{route('update-item-status')}}">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{$item->id}}">
+                                                    <input type="hidden" name="status" value="5">
+                                                    <button type="submit" class='fas fa-file-invoice-dollar'
+                                                            style="font-size: 24px;"
+                                                            data-toggle="tooltip" data-placement="top" title="Pay item"
+                                                    ></button>
+                                                </form>
+                                            @else
+                                                {{--claim item--}}
+                                                <form method="post" action="{{route('update-item-status')}}">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{$item->id}}">
+                                                    <input type="hidden" name="status" value="6">
+                                                    <button type="submit" class='fas fa-box-check'
+                                                            style="font-size: 24px;"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="Claim item"
+                                                    ></i></button>
+                                                </form>
+                                            @endif
+                                        @elseif($item->status_id == 1)
+                                            {{--release item--}}
+                                            <form method="post" action="{{route('update-item-status')}}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{$item->id}}">
+                                                <input type="hidden" name="status" value="8">
+                                                <button type="submit" class='fas fa-inbox-out'
+                                                        style="font-size: 24px;"
+                                                        data-toggle="tooltip" data-placement="top" title="Release item"
+                                                ></button>
+                                            </form>
+                                        @endif
+                                    @endif
+                                    @if($item->status_id !== 3 && $item->status_id !== 6)
+                                        {{--pull out item--}}
+                                        <form method="post" action="{{route('update-item-status')}}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{$item->id}}">
+                                            <input type="hidden" name="status" value="7">
+                                            <button type="submit" class='fas fa-arrow-right-from-bracket'
+                                                    style="font-size: 24px;"
+                                                    data-toggle="tooltip" data-placement="top" title="Pull Out item"
+                                            ></button>
+                                        </form>
+                                    @endif
+                                    @endif
                                 @endif
-                                @endif
-                                @endif
+                                    @if(auth()->user()->hasPermissionTo('item-show-qr'))
+                                        <a class='fas fa-qrcode'
+                                           style="font-size: 24px;"
+                                           data-toggle="modal"
+                                           data-target="#generateQr"
+                                           data-code="{{$item->code}}"
+                                           data-toggle="tooltip" data-placement="top" title="Show item QR code"
+                                        ></a>
+                                    @endif
                             </td>
                         </tr>
                     @endforeach
@@ -489,20 +482,19 @@
 @section('javascript')
     <script>
         $(document).ready(function () {
-            $("#myInput").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#myTable tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
 
             $('#editItem').on('shown.bs.modal', function (e) {
+
                 let link = e.relatedTarget,
                     modal = $(this),
                     id = $(link).data("id"),
+                    buyer = $(link).data("buyer"),
                     amount = $(link).data("amount"),
+                    d = $(link).data("d"),
+                    p_id = $(link).data("p_id"),
                     status = $(link).data("status");
-                modal.find("#status").val(status);
+                modal.find("#amount").val(amount);
+                modal.find("#id").val(id);
             });
 
             $('#generateQr').on('shown.bs.modal', function (e) {

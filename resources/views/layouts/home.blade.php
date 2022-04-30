@@ -13,15 +13,19 @@
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    @notifyCss
     @yield('js')
 
 </head>
 
 
 <body id="bootstrap-overrides">
-    @include('partials.home.nav')
-    @yield('content')
+@include('notify::components.notify')
+<x:notify-messages/>
+@notifyJs
+@include('partials.home.nav')
+@yield('content')
 </body>
 @include('partials.home.js')
 

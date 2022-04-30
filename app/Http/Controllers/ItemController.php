@@ -6,6 +6,7 @@ use App\Models\da_info;
 use App\Models\Item;
 
 use App\Models\item_size;
+use App\Models\itemRequest;
 use App\Models\Location;
 use App\Models\paid_status;
 use App\Models\payment;
@@ -42,7 +43,7 @@ class ItemController extends Controller
             $fee = $base_fee + $size_catergory_fee->amount + ($weight_base_fee * 10);
             $item = new Item();
             $item->date = Carbon::now();
-            $item->seller_id = $request->seller_id;
+            $item->seller_id = (auth()->user()->hasRole('seller'))?Auth::id():$request->seller_id;
             $item->buyer_id = $request->buyer_id;
             if (auth()->user()->hasRole('da')) {
                 $da_loc = da_info::where('da_id', Auth::id())->firstOrFail();
@@ -73,34 +74,41 @@ class ItemController extends Controller
                     ->generate($code);
                 $output_file = 'public/qr_codes/' . $code . '.png';
                 Storage::disk('local')->put($output_file, $image);
-
+                if($request->wantsJson()){
+                    return response()->json(['status' => 'success', 'message' => 'Item created successfully']);
+                }
                 notify()->success('Item successfully added');
                 return back();
-//                return response()->json(['status' => 'success', 'message' => 'Item created successfully']);
+
             }
 
         } catch (\Exception $e) {
+            if($request->wantsJson()){
+                return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+            }
             notify()->error($e->getMessage());
             return back()->withErrors($e->getMessage());
-//            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
-
-    public function updateItemDetails(Request $request, $id)
+//item update = buyer, destination amount payment
+    public function updateItemDetails(Request $request)
     {
         try {
             $item = Item::query()->findOrFail($request->id);
-            $item->buyer_id = $request->buyer_id;
-            $item->origin = $request->origin;
-            $item->destination = $request->destination;
-            $item->fee = $request->fee;
+            $item->buyer_id =$request->input('buyer_id', $item->buyer_id);
+            $item->destination_id = $request->input('destination_id', $item->destination_id);
+            $item->amount = $request->input('amount', $item->amount);
 
             if ($item->save()) {
-                return response()->json(['status' => 'success', 'message' => 'Item details updated successfully']);
+                notify()->success('Item successfully updated');
+                return back();
+//                return response()->json(['status' => 'success', 'message' => 'Item details updated successfully']);
             }
 
-        } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+        } catch (\Exception $e) { notify()->error($e->getMessage());
+            notify()->error($e->getMessage());
+            return back()->withErrors($e->getMessage());
+//            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
 
@@ -139,7 +147,7 @@ class ItemController extends Controller
         }
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
 
         if (auth()->user()->hasRole('Admin')) {
@@ -147,7 +155,7 @@ class ItemController extends Controller
             $pickup = Item::where('status_id', '=', '4')->count();
             $pullout = Item::where('status_id', '=', '3')->count();
             $in_transit = Item::where('status_id', '=', '2')->count();
-            $pending = Item::wherenull('status_id')->count();
+            $pending = itemRequest::wherenull('status_id')->count();
             $income = DB::table('payments')
                 ->select('items.amount')
                 ->leftJoin('items', 'payments.item_id', '=', 'items.id')
@@ -158,7 +166,7 @@ class ItemController extends Controller
         } elseif (auth()->user()->hasRole('da')) {
             $da_loc = da_info::where('da_id', Auth::id())->firstOrFail();
             $total_items = Item::where('origin_id', '=', $da_loc->location_id)->count();
-            $pickup = Item::where('origin_id', '=', $da_loc->location_id)
+            $pickup = Item::where('current_location_id', '=', $da_loc->location_id)
                 ->where('status_id', '=', '4')
                 ->count();
             $pullout = Item::where('origin_id', '=', $da_loc->location_id)
@@ -167,7 +175,7 @@ class ItemController extends Controller
             $in_transit = Item::where('origin_id', '=', $da_loc->location_id)
                 ->where('status_id', '=', '2')
                 ->count();
-            $pending = Item::where('origin_id', '=', $da_loc->location_id)
+            $pending = itemRequest::where('location_id', '=', $da_loc->location_id)
                 ->wherenull('status_id')
                 ->count();
             $income = DB::table('payments')
@@ -187,7 +195,7 @@ class ItemController extends Controller
             $in_transit = Item::where('seller_id', '=', auth()->id())
                 ->where('status_id', '=', '2')
                 ->count();
-            $pending = Item::where('seller_id', '=', auth()->id())
+            $pending = itemRequest::where('seller_id', '=', auth()->id())
                 ->wherenull('status_id')
                 ->count();
             $income = DB::table('payments')
@@ -198,6 +206,17 @@ class ItemController extends Controller
                 ->sum('amount');
         }
 
+        if($request->wantsJson()){
+            return response()->json(
+                [
+                    'total_items' => $total_items,
+                    'pick_up' => $pickup,
+                    'pull_out' => $pullout,
+                    'in_transit' => $in_transit,
+                    'pending' => $pending,
+                    'income' => $income
+                ], 200);
+        }
         return view('dashboard',
             [
                 'total_items' => $total_items,
@@ -210,7 +229,7 @@ class ItemController extends Controller
         );
     }
 
-    public function itemlist()
+    public function itemlist(Request $request)
     {
         $location = Location::orderby('id', 'asc')->get();
         $sizes = item_size::orderby('id', 'asc')->get();
@@ -256,10 +275,10 @@ class ItemController extends Controller
                 ->orWhereNull('current_location_id')
                 ->Where('destination_id', '=', $da_loc)->get();
         } else {
-            $items = $items->where('seller_id', '=', auth()->id())->get();
+            $items = $items->where('items.seller_id', '=', auth()->id())->get();
         }
 
-        $buyers = User::whereHas(
+        $buyers = User::where('seller_id',auth()->id())->whereHas(
             'roles', function ($q) {
             $q->where('name', 'buyer');
         }
@@ -272,6 +291,18 @@ class ItemController extends Controller
         )->get();
 
 
+        if($request->wantsJson()){
+            return response()->json(
+                [
+                    'location' => $location,
+                    'sizes' => $sizes,
+                    'paid_statuses' => $paid_statuses,
+                    'items' => $items,
+                    'buyers' => $buyers,
+                    'sellers' => $sellers,
+                    'da_loc' => $da_loc
+                ], 200);
+        }
         return view('itemList',
             [
                 'location' => $location,

@@ -89,38 +89,45 @@
                     <div class="modal-body">
                         <img src="{{asset('images/create.png')}}" class="create_img">
                         <p style="padding-bottom: 30px;">Join the community.</p>
-
-                        <form>
+                        @if($errors->any())
+                            @foreach($errors->all() as $error)
+                                <p style="color: red;">{{$error}}</p>
+                            @endforeach
+                        @endif
+                        <form method="post" action="{{route('register')}}">
+                            {{csrf_field()}}
                             <div class="form-group row">
-                                <div class="col-xs-6">
-                                    <input class="form-control input-lg" placeholder="First Name" id="" type="text">
-                                </div>
-                                <div class="col-xs-6">
-                                    <input class="form-control input-lg" placeholder="Last Name" id="" type="text">
+                                <div class="col-xs-12">
+                                    <input class="form-control input-lg" placeholder="Full Name" id="" type="text" name="name" required>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-xs-6">
-                                    <input class="form-control input-lg" placeholder="Location" id="" type="text">
+                                    <select class="form-control input-lg" value="" name="location_id" id="itemOrigin" required>
+                                        <option disabled selected value>Location</option>
+                                        @foreach($locations as $area)
+                                            <option value="{{$area->id}}">{{$area->area}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-xs-6">
-                                    <input class="form-control input-lg" placeholder="Phone Number" id="" type="text">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <div class="col-xs-6">
-                                    <input class="form-control input-lg" placeholder="Email" id="" type="text">
-                                </div>
-                                <div class="col-xs-6">
-                                    <input class="form-control input-lg" placeholder="Username" id="" type="text">
+                                    <input class="form-control input-lg" placeholder="Phone Number" id="" type="text" name="phone_number" required>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-xs-12">
-                                    <input class="form-control input-lg" placeholder="Password" id="" type="password">
+                                    <input class="form-control input-lg" placeholder="Email" id="" type="text" name="email" required>
+                                </div>
+{{--                                <div class="col-xs-6">--}}
+{{--                                    <input class="form-control input-lg" placeholder="Username" id="" type="text">--}}
+{{--                                </div>--}}
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-xs-12">
+                                    <input class="form-control input-lg" placeholder="Password" id="" type="password" name="password" required>
                                 </div>
                             </div>
 

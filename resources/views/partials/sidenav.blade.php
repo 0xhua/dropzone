@@ -21,9 +21,14 @@
                     <i class='bx bx-list-ul nav_icon'></i>
                     <span class="nav_name">Item List</span>
                 </a>
-
-                <a href="{{route('seller_request')}}"
-                   class="nav_link {{request()->is('seller_request')?'active':''}}">
+                @if(auth()->user()->hasRole(['Admin','seller']))
+                <a href="{{route('user-list')}}" class="nav_link {{request()->is('user-list')?'active':''}}">
+                    <i class="bx bxs-user-plus nav_icon"></i>
+                    <span class="nav_name">Buyer List</span>
+                </a>
+                @endif
+                <a href="{{route('itemrequest')}}"
+                   class="nav_link {{request()->is('itemrequest')?'active':''}}">
                     <i class="bx bxs-message-alt-add nav_icon"></i>
                     <span class="nav_name">Request</span>
                 </a>
