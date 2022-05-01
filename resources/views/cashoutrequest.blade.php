@@ -32,7 +32,7 @@
                 <form method="post" action="{{route('request_cashout')}}">
                     @csrf
                     <button type="submit" class="addNew btn btn-outline-warning" id="addNew" style="color: white;"
-                            data-bs-toggle="modal" data-bs-target="#addNewItem">Request for cashout
+                            data-bs-toggle="modal" data-bs-target="#addNewItem">Request
                     </button>
 
                     {{--                <button type="submit" class='fas fa-arrow-right-from-bracket'--}}

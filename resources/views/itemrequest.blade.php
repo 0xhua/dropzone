@@ -23,7 +23,7 @@
             <!------ REQUEST BUTTON ------------------>
             <div class="col-sm-5 mb-3" style="padding-top: 0px;">
                 <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
-                        data-target="#request">REQUEST
+                        data-target="#request">Request
                 </button>
             </div>
 
