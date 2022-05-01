@@ -255,7 +255,7 @@ class UserController extends Controller
                 'da_infos.da_id',
                 'da_infos.location_id',
                 'locations.area',
-                'ul.code as ucode'
+                'ul.area as ucode'
 
             )
                 ->leftJoin('da_infos', 'users.id', '=', 'da_infos.da_id')

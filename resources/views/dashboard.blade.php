@@ -21,7 +21,7 @@
                 <h5 class="card-title">TOTAL DROPPED ITEMS</h5>
                 <p class="card-text"><i class='bx bxl-dropbox' id="card_icon"></i> {{$total_items}}</p>
                 <div class="card-footer">
-                <p class="footer_text"><i class='bx bx-plus' id="icon_footer"></i> Add new Items </p>
+                <a href="{{route('itemlist')}}" class="footer_text"><i class='bx bx-plus' id="icon_footer"></i> Add new Items </a>
                </div>
               </div>
             </div>
@@ -33,7 +33,7 @@
                 <h5 class="card-title">READY FOR PICK UP</h5>
                 <p class="card-text"> <i class='bx bx-package' id="card_icon"></i> {{$pick_up}}</p>
                <div class="card-footer">
-               <p class="footer_text"><i class='bx bx-show' id="icon_footer"></i> View Items </p>
+               <a href="{{route('itemlist')}}" class="footer_text"><i class='bx bx-show' id="icon_footer"></i> View Items </a>
                </div>
               </div>
             </div>
@@ -45,7 +45,7 @@
                 <h5 class="card-title">FOR PULL-OUT</h5>
                 <p class="card-text"><i class="bx bxs-archive-out" id="card_icon"></i> {{$pull_out}}</p>
                <div class="card-footer">
-               <p class="footer_text"><i class='bx bx-show' id="icon_footer"></i> View Items </p>
+               <a href="{{route('itemlist')}}" class="footer_text"><i class='bx bx-show' id="icon_footer"></i> View Items </a>
                </div>
               </div>
             </div>
@@ -57,7 +57,7 @@
                 <h5 class="card-title">IN TRANSIT</h5>
                 <p class="card-text"><i class='bx bx-cart' id="card_icon"></i>{{$in_transit}}</p>
                <div class="card-footer">
-               <p class="footer_text"><i class='bx bx-show' id="icon_footer"></i> View Items </p>
+               <a href="{{route('itemlist')}}" class="footer_text"><i class='bx bx-show' id="icon_footer"></i> View Items </a>
                </div>
               </div>
             </div>
@@ -83,7 +83,7 @@
                 <h5 class="card-title">PENDING REQUEST</h5>
                 <p class="card-text"><i class="bx bx-loader" id="card_icon"></i>{{$pending}}</p>
                 <div class="card-footer">
-                 <p class="footer_text"><i class='bx bx-show' id="icon_footer"></i> View Requests</p>
+                 <a href="{{route('itemrequest')}}" class="footer_text"><i class='bx bx-show' id="icon_footer"></i> View Requests</a>
                </div>
               </div>
             </div>

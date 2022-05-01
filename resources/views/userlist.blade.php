@@ -64,7 +64,7 @@
 
                             <!-- Modal Header -->
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:#222222;">Add New DA</h4>
+                                <h4 class="modal-title" style="color:#222222;">Add DA</h4>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
 
@@ -123,7 +123,7 @@
 
                             <!-- Modal Header -->
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:#222222;">Add New Buyer</h4>
+                                <h4 class="modal-title" style="color:#222222;">Add Buyer</h4>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
 
