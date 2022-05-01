@@ -188,7 +188,6 @@ class ItemController extends Controller
             $collection = Item::where('items.destination_id', '=', $da_loc->location_id)
                 ->sum('amount');
             $income = Item::where('items.destination_id', '=', $da_loc->location_id)
-                ->where('date',Carbon::today())
                 ->where('status_id','6')
                 ->sum('fee');
             $sellers = User::where('users.location_id',$da_loc->location_id)->with(array('Roles' => function($query) {
