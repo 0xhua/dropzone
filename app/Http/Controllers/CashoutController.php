@@ -120,10 +120,10 @@ class CashoutController extends Controller
                     $code = random_int(100000, 999999);
                     $sms_message = 'Your Cashout request has been approved by the DA'.PHP_EOL;
                     $sms_message .= 'Cashout Verification Code:'.$code;
-                    $cr->status = 1;
-                    $cr->verification_code = $code;
                     $client->message()->send($seller->phone_number, $sms_message);
                     $message = 'Request successfully approved';
+                    $cr->status = 1;
+                    $cr->verification_code = $code;
                     break;
                 case 2:
                     $v_code = $cr->verification_code;
