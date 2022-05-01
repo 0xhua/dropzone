@@ -56,11 +56,13 @@
                     <span class="nav_name">Updates Tab</span>
                 </a>
                 @endif
+                @if(auth()->user()->hasRole('Admin','da'))
                 <a href="{{route('announcement')}}"
                    class="nav_link {{request()->is('announcement')?'active':''}}">
                     <i class='bx bx-calendar-exclamation nav_icon'></i>
                     <span class="nav_name">Updates Tab</span>
                 </a>
+                @endif
                 @if(auth()->user()->hasRole('seller'))
                 <a href="{{route('tutor.1')}}"
                    class="nav_link {{request()->is('tutor.1')?'active':''}}">
