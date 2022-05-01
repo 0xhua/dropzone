@@ -159,7 +159,6 @@ class CashoutController extends Controller
                     $message = 'Request Rejected';
                     break;
             }
-    dd($cr->save());
             if ($cr->save()) {
                 notify()->success($message);
                 return back();
