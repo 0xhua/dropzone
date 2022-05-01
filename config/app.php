@@ -165,6 +165,7 @@ return [
         Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         andcarpi\Popper\PopperServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -234,7 +235,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Popper' => andcarpi\Popper\Facades\Popper::class,
-
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];
