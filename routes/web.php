@@ -48,7 +48,7 @@ Route::post('register', [UserController::class, 'register_seller'])->name('regis
 
 Route::get('login', function () {
     return redirect()->to(route('home') . '#login');
-})->name('login');
+});
 Route::post('login', [AuthController::class, 'authenticate'])->name('login');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
