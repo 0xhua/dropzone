@@ -355,7 +355,7 @@
                                 @endif
                             </td>
                             <td>
-                                @if(auth()->user()->hasRole('seller') && $item->approval_status_id==1)
+                                @if(auth()->user()->hasRole('seller') && is_null($item->status_id))
                                     <button class='fas fa-pen-to-square' style="font-size: 24px;"
                                             data-id="{{$item->id}}"
                                             data-buyer="{{$item->buyer}}"
