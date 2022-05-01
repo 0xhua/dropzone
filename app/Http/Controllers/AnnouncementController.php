@@ -23,8 +23,7 @@ class AnnouncementController extends Controller
             $announcement = new announcement();
             $announcement->user_id = Auth::user()->id;
             if(auth()->user()->hasRole('da')){
-                $da_loc = da_info::where('da_id', Auth::id())->firstOrFail();
-                $announcement->location_id = $da_loc->location_id;
+                $announcement->location_id = Auth::user()->location_id;
             }
             $announcement->announcement = $request->announcement;
             $announcement->save();
