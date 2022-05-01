@@ -57,7 +57,7 @@ class RequestController extends Controller
     public function seller_request(Request $request)
     {
 
-        $request_list = itemRequest::select('item_requests.id as id', 'item_requests.date as date', 'request_categories.name as category', 'users.name as name', 'item_requests.contact_no as contact_no', 'item_requests.request as request', 'locations.code as location', 'item_requests.fee as fee', 'item_requeststatuses.status as status', 'item_requests.status_id')
+        $request_list = itemRequest::select('item_requests.id as id', 'item_requests.date as date', 'request_categories.name as category', 'users.name as name', 'item_requests.contact_no as contact_no', 'item_requests.request as request', 'locations.area as location', 'item_requests.fee as fee', 'item_requeststatuses.status as status', 'item_requests.status_id')
             ->leftJoin('users', 'item_requests.seller_id', '=', 'users.id')
             ->leftJoin('request_categories', 'item_requests.category', '=', 'request_categories.id')
             ->leftJoin('locations', 'item_requests.location_id', '=', 'locations.id')
