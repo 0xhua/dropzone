@@ -123,7 +123,7 @@ class CashoutController extends Controller
 //                    $client->message()->send($seller->phone_number, $sms_message);
                     $message = 'Request successfully approved';
                     $cr->status = 1;
-                    $cr->verification_code = $code;
+//                    $cr->verification_code = $code;
                     break;
                 case 2:
                     $v_code = $cr->verification_code;
