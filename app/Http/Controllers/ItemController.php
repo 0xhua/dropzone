@@ -187,7 +187,7 @@ class ItemController extends Controller
                 ->count();
             $collection = Item::where('items.destination_id', '=', $da_loc->location_id)
                 ->sum('amount');
-            $income = Item::where('items.destination_id', '=', $da_loc->location_id)
+            $income = Item::where('items.destination_id', '=', Auth::user()->location_id)
                 ->where('date',Carbon::today())
                 ->where('status_id','6')
                 ->sum('fee');
