@@ -188,6 +188,7 @@ class ItemController extends Controller
             $collection = Item::where('items.destination_id', '=', $da_loc->location_id)
                 ->sum('amount');
             $income = Item::where('items.destination_id', '=', $da_loc->location_id)
+                ->where('date',Carbon::today())
                 ->where('status_id','6')
                 ->sum('fee');
             $sellers = User::where('users.location_id',$da_loc->location_id)->with(array('Roles' => function($query) {
@@ -481,12 +482,7 @@ class ItemController extends Controller
                     $message = 'Item marked as ready';
                     break;
                 case 4://set status to transferred
-                    if (auth()->user()->hasRole('da')) {
-                        $da_loc = da_info::where('da_id', Auth::id())->firstOrFail();
-                        $item->current_location_id = $da_loc->location_id;
-                    } else {
-                        $item->current_location_id = $item->destination_id;
-                    }
+                    $item->current_location_id = $item->destination_id;
                     $item->status_id = 5;
                     $message = 'Item sucessfully transfered';
                     break;
@@ -497,7 +493,6 @@ class ItemController extends Controller
                     $payment->seller_id = $item->seller_id;
                     $payment->item_id = $item->id;
                     $payment->save();
-
                     $item->payment_status_id = 1;
                     $message = 'Item sucessfully paid';
                     break;
