@@ -172,7 +172,6 @@ class ItemController extends Controller
         } elseif (auth()->user()->hasRole('da')) {
 
             $da_loc =Auth::user();
-//            dd(json_encode($da_loc->seller_id));
             $total_items = Item::where('current_location_id', '=', Auth::user()->location_id)->count();
             $pickup = Item::where('current_location_id', '=', $da_loc->location_id)
                 ->where('status_id', '=', '4')
@@ -188,7 +187,7 @@ class ItemController extends Controller
                 ->count();
             $collection = Item::where('items.destination_id', '=', $da_loc->location_id)
                 ->sum('amount');
-            $income = Item::where('items.destination_id', '=', Auth::user()->location_id)
+            $income = Item::where('items.current_location', '=', Auth::user()->location_id)
                 ->where('date',Carbon::today())
                 ->where('status_id','6')
                 ->sum('fee');
