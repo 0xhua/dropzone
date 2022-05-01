@@ -14,7 +14,7 @@
 				<div class="row">
 					<div class="col-sm-7">
 						<center>
-							<img class="img-fluid" src="{{asset('images/Updates.png')}}" id="img">
+							<img class="img-fluid" src="{{asset('images/updates.png')}}" id="img">
 						</center>
 					</div>
 
