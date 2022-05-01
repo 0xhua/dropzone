@@ -68,7 +68,7 @@
 
                                     <div class="col-sm-6 mb-3">
                                         <label id="">Request</label><br>
-                                        <input type="text" placeholder="" name="itemRequest">
+                                        <input style="color:#222222;" type="text" placeholder="" name="itemRequest">
 
                                         <label id="">Location</label><br>
                                         <select value="" name="location" id="itemOrigin">
