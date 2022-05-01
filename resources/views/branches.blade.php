@@ -232,7 +232,7 @@
 
     <!--------------------- EACH LIGHTBOX --------------------------->
     <div class="lightbox-target" id="branch">
-        <img src="{{asset('images/da10.png"/>)}}">
+        <img src="{{asset('images/da10.png"/>')}}">
         <a class="lightbox-close" href="#"></a>
     </div>
     <div class="lightbox-target" id="branch1">
