@@ -233,11 +233,11 @@
     <!--------------------- EACH LIGHTBOX --------------------------->
     <div class="lightbox-target" id="branch">
         <img src="{{asset('images/da10.png"/>)}}">
-        <a class="lightbox-close" href="{{route('branches')}}"></a>
+        <a class="lightbox-close" href="#"></a>
     </div>
     <div class="lightbox-target" id="branch1">
         <img src="{{asset('images/da2.png')}}"/>
-        <a class="lightbox-close" href="{{route('branches')}}"></a>
+        <a class="lightbox-close" href="#"></a>
     </div>
     <div class="lightbox-target" id="branch2">
         <img src="{{asset('images/da11.png')}}"/>
@@ -245,11 +245,11 @@
     </div>
     <div class="lightbox-target" id="branch3">
         <img src="{{asset('images/da8.png')}}"/>
-        <a class="lightbox-close" href="{{route('branches')}}"></a>
+        <a class="lightbox-close" href="#"></a>
     </div>
     <div class="lightbox-target" id="branch4">
         <img src="{{asset('images/da9.png')}}"/>
-        <a class="lightbox-close" href="{{route('branches')}}"></a>
+        <a class="lightbox-close" href="#"></a>
     </div>
     <div class="lightbox-target" id="branch5">
         <img src="{{asset('images/da3.png')}}"/>
@@ -257,19 +257,19 @@
     </div>
     <div class="lightbox-target" id="branch6">
         <img src="{{asset('images/da4.png')}}"/>
-        <a class="lightbox-close" href="{{route('branches')}}"></a>
+        <a class="lightbox-close" href="#"></a>
     </div>
     <div class="lightbox-target" id="branch7">
         <img src="{{asset('images/da13.png')}}"/>
-        <a class="lightbox-close" href="branches.blade.php"></a>
+        <a class="lightbox-close" href="#"></a>
     </div>
     <div class="lightbox-target" id="branch8">
         <img src="{{asset('images/da1.png')}}"/>
-        <a class="lightbox-close" href="{{route('branches')}}"></a>
+        <a class="lightbox-close" href="#"></a>
     </div>
     <div class="lightbox-target" id="branch9">
         <img src="{{asset('images/da14.png')}}"/>
-        <a class="lightbox-close" href="{{route('branches')}}"></a>
+        <a class="lightbox-close" href="#"></a>
     </div>
     <div class="lightbox-target" id="branch10">
         <img src="{{asset('images/da15.png')}}"/>
@@ -277,7 +277,7 @@
     </div>
     <div class="lightbox-target" id="branch11">
         <img src="{{asset('images/da7.png')}}"/>
-        <a class="lightbox-close" href="{{route('branches')}}"></a>
+        <a class="lightbox-close" href="#"></a>
     </div>
     <div class="lightbox-target" id="branch12">
         <img src="{{asset('images/da5.png')}}"/>
@@ -285,11 +285,11 @@
     </div>
     <div class="lightbox-target" id="branch13">
         <img src="{{asset('images/da17.png')}}"/>
-        <a class="lightbox-close" href="{{route('branches')}}"></a>
+        <a class="lightbox-close" href="#"></a>
     </div>
     <div class="lightbox-target" id="branch14">
         <img src="{{asset('images/da6.png')}}"/>
-        <a class="lightbox-close" href="{{route('branches')}}"></a>
+        <a class="lightbox-close" href="#"></a>
     </div>
     <div class="lightbox-target" id="branch15">
         <img src="{{asset('images/da16.png')}}"/>
@@ -297,7 +297,7 @@
     </div>
     <div class="lightbox-target" id="branch16">
         <img src="{{asset('images/da12.png')}}"/>
-        <a class="lightbox-close" href="{{route('branches')}}"></a>
+        <a class="lightbox-close" href="#"></a>
     </div>
     <div class="lightbox-target" id="branch17">
         <img src="{{asset('images/da_loc.png')}}"/>
@@ -305,10 +305,10 @@
     </div>
     <div class="lightbox-target" id="branch18">
         <img src="{{asset('images/da_loc.png')}}"/>
-        <a class="lightbox-close" href="{{route('branches')}}"></a>
+        <a class="lightbox-close" href="#"></a>
     </div>
     <div class="lightbox-target" id="branch19">
         <img src="{{asset('images/da_loc.png')}}"/>
-        <a class="lightbox-close" href="{{route('branches')}}"></a>
+        <a class="lightbox-close" href="#"></a>
     </div>
 @endsection
