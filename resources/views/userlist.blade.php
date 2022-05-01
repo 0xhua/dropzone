@@ -51,15 +51,10 @@
             <!------ DOWNLOAD AND PRINT BUTTON ------------------>
             <div class="col-sm-4 mb-3">
 
-                <a class="downloadBtn" id="downloadBtn" style="color: white; margin-right: 3.5%;">
-                    <i class="bx bxs-cloud-download"></i>
-                </a>
+{{--                <a class="downloadBtn" id="downloadBtn" style="color: white; margin-right: 3.5%;">--}}
+{{--                    <i class="bx bxs-cloud-download"></i>--}}
+{{--                </a>--}}
 
-                <a class="printBtn" id="printBtn" style="color: white;">
-                    <i class="bx bx-printer"></i>
-                </a>
-
-            </div>
 
 
             @if(auth()->user()->hasRole('Admin'))

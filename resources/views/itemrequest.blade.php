@@ -168,7 +168,7 @@
                             <th scope="col" width="14%">Location</th>
                             <th scope="col" width="3%">Fee</th>
                             <th scope="col" width="5%">Status</th>
-                            <th scope="col" width="10%">action</th>
+                            <th scope="col" width="10%">Action</th>
                         </tr>
                         </thead>
 
