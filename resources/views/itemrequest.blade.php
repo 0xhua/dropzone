@@ -27,6 +27,14 @@
                 </button>
             </div>
 
+            <div class="col-sm-4 mb-3">
+                <form action="{{route('export_excel.itemrequestlist')}}" method="get">
+                    <button type="submit" class="printBtn" id="printBtn" style="color: white;" data-bs-toggle="modal" data-bs-target="#printInfo">
+                        <i class="bx bxs-cloud-download"></i>
+                    </button>
+                </form>
+            </div>
+
             <!---------------------- REQUEST MODAL------------------------->
             <div class="modal" id="request">
                 <div class="modal-dialog  modal-xl">

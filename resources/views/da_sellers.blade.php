@@ -36,19 +36,13 @@
 
             </div>
 
-             <!------ DOWNLOAD AND PRINT BUTTON ------------------>
             <div class="col-sm-4 mb-3">
-
-                <a class="downloadBtn" id="downloadBtn" style="color: white; margin-right: 3.5%;">
-                    <i class="bx bxs-cloud-download"></i>
-                </a>
-
-                <a class="printBtn" id="printBtn" style="color: white;">
-                    <i class="bx bx-printer"></i>
-                </a>
-
+                <form action="{{route('export_excel.sellerlist')}}" method="get">
+                    <button type="submit" class="printBtn" id="printBtn" style="color: white;" data-bs-toggle="modal" data-bs-target="#printInfo">
+                        <i class="bx bxs-cloud-download"></i>
+                    </button>
+                </form>
             </div>
-
 
 <!---------------------- CREATE ACCOUNT MODAL------------------->
             <div class="modal" id="addNewItem">
