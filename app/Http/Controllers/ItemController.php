@@ -46,7 +46,7 @@ class ItemController extends Controller
             $item->seller_id = (auth()->user()->hasRole('seller'))?Auth::id():$request->seller_id;
             $item->buyer_id = $request->buyer_id;
             if (auth()->user()->hasRole('da')) {
-                $da_loc = User::where('id', Auth::id())->get();
+                $da_loc = Auth::user();
                 $code = self::generateCode($da_loc->location_id);
                 $item->current_location_id = $da_loc->location_id;
                 $item->code = $code;
@@ -171,8 +171,9 @@ class ItemController extends Controller
                 ->count();
         } elseif (auth()->user()->hasRole('da')) {
 
-            $da_loc = User::where('id', Auth::id())->get();
-            $total_items = Item::where('origin_id', '=', $da_loc->location_id)->count();
+            $da_loc =Auth::user();
+//            dd(json_encode($da_loc->seller_id));
+            $total_items = Item::where('origin_id', '=', Auth::user()->location_id)->count();
             $pickup = Item::where('current_location_id', '=', $da_loc->location_id)
                 ->where('status_id', '=', '4')
                 ->count();
