@@ -173,7 +173,7 @@ class ItemController extends Controller
 
             $da_loc =Auth::user();
 //            dd(json_encode($da_loc->seller_id));
-            $total_items = Item::where('origin_id', '=', Auth::user()->location_id)->count();
+            $total_items = Item::where('current_location_id', '=', Auth::user()->location_id)->count();
             $pickup = Item::where('current_location_id', '=', $da_loc->location_id)
                 ->where('status_id', '=', '4')
                 ->count();
