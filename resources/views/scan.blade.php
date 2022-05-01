@@ -126,8 +126,16 @@
         });
     });
            Instascan.Camera.getCameras().then(function(cameras){
-               if(cameras.length > 0 ){
-                   scanner.start(cameras[0]);
+               if (cameras.length > 0) {
+                   var selectedCam = cameras[0];
+                   $.each(cameras, (i, c) => {
+                       if (c.name.indexOf('back') !== -1) {
+                           selectedCam = c;
+                           return false;
+                       }
+                   });
+
+                   scanner.start(selectedCam);
                } else{
                    alert('No cameras found');
                }
