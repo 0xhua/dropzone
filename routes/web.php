@@ -12,6 +12,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\Api\PassportAuthController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CashoutController;
+use App\Http\Controllers\ExportExcelController;
 use App\Http\Controllers\ItemController;
 
 use App\Http\Controllers\RequestController;
@@ -167,6 +168,11 @@ Route::middleware('auth')->group(function () {
 
     //da-scanner
     Route::get('da-scanner', [ItemController::class, 'da_scanner'])->name('da-scanner');
+
+    //excel
+    Route::get('/excel/itemlist', [ExportExcelController::class,'excel_itemlist'])->name('export_excel.itemlist');
+    Route::get('/excel/itemrequestlist', [ExportExcelController::class,'excel_request_list'])->name('export_excel.itemrequestlist');
+    Route::get('/excel/sellerlist', [ExportExcelController::class,'excel_sellerlist'])->name('export_excel.sellerlist');
 
 });
 
