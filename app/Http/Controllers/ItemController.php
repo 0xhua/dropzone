@@ -286,7 +286,7 @@ class ItemController extends Controller
         if (auth()->user()->hasRole('Admin')) {
             $items = $items->get();
         } elseif (auth()->user()->hasRole('da')) {
-            $da_loc =  auth()->id();
+            $da_loc =  Auth::user()->location_id;
             $items = $items->where('current_location_id', '=', $da_loc)
                 ->orWhereNull('current_location_id')
                 ->Where('destination_id', '=', $da_loc)->get();

@@ -366,7 +366,7 @@
                                             data-target="#editItem"
                                     ></button>
                                 @endif
-                                @if(auth()->user()->hasRole('Admin'))
+                                @if(auth()->user()->hasRole(['Admin','da']))
 
                                     @if($item->approval_status_id == 2) {{--if item status is pending show approve button--}}
                                     {{--approve item--}}
