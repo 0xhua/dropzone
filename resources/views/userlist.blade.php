@@ -143,7 +143,7 @@
                                             <input style="color:#222222;" name="name" type="text" placeholder=""><br>
 
                                             <label id="">Location</label>
-                                            <select value="" name="location_id" id="paid" required>
+                                            <select value="" name="location_id" id="paid">
                                                 <option disabled selected value> -- Location --</option>
                                                 @foreach($locations as $location)
                                                     <option value="{{$location->id}}">{{$location->area}}</option>
@@ -154,7 +154,7 @@
 
                                         <div class="col-sm-6 mb-3">
                                             <label id="">Contact Number</label><br>
-                                            <input style="color:#222222;" type="text" placeholder="" name="phone_number"><br>
+                                            <input style="color:#222222;" type="text" placeholder="" name="phone_number" required><br>
 
                                             <label id="">Email</label><br>
                                             <input style="color:#222222;" type="text" placeholder="" name="email"><br>
