@@ -30,7 +30,7 @@ class CreateAdminUserSeeder extends Seeder
 //
 //        $user->assignRole([$role->id]);
 
-        $user = User::findOrFail(0);
+        $user = User::findOrFail(1);
         $user->name = 'Sheantel Claveria';
         $user->email = 'sheantel@dz.com';
         $user->save();
