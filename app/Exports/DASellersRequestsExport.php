@@ -15,7 +15,7 @@ class DASellersRequestsExport implements FromCollection
     */
     public function collection()
     {
-        $da_loc =  auth()->id();
+        $da_loc = da_info::where('da_id', Auth::id())->firstOrFail();
         return User::select('users.*', 'locations.area', 'user_statuses.status')
             ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
             ->leftJoin('user_statuses', 'user_statuses.id', '=', 'users.status_id')
