@@ -191,7 +191,7 @@ class ItemController extends Controller
             $sellers = User::with(array('Roles' => function($query) {
                 $query->where('name','sellers');
             }))
-                ->where('user.location_id',$da_loc->location_id)
+                ->where('users.location_id',$da_loc->location_id)
                 ->count();
 
         } else {

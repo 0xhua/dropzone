@@ -266,8 +266,7 @@
                                 <th scope="col" width="5%">Email</th>
                                 <th scope="col" width="5%">Contact No.</th>
                                 <th scope="col" width="5%">Role</th>
-                                <th scope="col" width="5%">Da ID</th>
-                                <th scope="col" width="5%">Da Location</th>
+                                <th scope="col" width="5%">Location</th>
                                 <th scope="col" width="5%">Action</th>
                             </tr>
                             </thead>
@@ -300,13 +299,6 @@
                                             @foreach($user->getRoleNames() as $v)
                                                 {{ $v }}
                                             @endforeach
-                                        @endif</td>
-
-                                    <td>
-                                        @if($user->da_id)
-                                            {{$user->da_id}}
-                                        @else
-                                            N/A
                                         @endif
                                     </td>
                                     <td>

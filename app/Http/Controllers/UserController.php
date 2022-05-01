@@ -257,7 +257,7 @@ class UserController extends Controller
 
             )
                 ->leftJoin('da_infos', 'users.id', '=', 'da_infos.da_id')
-                ->leftJoin('locations', 'da_infos.location_id', '=', 'locations.id')
+                ->leftJoin('locations', 'users.location_id', '=', 'locations.id')
                 ->leftJoin('locations as ul', 'users.location_id', 'ul.id');
             if (auth()->user()->hasRole('seller')) {
                 $data = $data->where('seller_id', auth()->id());
