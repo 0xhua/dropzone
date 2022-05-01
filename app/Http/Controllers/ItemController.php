@@ -189,7 +189,7 @@ class ItemController extends Controller
                 ->sum('amount');
             $income = Item::where('items.destination_id', '=', $da_loc->location_id)
                 ->where('date',Carbon::today())
-                ->whereNotNull('release_date')
+                ->where('status_id','6')
                 ->sum('fee');
             $sellers = User::with(array('Roles' => function($query) {
                 $query->where('name','sellers');
