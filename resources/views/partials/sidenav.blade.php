@@ -5,7 +5,11 @@
                 <img src="{{asset('images/profile.png')}}" class="header_img" alt="profile">
                 <lable id="uname">{{ auth()->user()->name }}</lable>
                 <br>
-                <lable id="role">Seller's Location</lable>
+                <lable id="role">@if(!empty(auth()->user()->getRoleNames()))
+                        @foreach(auth()->user()->getRoleNames() as $v)
+                            {{ $v }}
+                        @endforeach
+                    @endif</lable>
             </a>
 
 
