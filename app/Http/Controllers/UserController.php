@@ -222,7 +222,7 @@ class UserController extends Controller
             $this->validate($request, [
                 'name' => 'required',
                 'phone_number' => ['required', 'regex:/(09)|(9)[0-9]{9}/'],
-                'email' => 'required|email|unique:users',
+                'location_id' => 'required',
             ]);
 
             $seller = auth()->user();
