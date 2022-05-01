@@ -60,7 +60,7 @@
                     <span class="nav_name">Updates Tab</span>
                 </a>
                 @endif
-                @if(auth()->user()->hasRole('Admin','da'))
+                @if(auth()->user()->hasRole(['Admin','da']))
                 <a href="{{route('announcement')}}"
                    class="nav_link {{request()->is('announcement')?'active':''}}">
                     <i class='bx bx-calendar-exclamation nav_icon'></i>
