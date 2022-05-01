@@ -252,8 +252,6 @@ class UserController extends Controller
             $locations = \App\Models\Location::all();
             $data = User::select(
                 'users.*',
-                'da_infos.da_id',
-                'da_infos.location_id',
                 'locations.area',
                 'ul.area as ucode'
 
