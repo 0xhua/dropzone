@@ -26,7 +26,7 @@
               </div>
             </div>
           </div>
-
+            @if(auth()->user()->hasRole('seller'))
           <div class="col mb-4">
             <div class="card">
               <div class="card-body">
@@ -38,7 +38,19 @@
               </div>
             </div>
           </div>
-
+            @else
+                <div class="col mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">TOTAL COLLECTIONS</h5>
+                            <p class="card-text"> <i class="bx bxs-wallet" id="card_icon"></i>{{$collection}}</p>
+                            <div class="card-footer">
+                                <p class="footer_text"><i class="bx bx-calendar" id="icon_footer"></i> Today </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
           <div class="col mb-4">
             <div class="card">
               <div class="card-body">
@@ -50,7 +62,7 @@
               </div>
             </div>
           </div>
-
+            @if(auth()->user()->hasRole('seller'))
             <div class="col mb-4">
             <div class="card">
               <div class="card-body">
@@ -62,7 +74,19 @@
               </div>
             </div>
           </div>
-
+            @else
+                <div class="col mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">SELLERS/DROPPERS</h5>
+                            <p class="card-text"><i class="bx bxs-user-circle" id="card_icon"></i>{{$sellers}}</p>
+                            <div class="card-footer">
+                                <p class="footer_text"><i class="bx bx-show" id="icon_footer"></i> View Sellers </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
 
           <div class="col mb-4">
             <div class="card">

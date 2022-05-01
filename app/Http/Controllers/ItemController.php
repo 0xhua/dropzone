@@ -149,21 +149,26 @@ class ItemController extends Controller
 
     public function dashboard(Request $request)
     {
-
+        $collection = 0;
+        $sellers = 0;
         if (auth()->user()->hasRole('Admin')) {
             $total_items = Item::all()->count();
             $pickup = Item::where('status_id', '=', '4')->count();
             $pullout = Item::where('status_id', '=', '3')->count();
             $in_transit = Item::where('status_id', '=', '2')->count();
             $pending = itemRequest::wherenull('status_id')->count();
-            $income = DB::table('payments')
+            $collection = DB::table('payments')
                 ->select('items.amount')
                 ->leftJoin('items', 'payments.item_id', '=', 'items.id')
                 ->whereNull('cashout_id')
                 ->sum('amount');
-
-
+           $income = Item::where('date',Carbon::today())->sum('fee');
+            $sellers = User::with(array('Roles' => function($query) {
+                                    $query->where('name','sellers');
+                                }))
+                ->count();
         } elseif (auth()->user()->hasRole('da')) {
+
             $da_loc = da_info::where('da_id', Auth::id())->firstOrFail();
             $total_items = Item::where('origin_id', '=', $da_loc->location_id)->count();
             $pickup = Item::where('current_location_id', '=', $da_loc->location_id)
@@ -178,12 +183,17 @@ class ItemController extends Controller
             $pending = itemRequest::where('location_id', '=', $da_loc->location_id)
                 ->wherenull('status_id')
                 ->count();
-            $income = DB::table('payments')
-                ->select('items.amount')
-                ->leftJoin('items', 'payments.item_id', '=', 'items.id')
-                ->whereNull('cashout_id')
-                ->where('items.destination_id', '=', $da_loc->location_id)
+            $collection = Item::where('items.destination_id', '=', $da_loc->location_id)
                 ->sum('amount');
+            $income = Item::where('items.destination_id', '=', $da_loc->location_id)
+                ->where('date',Carbon::today())
+                ->sum('fee');
+            $sellers = User::with(array('Roles' => function($query) {
+                $query->where('name','sellers');
+            }))
+                ->where('user.location_id',$da_loc->location_id)
+                ->count();
+
         } else {
             $total_items = Item::where('seller_id', '=', auth()->id())->count();
             $pickup = Item::where('seller_id', '=', auth()->id())
@@ -224,7 +234,9 @@ class ItemController extends Controller
                 'pull_out' => $pullout,
                 'in_transit' => $in_transit,
                 'pending' => $pending,
-                'income' => $income
+                'income' => $income,
+                'collection'=>$collection,
+                'sellers'=>$sellers
             ]
         );
     }
