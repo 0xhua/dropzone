@@ -325,7 +325,7 @@ class UserController extends Controller
     public function da_sellers()
     {
         $locations = \App\Models\Location::all();
-        $da_loc = da_info::where('da_id', Auth::id())->firstOrFail();
+        $da_loc =  auth()->id();
         $da_sellers = User::select('users.*', 'locations.area', 'user_statuses.status')
             ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
             ->leftJoin('user_statuses', 'user_statuses.id', '=', 'users.status_id')
