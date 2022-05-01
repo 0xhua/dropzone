@@ -106,33 +106,29 @@
 
 
         <!---------------------- UPDATE/EDIT ITEM MODAL------------------------->
-        <div class="modal" id="editItem">
-            <div class="modal-dialog  modal-lg">
+        <div class="modal" id="verifyCashout">
+            <div class="modal-dialog  modal-sm">
                 <div class="modal-content">
 
                     <!-- Modal Header -->
                     <div class="modal-header">
-                        <h4 class="modal-title" style="color:#222222;">Update Info</h4>
+                        <h4 class="modal-title" style="color:#222222;">Verify Cashout</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
 
                     <!-- Modal body -->
-                    <form>
-
-                        <label id="" style="font-size: 18px;">Status</label>
-                        <select value="" name="status" id="status">
-                            <option disabled selected value> -- select status --</option>
-                            <option value="claimed">Processing</option>
-                            <option value="intransit">Ready to Claim</option>
-                            <option value="pullout">Released</option>
-                        </select><br>
+                         <form method="post" action="{{route('update-cr-status')}}">
+                            @csrf
+                            <input id="vid" type="hidden" name="id" value="">
+                            <input  type="hidden" name="status" value="2">
+                            <label id="" style="font-size: 18px;">Verification code</label>
+                            <input style="color:#222222;" type="text" name="verfication_code" value="">
 
 
                         <!-- Modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Discard</button>
-
-                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Update</button>
+                            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Update</button>
                         </div>
 
                 </div>
@@ -213,15 +209,12 @@
                                         ></button>
                                     </form>
                                 @elseif($cashout->status_id == 1)
-                                    <form method="post" action="{{route('update-cr-status')}}">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{$cashout->id}}">
-                                        <input type="hidden" name="status" value="2">
-                                        <button type="submit" class='fas fa-hand-holding-dollar'
-                                                style="font-size: 24px;"
-                                                data-toggle="tooltip" data-placement="top" title="Release item"
-                                        ></button>
-                                    </form>
+                                    <button class='fas fa-hand-holding-dollar' style="font-size: 24px;"
+                                            data-id="{{$cashout->id}}"
+                                            data-toggle="modal"
+                                            data-target="#verifyCashout"
+                                            title="Release Cashout"
+                                    ></button>
                                     <form method="post" action="{{route('update-cr-status')}}">
                                         @csrf
                                         <input type="hidden" name="id" value="{{$cashout->id}}">
@@ -245,4 +238,19 @@
 
 
     </div>
+@endsection
+@section('javascript')
+    <script>
+        $(document).ready(function () {
+
+            $('#verifyCashout').on('shown.bs.modal', function (e) {
+
+                let link = e.relatedTarget,
+                    modal = $(this),
+                    id = $(link).data("id");
+                modal.find("#vid").val(id);
+            });
+        })
+    </script>
+    @parent
 @endsection
