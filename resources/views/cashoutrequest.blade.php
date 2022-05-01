@@ -208,13 +208,6 @@
                                                 data-toggle="tooltip" data-placement="top" title="approveitem"
                                         ></button>
                                     </form>
-                                @elseif($cashout->status_id == 1)
-                                    <button class='fas fa-hand-holding-dollar' style="font-size: 24px;"
-                                            data-id="{{$cashout->id}}"
-                                            data-toggle="modal"
-                                            data-target="#verifyCashout"
-                                            title="Release Cashout"
-                                    ></button>
                                     <form method="post" action="{{route('update-cr-status')}}">
                                         @csrf
                                         <input type="hidden" name="id" value="{{$cashout->id}}">
@@ -224,6 +217,13 @@
                                                 data-toggle="tooltip" data-placement="top" title="Release item"
                                         ></button>
                                     </form>
+                                @elseif($cashout->status_id == 1)
+                                    <button class='fas fa-hand-holding-dollar' style="font-size: 24px;"
+                                            data-id="{{$cashout->id}}"
+                                            data-toggle="modal"
+                                            data-target="#verifyCashout"
+                                            title="Release Cashout"
+                                    ></button>
                                 @endif
                             </td>
                             @endif
