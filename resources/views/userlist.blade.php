@@ -11,9 +11,9 @@
 
         <h2>
             @if(auth()->user()->hasRole('Admin'))
-                User List
+                USER LIST
             @elseif(auth()->user()->hasRole('seller'))
-                Buyer List
+                BUYER LIST
             @endif
         </h2>
 
