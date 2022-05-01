@@ -315,8 +315,8 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if($user->code)
-                                            {{$user->code}}
+                                        @if($user->area)
+                                            {{$user->area}}
                                         @else
                                             N/A
                                         @endif</td>

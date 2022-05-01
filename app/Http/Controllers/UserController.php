@@ -254,7 +254,7 @@ class UserController extends Controller
                 'users.*',
                 'da_infos.da_id',
                 'da_infos.location_id',
-                'locations.code',
+                'locations.area',
                 'ul.code as ucode'
 
             )
