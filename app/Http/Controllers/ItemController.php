@@ -191,10 +191,10 @@ class ItemController extends Controller
                 ->where('date',Carbon::today())
                 ->where('status_id','6')
                 ->sum('fee');
-            $sellers = User::with(array('Roles' => function($query) {
+            $sellers = User::where('users.location_id',$da_loc->location_id)->with(array('Roles' => function($query) {
                 $query->where('name','sellers');
             }))
-                ->where('users.location_id',$da_loc->location_id)
+
                 ->count();
 
         } else {
