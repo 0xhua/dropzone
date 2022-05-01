@@ -242,7 +242,7 @@
                                 @endif
                             </td>
                             <td>
-                                @if(auth()->user()->hasRole('seller'))
+                                @if(auth()->user()->hasRole('seller') && is_null($request->status_id))
                                     <button class='fas fa-pen-to-square' style="font-size: 24px;"
                                             data-request="{{$request->request}}"
                                             data-id="{{$request->id}}"
