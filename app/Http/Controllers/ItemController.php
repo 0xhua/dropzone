@@ -162,7 +162,9 @@ class ItemController extends Controller
                 ->leftJoin('items', 'payments.item_id', '=', 'items.id')
                 ->whereNull('cashout_id')
                 ->sum('amount');
-           $income = Item::where('date',Carbon::today())->sum('fee');
+           $income = Item::where('date',Carbon::today())
+                       ->whereNotNull('release_date')
+                       ->sum('fee');
             $sellers = User::with(array('Roles' => function($query) {
                                     $query->where('name','sellers');
                                 }))
@@ -187,6 +189,7 @@ class ItemController extends Controller
                 ->sum('amount');
             $income = Item::where('items.destination_id', '=', $da_loc->location_id)
                 ->where('date',Carbon::today())
+                ->whereNotNull('release_date')
                 ->sum('fee');
             $sellers = User::with(array('Roles' => function($query) {
                 $query->where('name','sellers');
