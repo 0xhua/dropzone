@@ -7,8 +7,10 @@ use App\Models\da_info;
 use App\Models\Item;
 use App\Models\Location;
 use App\Models\payment;
+use App\Models\User;
 use Auth;
 use Carbon\Carbon;
+use Humans\Semaphore\Client;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -111,17 +113,26 @@ class CashoutController extends Controller
             $message = '';
 
             $cr = cashoutRequest::findOrFail($request->id);
-
+            $seller = User::findOrFail($cr->seller_id);
+            $client = new Client(config('sms.key'), 'SEMAPHORE');
             switch ($request->status) {
                 case 1:
+                    $code = random_int(100000, 999999);
+                    $sms_message = 'Your Cashout request has been approved by the DA'.PHP_EOL;
+                    $sms_message .= 'Cashout Verification Code:'.$code;
                     $cr->status = 1;
+                    $cr->verification_code = $code;
+                    $client->message()->send($seller->phone_number, $sms_message);
                     $message = 'Request successfully approved';
                     break;
                 case 2:
+                    $v_code = $cr->verification_code;
+                    if($request->verfication_code === $v_code){
                     $items = payment::select('items.id')
                         ->leftJoin('items','payments.item_id','=','items.id')
                         ->where('payments.seller_id', $cr->seller_id);
-
+                    $sms_message = 'Cashout Request has been successfully claimed'.PHP_EOL;
+                    $client->message()->send($seller->phone_number, $sms_message);
                     $items->update(['cashout_id'=>$cr->id]);
 
                     Item::select('id')
@@ -131,12 +142,20 @@ class CashoutController extends Controller
                                 'status_id'=>'6',
                                 'release_date'=>Carbon::now()
                             ]);
+
                     $message = 'Request successfully Released';
 
                     $cr->status = 2;
+                    }else{
+                        $message = 'Wrong Verification code';
+                        notify()->error($message);
+                        return back();
+                    }
                     break;
                 case 3:
+                    $sms_message = 'Your Cashout request has been rejected by the DA';
                     $cr->status = 3;
+                    $client->message()->send($seller->phone_number, $sms_message);
                     $message = 'Request Rejected';
                     break;
             }

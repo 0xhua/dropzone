@@ -8,6 +8,7 @@ use App\Models\Location;
 use App\Models\requestCategory;
 use App\Models\User;
 use Carbon\Carbon;
+use Humans\Semaphore\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -129,12 +130,20 @@ class RequestController extends Controller
             ]);
 
             $itemRequest = itemRequest::findOrFail($request->id);
+            $seller = User::findOrFail($itemRequest->seller_id);
+            $client = new Client(config('sms.key'), 'SEMAPHORE');
             switch ($request->status) {
                 case 1:
+                    $message = 'Your request has been approved by the DA'.PHP_EOL;
+                    $message .= 'Request ID:'.$itemRequest->id;
+                    $client->message()->send($seller->phone_number, $message);
                     $itemRequest->status_id = 1;
                     $message = 'Request successfully approved';
                     break;
                 case 2:
+                    $message = 'Your request has been rejected by the DA'.PHP_EOL;
+                    $message .= 'Request ID:'.$itemRequest->id;
+                    $client->message()->send($seller->phone_number, $message);
                     $itemRequest->status_id = 2;
                     $message = 'Request rejected';
                     break;
