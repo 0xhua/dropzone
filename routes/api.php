@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\Api\PassportAuthController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\RequestController;
@@ -46,6 +47,7 @@ Route::middleware('auth:api')->group(function () {
             ], 200);
     });
     Route::post('update-setting', [UserController::class, 'update_settings']);
+    Route::get('announcements', [AnnouncementController::class, 'seller_updates']);
 });
 
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

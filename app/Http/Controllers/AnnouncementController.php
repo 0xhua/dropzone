@@ -38,12 +38,17 @@ class AnnouncementController extends Controller
 
     }
 
-    public function seller_updates(){
+    public function seller_updates(Request $request){
         $announcements = announcement::select('announcements.*', 'locations.area')
             ->leftJoin('locations','locations.id','=','announcements.location_id')
             ->where('announcements.location_id', Auth::user()->location_id)
             ->whereNull('announcements.location_id')
             ->get();
+
+        if($request->wantsJson()){
+            return response()->json(['status' => 'success', 'announcements' => $announcements]);
+        }
+
         return view('updates',[
             'announcements'=>$announcements
         ]);
