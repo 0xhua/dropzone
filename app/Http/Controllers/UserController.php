@@ -230,12 +230,16 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->location_id = $request->location_id;
-            $user->seller_id = $seller->id;
+            $user->seller_id = Auth::user()->id;
             $user->phone_number = $request->phone_number;
 
             $user->save();
 
             $user->assignRole([3]);
+
+            if ($request->wantsJson()) {
+                return response()->json(['status' => 'success', 'message' => 'Buyer successfully added']);
+            }
 
             notify()->success('Buyer successfully registered');
             return back();
@@ -249,6 +253,7 @@ class UserController extends Controller
     public function userList(Request $request)
     {
         if (auth()->user()->hasRole(['Admin', 'seller'])) {
+
             $locations = \App\Models\Location::all();
             $data = User::select(
                 'users.*',
@@ -261,6 +266,10 @@ class UserController extends Controller
                 ->leftJoin('locations as ul', 'users.location_id', 'ul.id');
             if (auth()->user()->hasRole('seller')) {
                 $data = $data->where('seller_id', auth()->id());
+            }
+
+            if ($request->wantsJson()) {
+                return response()->json(['location' => $locations, 'data' => $data->get()]);
             }
 
 
@@ -337,8 +346,8 @@ class UserController extends Controller
             ->get();
         return view('da_sellers', [
             'da_sellers' => $da_sellers,
-            'locations' =>$locations,
-            'da_loc' =>$da_loc->location_id
+            'locations' => $locations,
+            'da_loc' => $da_loc->location_id
         ]);
     }
 
