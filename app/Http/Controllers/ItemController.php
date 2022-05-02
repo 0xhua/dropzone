@@ -502,7 +502,7 @@ class ItemController extends Controller
                     $seller = User::findOrFail($item->seller_id);
                     $sms_message = "Hello ".$buyer->name.", Your Item ".$item->code." from ".$seller->name." is now ready for pickup.";
                     if($item->payment_status_id == 2){
-                        $sum = Item::where('id','=',$item->id)->sum(\DB::raw('fee + amount'));
+                        $sum = Item::where('id','=',$item->id)->sum(\DB::raw('tf + df + amount'));
                         $sms_message .= PHP_EOL . "Please prepare exact amount of ₱" . $sum;
                     }
                     $item->status_id = 4;
