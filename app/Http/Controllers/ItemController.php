@@ -482,9 +482,9 @@ class ItemController extends Controller
                     $buyer = User::findOrFail($item->buyer_id);
                     $receiver = $buyer->phone_number;
                     $seller = User::findOrFail($item->seller_id);
-                    $sms_message = "Hello ".$buyer->name.", Your Item ".$item->code." from ".$seller." is now ready for pickup.";
+                    $sms_message = "Hello ".$buyer->name.", Your Item ".$item->code." from ".$seller->name." is now ready for pickup.";
                     if($item->payment_status_id = 2){
-                        $sum = Item::select(DB::raw("SUM('amount' '+' 'fee')"))->where('id','=',$item->id)->get();
+                        $sum = Item::where('id','=',$item->id)->sum(\DB::raw('fee + amount'));
                         $sms_message .= PHP_EOL . "Please prepare exact amount of ₱" . $sum;
                     }
                     $item->status_id = 4;
