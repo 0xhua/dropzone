@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\da_info;
+use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -145,6 +146,9 @@ class UserController extends Controller
      */
     public function destroy(Request $request)
     {
+        Item::where('seller_id',$request->id)->delete();
+        Request::where('seller_id',$request->id)->delete();
+        User::where('seller_id',$request->id)->delete();
         User::find($request->id)->delete();
         notify()->success('User successfully deleted');
         return back();
