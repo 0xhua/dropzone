@@ -8,8 +8,8 @@
 @endsection
 
 @section("content")
-
-    <h2>Tutorials</h2>
+<div style="margin-top: 80px">
+    <h2 style="font-size: 32px;">Tutorials</h2>
     <h5>Know the basic features of the system.</h5>
 
     <div class="container-fluid">
@@ -34,4 +34,5 @@
         </div>
         @include('partials.tutorial.pagination')
     </div>
+</div>
 @endsection
