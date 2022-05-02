@@ -311,7 +311,18 @@
                                         @else
                                             N/A
                                         @endif</td>
-                                    <td></td>
+                                    @if(!auth()->user()->hasRole('Admin'))
+                                    <td>
+                                        <form method="post" action="{{route('delete-user')}}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{$user->id}}">
+                                            <button type="submit" class='fas fa-arrow-right-from-bracket'
+                                                    style="font-size: 24px;"
+                                                    data-toggle="tooltip" data-placement="top" title="Pull Out item"
+                                            ></button>
+                                        </form>
+                                    </td>
+                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>

@@ -62,6 +62,8 @@ Route::middleware('auth')->group(function () {
     Route::post('regiter-da', [UserController::class, 'register_da'])->name('register-da');
     Route::post('regiter-seller', [UserController::class, 'register_seller'])->name('register-seller');
 
+    Route::post('delete-user', [UserController::class, 'destroy'])->name('delete-user');
+
 
     Route::get('get-user', [PassportAuthController::class, 'userInfo']);
     Route::get('dashboard', [ItemController::class, 'dashboard'])->name('dashboard');
