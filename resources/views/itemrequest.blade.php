@@ -19,15 +19,17 @@
                 </div>
             </div>
 
-        @if(auth()->user()->hasRole('seller'))
+
             <!------ REQUEST BUTTON ------------------>
                 <div class="col-sm-5 mb-3" style="padding-top: 0px;">
+                    @if(auth()->user()->hasRole('seller'))
                     <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
                             data-target="#request">Request
                     </button>
+                    @endif
                 </div>
-            @endif
-            <div class="col-sm-9 mb-3">
+
+            <div class="col-sm-4 mb-3">
                 <form action="{{route('export_excel.itemrequestlist')}}" method="get">
                     <button type="submit" class="printBtn" id="printBtn" style="color: white;" data-bs-toggle="modal"
                             data-bs-target="#printInfo">
