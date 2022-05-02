@@ -160,7 +160,7 @@ class PassportAuthController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->location_id = $request->location_id;
-            $user->seller_id = Auth::user()->id;
+            $user->seller_id = $seller->id;
             $user->phone_number = $request->phone_number;
 
             $user->save();
