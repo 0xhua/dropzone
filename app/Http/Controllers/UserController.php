@@ -146,7 +146,7 @@ class UserController extends Controller
     public function destroy(Request $request)
     {
         User::find($request->id)->delete();
-        notify()->success('User successfully updated');
+        notify()->success('User successfully deleted');
         return back();
     }
 
