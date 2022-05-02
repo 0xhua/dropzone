@@ -30,7 +30,7 @@
             <!------ ADD NEW BUTTON ------------------>
             <div class="col-sm-5 mb-3" style="padding-top: 0px;">
                 <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
-                        data-target="#addNewItem">Add New
+                        data-target="#addNewItem">Add Item
                 </button>
             </div>
 

@@ -36,12 +36,12 @@
                 @if(auth()->user()->hasRole('Admin'))
                     <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
                             data-target="#addNewDA">
-                        Add New DA
+                        Add DA
                     </button>
                 @elseif(auth()->user()->hasRole('seller'))
                     <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
                             data-target="#addNewBuyer">
-                        Add New Buyer
+                        Add Buyer
                     </button>
                 @endif
 

@@ -8,7 +8,7 @@
 
 <!-----------TITLE/HEADER, CARDTEXT/NUMBERS , CARD FOOTER/BUTTONS-------->
 <div class="container">
-        <h1>Dashboard
+        <h1>DASHBOARD
             <a href="#" class="icon_top"> <i class='bx bxs-cog bx-pull-right'></i></a>
             <a href="#" class="icon_top"> <i class="bx bxs-bell bx-pull-right" id="notifbell"></i></a>
         </h1>
