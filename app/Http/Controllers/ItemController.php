@@ -38,7 +38,10 @@ class ItemController extends Controller
             //Get fees
             $dropping_fee = transactionFee::find(1)['amount'];
             $transfer_fee = 0;
-            $size_catergory_fee = transactionFee::where('size_id', $request->size)->first();
+            $size_catergory_fee = transactionFee::select('transaction_fees.amount')
+                ->leftJoin('item_sizes','item_sizes.id','=','transaction_fees.size_id')
+                ->where('item_sizes.id','=',$request->itemSize)
+                ->first();
             if($request->origin_id !== $request->destination_id){
                 $transfer_fee = $size_catergory_fee->amount + 10;
             }
