@@ -145,4 +145,36 @@ class PassportAuthController extends Controller
         }
 
     }
+
+    public function register_buyer(Request $request)
+    {
+        try {
+            $this->validate($request, [
+                'name' => 'required',
+                'phone_number' => ['required', 'regex:/(09)|(9)[0-9]{9}/'],
+                'location_id' => 'required',
+            ]);
+
+            $seller = auth()->user();
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->location_id = $request->location_id;
+            $user->seller_id = Auth::user()->id;
+            $user->phone_number = $request->phone_number;
+
+            $user->save();
+
+            $user->assignRole([3]);
+
+            if ($request->wantsJson()) {
+                return response()->json(['status' => 'success', 'message' => 'Buyer successfully added']);
+            }
+
+        } catch (\Exception $e) {
+            if ($request->wantsJson()) {
+                return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+            }
+        }
+    }
 }
