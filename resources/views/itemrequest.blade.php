@@ -27,7 +27,7 @@
                     </button>
                 </div>
             @endif
-            <div class="col-sm-4 mb-3">
+            <div class="col-sm-9 mb-3">
                 <form action="{{route('export_excel.itemrequestlist')}}" method="get">
                     <button type="submit" class="printBtn" id="printBtn" style="color: white;" data-bs-toggle="modal"
                             data-bs-target="#printInfo">
