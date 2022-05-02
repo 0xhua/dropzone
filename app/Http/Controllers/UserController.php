@@ -245,6 +245,9 @@ class UserController extends Controller
             return back();
 
         } catch (\Exception $e) {
+            if ($request->wantsJson()) {
+                return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+            }
             notify()->error($e->getMessage());
             return back()->withErrors($e->getMessage());
         }
