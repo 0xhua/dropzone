@@ -309,6 +309,10 @@ class ItemController extends Controller
             $items = $items->where('items.seller_id', '=', auth()->id());
         }
 
+        if(!is_null($request->search)){
+                $items = $items->where('buyer.name', 'like', '%' . $request->search . '%');
+        }
+
         $items = $items->paginate(20);
 
         $buyers = User::where('seller_id',auth()->id())->whereHas(
@@ -322,6 +326,8 @@ class ItemController extends Controller
             $q->where('name', 'seller');
         }
         )->get();
+
+
 
 
         if($request->wantsJson()){

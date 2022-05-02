@@ -22,9 +22,14 @@
         </h2>
         <div class="row" style=" margin-top: 40px;">
             <div class="col-sm-3">
+                <form action="{{route('itemlist')}}" method="get">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control input-text" id="myInput" placeholder="Search....">
+                    {{@csrf_field()}}
+                    <input name="search" type="text" class="form-control input-text" id="myInput" placeholder="Search....">
+                    <button class="addNew btn btn-outline-warning"  type="submit">Search
+                    </button>
                 </div>
+                </form>
             </div>
 
             <!------ ADD NEW BUTTON ------------------>
