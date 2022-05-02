@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SmsApiHelper;
 use App\Models\cashoutRequest;
 use App\Models\da_info;
 use App\Models\Item;
@@ -114,7 +115,6 @@ class CashoutController extends Controller
 
             $cr = cashoutRequest::findOrFail($request->id);
             $seller = User::findOrFail($cr->seller_id);
-            $client = new Client(config('sms.key'), 'SEMAPHORE');
             switch ($request->status) {
                 case 1:
                     $code = random_int(100000, 999999);
@@ -122,7 +122,6 @@ class CashoutController extends Controller
                     $sms_message .= 'Cashout Verification Code:'.$code;
                     $cr->status = 1;
                     $cr->verification_code = $code;
-                    $client->message()->send($seller->phone_number, $sms_message);
                     $message = 'Request successfully approved';
                     break;
                 case 2:
@@ -132,7 +131,6 @@ class CashoutController extends Controller
                         ->leftJoin('items','payments.item_id','=','items.id')
                         ->where('payments.seller_id', $cr->seller_id);
                     $sms_message = 'Cashout Request has been successfully claimed'.PHP_EOL;
-                    $client->message()->send($seller->phone_number, $sms_message);
                     $items->update(['cashout_id'=>$cr->id]);
 
                     Item::select('id')
@@ -155,12 +153,14 @@ class CashoutController extends Controller
                 case 3:
                     $sms_message = 'Your Cashout request has been rejected by the DA';
                     $cr->status = 3;
-                    $client->message()->send($seller->phone_number, $sms_message);
                     $message = 'Request Rejected';
                     break;
             }
 
             if ($cr->save()) {
+                if(!empty($sms_message)){
+                    app(SmsApiHelper::class)->send_sms($seller->phone_number,$sms_message);
+                }
                 notify()->success($message);
                 return back();
             }
