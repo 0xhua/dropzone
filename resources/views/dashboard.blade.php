@@ -9,8 +9,8 @@
 <!-----------TITLE/HEADER, CARDTEXT/NUMBERS , CARD FOOTER/BUTTONS-------->
 <div class="container">
         <h1>DASHBOARD
-            <a href="#" class="icon_top"> <i class='bx bxs-cog bx-pull-right'></i></a>
-            <a href="#" class="icon_top"> <i class="bx bxs-bell bx-pull-right" id="notifbell"></i></a>
+{{--            <a href="#" class="icon_top"> <i class='bx bxs-cog bx-pull-right'></i></a>--}}
+{{--            <a href="#" class="icon_top"> <i class="bx bxs-bell bx-pull-right" id="notifbell"></i></a>--}}
         </h1>
 
         <div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 row-cols-lg-8 row-cols-xl-12">
