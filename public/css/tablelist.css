@@ -9,7 +9,7 @@
 
 h2{
     color: #ffbf00;
-    margin-left: 0px;   
+    margin-left: 0px;
 }
 
 .bx-edit{
@@ -109,6 +109,7 @@ h2{
     height: auto;
     overflow: hidden;
     text-align: center;
+    margin-left: 10px;
 }
 
 .tHead{
@@ -138,15 +139,14 @@ tr{
 
 
 
-@media (max-width: 576px) {  
+@media (max-width: 576px) {
 
 }
 
 /* Small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) and (max-width:768px) {  
+@media (min-width: 576px) and (max-width:768px) {
   .sm {color:red;font-weight:bold;}
    .card-title{font-size: 15px}
     .card-text{font-size: 40px;}
      #card_icon{ font-size: 40px;}
 }
- 

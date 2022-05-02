@@ -87,7 +87,7 @@ display:none;
    background-size:contain;
 }
 #newcontainer{
-	
+
  }
  #whycontainer{
 	background-color:  #ffbf00;
@@ -167,6 +167,7 @@ margin-left: 50px;
 	color:  #ffbf00;
 }
 #why{
+    padding: 20px;
 	text-align: center;
 	color: white;
 
@@ -221,7 +222,7 @@ background-color:#292929;
 .modal-body{
 	text-align: center;
 	background-color: #ffbf00;
-  
+
 }
 .modal-footer{
 	background-color: #ffbf00;
@@ -322,7 +323,7 @@ background-color:#292929;
 }
 
 /* Small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) and (max-width:768px) {  
+@media (min-width: 576px) and (max-width:768px) {
    #vector{
  	display: none;
  }
@@ -379,9 +380,9 @@ background-color:#292929;
  }
 
 }
- 
+
 /* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
-@media (min-width: 768px) and (max-width:998px) {  
+@media (min-width: 768px) and (max-width:998px) {
 	#vector{
 display: none;
 }
@@ -466,15 +467,15 @@ width: 33%;
 	margin-left: 250px;
 }
 }
- 
+
 /* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) and (max-width:1200px) { 
+@media (min-width: 992px) and (max-width:1200px) {
 
 }
- 
+
 /* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {  
-    
+@media (min-width: 1200px) {
+
 }
 
 

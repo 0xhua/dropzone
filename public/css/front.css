@@ -166,6 +166,7 @@ margin-left: 50px;
 	color:  #ffbf00;
 }
 #why{
+    padding: 20px;
 	text-align: center;
 	color: white;
 
@@ -348,7 +349,6 @@ background-color:#292929;
 .pickuptxt{
 	margin-left: 50px;
 	color:  #ffbf00;
-	line-height: 2px;
 	font-size:35px;
 }
 .trusttxt{

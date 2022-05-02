@@ -169,7 +169,7 @@
 
         <div class="row" id="whycontainer">
             <div class="col-sm-12" id="why">
-                <h1 class="whytxt">WHY CHOOSE US?</h1>
+                <h1 class="whytxt" style="font-size: 36px;">WHY CHOOSE US?</h1>
             </div>
         </div>
 
