@@ -262,6 +262,7 @@
                         @if(auth()->user()->hasRole('Admin'))
                             <thead>
                             <tr class="tHead">
+                                <th scope="col" width="5%">id</th>
                                 <th scope="col" width="5%">Name</th>
                                 <th scope="col" width="5%">Email</th>
                                 <th scope="col" width="5%">Contact No.</th>
@@ -273,6 +274,9 @@
                             <tbody id="myTable">
                             @foreach ($data as $key => $user)
                                 <tr>
+                                    <td>
+                                            {{$user->id}}
+                                    </td>
                                     <td>
                                         @if($user->name)
                                             {{$user->name}}
