@@ -52,6 +52,7 @@ class transactionFeeSeeder extends Seeder
             [
                 //TRANSFER BASE FEE
                 'type' => 'transfer_fee',
+                'size_id' => null,
                 'amount' => 10
             ]
         ];
