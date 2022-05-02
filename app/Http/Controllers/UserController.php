@@ -235,7 +235,7 @@ class UserController extends Controller
 
             $user->save();
 
-            $user->assignRole([3]);
+            $user->assignRole('buyer');
 
             if ($request->wantsJson()) {
                 dd(true);
