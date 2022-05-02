@@ -49,7 +49,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('update-setting', [UserController::class, 'update_settings']);
     Route::get('announcements', [AnnouncementController::class, 'seller_updates']);
     Route::get('user-list', [UserController::class, 'userList']);
-    Route::post('register-buyer', [UserController::class, 'register_buyer']);
 });
 
 
