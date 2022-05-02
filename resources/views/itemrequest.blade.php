@@ -73,7 +73,7 @@
                                             </select>
                                         @endif
                                         <label id="">ContactNo.</label><br>
-                                        <input type="text" placeholder="" name="contact_no"><br>
+                                        <input style="color:#222222;" type="text" placeholder="" name="contact_no"><br>
                                     </div>
 
 
