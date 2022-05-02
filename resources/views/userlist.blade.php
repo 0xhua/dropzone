@@ -311,7 +311,6 @@
                                         @else
                                             N/A
                                         @endif</td>
-                                    @if(!auth()->user()->hasRole('Admin'))
                                     <td>
                                         <form method="post" action="{{route('delete-user')}}">
                                             @csrf
@@ -322,7 +321,6 @@
                                             ></button>
                                         </form>
                                     </td>
-                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>
