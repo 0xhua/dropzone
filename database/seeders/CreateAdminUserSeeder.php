@@ -16,11 +16,12 @@ class CreateAdminUserSeeder extends Seeder
      */
     public function run()
     {
-//        $user = User::create([
-//            'name' => 'Joshua Lictan',
-//            'email' => 'huatong@dz.com',
-//            'password' => bcrypt('secret123')
-//        ]);
+        $user = User::create([
+            'name' => 'Sheantel Claveria',
+            'email' => 'sheantel@dz.com',
+            'password' => bcrypt('secret123')
+        ]);
+        $user->assignRole([1]);
 //
 //        @$role = Role::create(['name' => 'Admin']);
 //
@@ -28,11 +29,6 @@ class CreateAdminUserSeeder extends Seeder
 //
 //        $role->syncPermissions($permissions);
 //
-//        $user->assignRole([$role->id]);
 
-        $user = User::findOrFail(1);
-        $user->name = 'Sheantel Claveria';
-        $user->email = 'sheantel@dz.com';
-        $user->save();
     }
 }
