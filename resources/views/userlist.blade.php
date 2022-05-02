@@ -315,9 +315,9 @@
                                         <form method="post" action="{{route('delete-user')}}">
                                             @csrf
                                             <input type="hidden" name="id" value="{{$user->id}}">
-                                            <button type="submit" class='fas fa-arrow-right-from-bracket'
+                                            <button type="submit" class='fas fa-xmark'
                                                     style="font-size: 24px;"
-                                                    data-toggle="tooltip" data-placement="top" title="Pull Out item"
+                                                    data-toggle="tooltip" data-placement="top" title="Delete user"
                                             ></button>
                                         </form>
                                     </td>
