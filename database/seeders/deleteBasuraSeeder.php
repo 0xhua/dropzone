@@ -15,9 +15,6 @@ class deleteBasuraSeeder extends Seeder
      */
     public function run()
     {
-        for($i=2;$i<66;$i++){
-            Item::where('seller_id',$i)->delete();
-            User::findOrFail($i)->delete();
-        }
+            User::where('seller_id','76')->delete();
     }
 }
