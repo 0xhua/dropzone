@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SmsApiHelper;
 use App\Models\da_info;
 use App\Models\Item;
 
@@ -465,7 +466,7 @@ class ItemController extends Controller
             ]);
 
             $message = '';
-
+            $receiver = '';
             $item = Item::query()->findOrFail($request->id);
             switch ($request->status) {
                 case 1://set status to in approved
@@ -478,6 +479,14 @@ class ItemController extends Controller
                     $message = 'Item successfully sent out';
                     break;
                 case 3://set status to ready
+                    $buyer = User::findOrFail($item->buyer_id);
+                    $receiver = $buyer->phone_number;
+                    $seller = User::findOrFail($item->seller_id);
+                    $sms_message = "Hello ".$buyer->name.", Your Item ".$item->code." from ".$seller." is now ready for pickup.";
+                    if($item->payment_status_id = 2){
+                        $sum = Item::select(DB::raw("SUM('amount' '+' 'fee')"))->where('id','=',$item->id)->get();
+                        $sms_message .= PHP_EOL . "Please prepare exact amount of ₱" . $sum;
+                    }
                     $item->status_id = 4;
                     $message = 'Item marked as ready';
                     break;
@@ -487,7 +496,9 @@ class ItemController extends Controller
                     $message = 'Item sucessfully transfered';
                     break;
                 case 5://set payment status to paid
-
+                    $seller = User::findOrFail($item->seller_id);
+                    $receiver = $seller->phone_number;
+                    $sms_message = "Item ".$item->code." has successfully claimed by the buyer";
                     $payment = new payment();
                     $payment->date = Carbon::now();
                     $payment->seller_id = $item->seller_id;
@@ -513,6 +524,9 @@ class ItemController extends Controller
             }
 
             if ($item->save()) {
+                if(!empty($sms_message)){
+                    app(SmsApiHelper::class)->send_sms($receiver,$sms_message);
+                }
                 notify()->success($message);
                 return back();
             }
