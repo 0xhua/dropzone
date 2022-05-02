@@ -232,6 +232,8 @@ background-color:#292929;
 }
 .hello_img{
 	width: 50%;
+    margin-right: auto;
+    margin-left: auto;
 }
 .create_img{
 	width: 70%;

@@ -71,10 +71,10 @@
                             <div class="form-group row">
                                 <div class="col-xs-12">
                                     <button class="btn" id="createbtn"> LOGIN</button>
-                                    <p>OR</p>
-                                    <a href="#" class="btn btn-primary">
-                                        <i class="bx bxl-facebook"></i> Login with Facebook
-                                    </a>
+{{--                                    <p>OR</p>--}}
+{{--                                    <a href="#" class="btn btn-primary">--}}
+{{--                                        <i class="bx bxl-facebook"></i> Login with Facebook--}}
+{{--                                    </a>--}}
 
                                 </div>
                             </div>
