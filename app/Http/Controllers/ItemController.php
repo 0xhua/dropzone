@@ -313,7 +313,7 @@ class ItemController extends Controller
                 $items = $items->where('buyer.name', 'like', '%' . $request->search . '%');
         }
 
-        $items = $items->paginate(20);
+
 
         $buyers = User::where('seller_id',auth()->id())->whereHas(
             'roles', function ($q) {
@@ -331,6 +331,7 @@ class ItemController extends Controller
 
 
         if($request->wantsJson()){
+            $items=$items->get();
             return response()->json(
                 [
                     'location' => $location,
@@ -342,7 +343,7 @@ class ItemController extends Controller
                     'da_loc' => $da_loc
                 ], 200);
         }
-
+        $items = $items->paginate(20);
         return view('itemList',  [
             'location' => $location,
             'sizes' => $sizes,
