@@ -234,9 +234,10 @@
                 </center>
             </table>
         </div>
+
     </div>
 
-
+    {!! $items->render() !!}
     </div>
 @endsection
 @section('javascript')

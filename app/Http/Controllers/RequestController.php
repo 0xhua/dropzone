@@ -64,13 +64,11 @@ class RequestController extends Controller
             ->leftJoin('locations', 'item_requests.location_id', '=', 'locations.id')
             ->leftJoin('item_requeststatuses', 'item_requests.status_id','item_requeststatuses.id')
             ->orderBy('id', 'ASC');
-        if (auth()->user()->hasRole('Admin')) {
-            $request_list = $request_list->get();
-        } elseif (auth()->user()->hasRole('da')) {
+        if (auth()->user()->hasRole('da')) {
             $da_loc = da_info::where('da_id', Auth::id())->firstOrFail()->location_id;
-            $request_list = $request_list->where('users.location_id', '=', $da_loc)->get();
-        } else {
-            $request_list = $request_list->where('item_requests.seller_id', '=', auth()->id())->get();
+            $request_list = $request_list->where('users.location_id', '=', $da_loc);
+        } elseif(auth()->user()->hasRole('seller')) {
+            $request_list = $request_list->where('item_requests.seller_id', '=', auth()->id());
         }
         $category = requestCategory::orderby('id', 'asc')->get();
 
@@ -81,6 +79,7 @@ class RequestController extends Controller
         )->get();
 
         $location = Location::orderby('id', 'asc')->get();
+        $request_list = $request_list->paginate(20);
         if($request->wantsJson()){
             return response()->json(
                 [
@@ -97,7 +96,7 @@ class RequestController extends Controller
                 'sellers' => $sellers,
                 'location' => $location
             ]
-        );
+        )->with('i', ($request->input('page', 1) - 1) * 5);;
     }
 //request update = category, request
     public function update_request(Request $request)

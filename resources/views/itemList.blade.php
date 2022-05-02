@@ -243,6 +243,8 @@
                         <th scope="col" width="5%">Origin</th>
                         <th scope="col" width="5%">Destination</th>
                         <th scope="col" width="3%">TH/HF</th>
+                        <th scope="col" width="3%">DF</th>
+                        <th scope="col" width="3%">TF</th>
                         <th scope="col" width="5%">Amount</th>
                         <th scope="col" width="7%">Payment</th>
                         <th scope="col" width="5%">Status</th>
@@ -302,6 +304,20 @@
                             <td>
                                 @if($item->fee)
                                     {{$item->fee}}
+                                @else
+                                    N/A
+                                @endif
+                            </td>
+                            <td>
+                                @if($item->df)
+                                    {{$item->df}}
+                                @else
+                                    N/A
+                                @endif
+                            </td>
+                            <td>
+                                @if($item->tf)
+                                    {{$item->tf}}
                                 @else
                                     N/A
                                 @endif
@@ -482,7 +498,7 @@
         </div>
     </div>
 
-
+    {!! $items->render() !!}
     </div>
 
     </body>

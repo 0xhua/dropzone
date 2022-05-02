@@ -36,12 +36,17 @@ class ItemController extends Controller
 
         try {
             //Get fees
-            $base_fee = transactionFee::find(1)['amount'];
+            $dropping_fee = transactionFee::find(1)['amount'];
+            $transfer_fee = 0;
             $size_catergory_fee = transactionFee::where('size_id', $request->size)->first();
+            if($request->origin_id !== $request->destination_id){
+                $transfer_fee = $size_catergory_fee->amount + 10;
+            }
             $weight_base_fee = transactionFee::find(2)->amount;
 
+
             //Formula for calculating fees
-            $fee = $base_fee + $size_catergory_fee->amount + ($weight_base_fee * 10);
+            $fee = $dropping_fee + $size_catergory_fee->amount + ($weight_base_fee * 10);
             $item = new Item();
             $item->date = Carbon::now();
             $item->seller_id = (auth()->user()->hasRole('seller'))?Auth::id():$request->seller_id;
@@ -59,7 +64,9 @@ class ItemController extends Controller
                 $item->origin_id = $request->origin_id;
             }
             $item->destination_id = $request->destination_id;
-            $item->fee = $fee;
+            $item->tf = $transfer_fee;
+            $item->df = $dropping_fee;
+            $item->fee = $dropping_fee + $transfer_fee;
             $item->amount = $request->amount;
             $item->payment_status_id = $request->payment_status_id;
             $item->approval_status_id = 2;
@@ -164,8 +171,10 @@ class ItemController extends Controller
                 ->whereNull('cashout_id')
                 ->sum('amount');
            $income = Item::where('date',Carbon::today())
-                       ->whereNotNull('release_date')
-                       ->sum('fee');
+                   ->where('status_id','1')
+                   ->sum('tf')+Item::where('date',Carbon::today())
+                   ->where('status_id','1')
+                   ->sum('df');
             $sellers = User::with(array('Roles' => function($query) {
                                     $query->where('name','sellers');
                                 }))
@@ -190,8 +199,11 @@ class ItemController extends Controller
                 ->sum('amount');
             $income = Item::where('items.current_location_id', '=', Auth::user()->location_id)
                 ->where('date',Carbon::today())
-                ->where('status_id','6')
-                ->sum('fee');
+                ->where('payment_status_id','1')
+                ->sum('tf')+Item::where('items.origin_id', '=', Auth::user()->location_id)
+                    ->where('date',Carbon::today())
+                    ->where('payment_status_id','1')
+                    ->sum('df');
             $sellers = User::where('users.location_id',$da_loc->location_id)->with(array('Roles' => function($query) {
                 $query->where('name','sellers');
             }))
@@ -273,7 +285,9 @@ class ItemController extends Controller
                 'items.release_date',
                 'items.destination_id',
                 'items.origin_id',
-                'c.area as current_location'
+                'c.area as current_location',
+                'items.tf',
+                'items.df'
             )
             ->leftJoin('approval_statuses', 'items.approval_status_id', '=', 'approval_statuses.id')
             ->leftJoin('paid_statuses', 'items.payment_status_id', '=', 'paid_statuses.id')
@@ -282,17 +296,17 @@ class ItemController extends Controller
             ->leftJoin('locations as d', 'd.id', '=', 'items.destination_id')
             ->leftJoin('locations as c', 'c.id', '=', 'items.current_location_id')
             ->leftJoin('users as buyer', 'items.buyer_id', '=', 'buyer.id')
-            ->leftJoin('users as seller', 'items.seller_id', '=', 'seller.id')->orderBy('id');
-        if (auth()->user()->hasRole('Admin')) {
-            $items = $items->get();
-        } elseif (auth()->user()->hasRole('da')) {
+            ->leftJoin('users as seller', 'items.seller_id', '=', 'seller.id')->orderBy('date', 'DESC');
+        if (auth()->user()->hasRole('da')) {
             $da_loc =  Auth::user()->location_id;
             $items = $items->where('current_location_id', '=', $da_loc)
                 ->orWhereNull('current_location_id')
-                ->Where('destination_id', '=', $da_loc)->get();
-        } else {
-            $items = $items->where('items.seller_id', '=', auth()->id())->get();
+                ->Where('destination_id', '=', $da_loc);
+        } elseif(auth()->user()->hasRole('seller')) {
+            $items = $items->where('items.seller_id', '=', auth()->id());
         }
+
+        $items = $items->paginate(20);
 
         $buyers = User::where('seller_id',auth()->id())->whereHas(
             'roles', function ($q) {
@@ -319,16 +333,17 @@ class ItemController extends Controller
                     'da_loc' => $da_loc
                 ], 200);
         }
-        return view('itemList',
-            [
-                'location' => $location,
-                'sizes' => $sizes,
-                'paid_statuses' => $paid_statuses,
-                'items' => $items,
-                'buyers' => $buyers,
-                'sellers' => $sellers,
-                'da_loc' => $da_loc
-            ]);
+
+        return view('itemList',  [
+            'location' => $location,
+            'sizes' => $sizes,
+            'paid_statuses' => $paid_statuses,
+            'items' => $items,
+            'buyers' => $buyers,
+            'sellers' => $sellers,
+            'da_loc' => $da_loc
+        ])
+            ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
     public function generateItemQr(Request $request)
@@ -483,7 +498,7 @@ class ItemController extends Controller
                     $receiver = $buyer->phone_number;
                     $seller = User::findOrFail($item->seller_id);
                     $sms_message = "Hello ".$buyer->name.", Your Item ".$item->code." from ".$seller->name." is now ready for pickup.";
-                    if($item->payment_status_id = 2){
+                    if($item->payment_status_id == 2){
                         $sum = Item::where('id','=',$item->id)->sum(\DB::raw('fee + amount'));
                         $sms_message .= PHP_EOL . "Please prepare exact amount of ₱" . $sum;
                     }

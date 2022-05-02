@@ -35,7 +35,7 @@ class UserController extends Controller
         )
             ->leftJoin('da_infos', 'users.id', '=', 'da_infos.da_id')
             ->leftJoin('locations', 'da_infos.location_id', '=', 'locations.id')
-            ->orderBy('users.id', 'asc')->paginate(5);
+            ->orderBy('users.name', 'asc')->paginate(5);
         return view('users.index', compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -288,7 +288,7 @@ class UserController extends Controller
             }
 
 
-            $data = $data->orderBy('users.id', 'asc')->paginate(5);
+            $data = $data->orderBy('users.name', 'asc')->paginate(20);
             return view('userlist', compact(['data', 'locations']))
                 ->with('i', ($request->input('page', 1) - 1) * 5);
         } else {
