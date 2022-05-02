@@ -69,7 +69,7 @@
                 @endif
                 @if(auth()->user()->hasRole('seller'))
                 <a href="{{route('tutor.1')}}"
-                   class="nav_link {{request()->is('tutor.1')?'active':''}}">
+                   class="nav_link {{request()->is('tutorial/1') || request()->is('tutorial/2') || request()->is('tutorial/3')|| request()->is('tutorial/4')?'active':''}}">
                     <i class='bx bx-book-bookmark nav_icon '></i>
                     <span class="nav_name">Tutorial</span>
                 </a>
