@@ -235,10 +235,17 @@ class UserController extends Controller
 
             $user->save();
 
-            $user->assignRole([3]);
+
 
             if ($request->wantsJson()) {
+                DB::table('model_has_roles')->insert(
+                    array('role_id' => '3',
+                        'model_type' => 'App\Models\User',
+                        'model_id' => $user->id,)
+                );
                 return response()->json(['status' => 'success', 'message' => 'Buyer successfully added']);
+            }else{
+                $user->assignRole([3]);
             }
 
             notify()->success('Buyer successfully registered');
