@@ -143,9 +143,9 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        User::find($id)->delete();
+        User::find($request->id)->delete();
         notify()->success('User successfully updated');
         return back();
     }
