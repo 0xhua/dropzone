@@ -238,7 +238,6 @@ class UserController extends Controller
             $user->assignRole('buyer');
 
             if ($request->wantsJson()) {
-                dd(true);
                 return response()->json(['status' => 'success', 'message' => 'Buyer successfully added']);
             }
 
