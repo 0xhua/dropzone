@@ -14,6 +14,7 @@ class transactionFeeSeeder extends Seeder
      */
     public function run()
     {
+        transactionFee::truncate();
         $data = [
             [
                 'type' => 'base_fee',
@@ -29,24 +30,29 @@ class transactionFeeSeeder extends Seeder
                 //XS-SMALL FEE
                 'type' => 'size_fee',
                 'size_id' => 1,
-                'amount' => 10
+                'amount' => 0
             ],
             [
                 //Medium FEE
                 'type' => 'size_fee',
                 'size_id' => 2,
-                'amount' => 20
+                'amount' => 10
             ],
             [   //Large FEE
                 'type' => 'size_fee',
                 'size_id' => 3,
-                'amount' => 30
+                'amount' => 20
             ],
             [
                 //XL-XXL FEE
                 'type' => 'size_fee',
                 'size_id' => 4,
                 'amount' => 40
+            ]       ,
+            [
+                //TRANSFER BASE FEE
+                'type' => 'transfer_fee',
+                'amount' => 10
             ]
         ];
         transactionFee::insert($data);
