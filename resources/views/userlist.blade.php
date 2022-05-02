@@ -9,7 +9,7 @@
 @section('content')
     <div class="container-fluid">
 
-        <h2>
+        <h2 style="font-size: 32px;">
             @if(auth()->user()->hasRole('Admin'))
                 USER LIST
             @elseif(auth()->user()->hasRole('seller'))

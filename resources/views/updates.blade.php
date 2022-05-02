@@ -9,7 +9,7 @@
 
 @section("content")
     <div class="container">
-        <h2>Updates and Announcements</h2>
+        <h2 style="font-size: 32px;">
         <p>Check updates on this page</p>
         <div class="row">
             <div class="table-responsive">

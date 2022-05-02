@@ -12,11 +12,14 @@
 
 <!--------------------------CONTAINER MAIN START---------------------------------->
     <div class="container">
+        <h2 style="font-size: 32px;">
         @if(auth()->user()->hasRole('Admin'))
-            <h2>Admin Updates</h2>
+            Admin Updates
         @else
-            <h2>Dropping Area Updates</h2>
+                Dropping Area Updates
+
         @endif
+        </h2>
         <p>Post Updates on this page</p>
         <div class="row">
             <div class="col-sm-12" id="form_div">

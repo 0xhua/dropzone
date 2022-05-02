@@ -10,7 +10,7 @@
 @section("content")
     <div class="container-fluid">
 
-        <h2>REQUESTS LIST</h2>
+        <h2 style="font-size: 32px;">REQUESTS LIST</h2>
 
         <div class="row" style=" margin-top: 40px;">
             <div class="col-sm-3">

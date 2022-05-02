@@ -11,14 +11,15 @@
 @section("content")
     @include('popper::assets')
     <div class="container-fluid">
+        <h2 style="font-size: 32px;">
         @if(auth()->user()->hasRole('Admin'))
-            <h2>ADMIN SELLER'S ITEM LIST</h2>
+            ADMIN SELLER'S ITEM LIST
         @elseif(auth()->user()->hasRole('da'))
-            <h2>Dropping area SELLER'S ITEM LIST</h2>
+           Dropping area SELLER'S ITEM LIST
         @else
-            <h2>SELLER'S ITEM LIST</h2>
+            SELLER'S ITEM LIST
         @endif
-
+        </h2>
         <div class="row" style=" margin-top: 40px;">
             <div class="col-sm-3">
                 <div class="input-group mb-3">
