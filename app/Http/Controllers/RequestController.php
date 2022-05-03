@@ -84,6 +84,13 @@ class RequestController extends Controller
         if(!is_null($request->search)){
             $request_list = $request_list->where('users.name', 'like', '%' . $request->search . '%');
         }
+        $show_done_rejected = false;
+        if(!is_null($request->rejected_done)){
+            $request_list = $request_list->whereIn('item_requests.status_id', array('2','4'));
+            $show_done_rejected = true;
+        }
+
+
         if($request->wantsJson()){
             $request_list = $request_list->get();
             return response()->json(
@@ -101,7 +108,8 @@ class RequestController extends Controller
                 'request_lists' => $request_list,
                 'sellers' => $sellers,
                 'location' => $location,
-                'now' => $now
+                'now' => $now,
+                'show_done_rejected'=>$show_done_rejected
             ]
         )->with('i', ($request->input('page', 1) - 1) * 5);;
     }

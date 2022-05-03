@@ -42,6 +42,18 @@
                     {{--                ></button>--}}
                 </form>
                 @endif
+                    <form action="{{route('itemrequest')}}" method="get">
+                        {{@csrf_field()}}
+                        @if(!$show_done_rejected)
+                            <input name="rejected_done" type="hidden" value="1">
+                            <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show done/rejected
+                            </button>
+                        @else
+                            <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show all
+                            </button>
+                        @endif
+
+                    </form>
             </div>
 
 

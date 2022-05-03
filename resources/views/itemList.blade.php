@@ -12,23 +12,24 @@
     @include('popper::assets')
     <div class="container-fluid">
         <h2 style="font-size: 32px;">
-        @if(auth()->user()->hasRole('Admin'))
-            ADMIN SELLER'S ITEM LIST
-        @elseif(auth()->user()->hasRole('da'))
-           Dropping area SELLER'S ITEM LIST
-        @else
-            SELLER'S ITEM LIST
-        @endif
+            @if(auth()->user()->hasRole('Admin'))
+                ADMIN SELLER'S ITEM LIST
+            @elseif(auth()->user()->hasRole('da'))
+                Dropping area SELLER'S ITEM LIST
+            @else
+                SELLER'S ITEM LIST
+            @endif
         </h2>
         <div class="row" style=" margin-top: 40px;">
             <div class="col-sm-3">
                 <form action="{{route('itemlist')}}" method="get">
-                <div class="input-group mb-3">
-                    {{@csrf_field()}}
-                    <input name="search" type="text" class="form-control input-text" id="myInput" placeholder="Search....">
-                    <button class="addNew btn btn-outline-warning"  type="submit">Search
-                    </button>
-                </div>
+                    <div class="input-group mb-3">
+                        {{@csrf_field()}}
+                        <input name="search" type="text" class="form-control input-text" id="myInput"
+                               placeholder="Search....">
+                        <button class="addNew btn btn-outline-warning" type="submit">Search
+                        </button>
+                    </div>
                 </form>
             </div>
 
@@ -37,13 +38,28 @@
                 <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
                         data-target="#addNewItem">Add Item
                 </button>
+
+                <form action="{{route('itemlist')}}" method="get">
+                    {{@csrf_field()}}
+                    @if(!$show_released)
+                        <input name="released" type="hidden" value="1">
+                        <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show released
+                        </button>
+                    @else
+                        <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show all
+                        </button>
+                    @endif
+
+                </form>
+
             </div>
 
             <div class="col-sm-4 mb-3">
                 <form action="{{route('export_excel.itemlist')}}" method="get">
-                <button type="submit" class="printBtn" id="printBtn" style="color: white;" data-bs-toggle="modal" data-bs-target="#printInfo">
-                    <i class="bx bxs-cloud-download"></i>
-                </button>
+                    <button type="submit" class="printBtn" id="printBtn" style="color: white;" data-bs-toggle="modal"
+                            data-bs-target="#printInfo">
+                        <i class="bx bxs-cloud-download"></i>
+                    </button>
                 </form>
             </div>
 
@@ -65,15 +81,15 @@
                                     <div class="col-sm-6 mb-3">
                                         {{csrf_field()}}
                                         @if(!auth()->user()->hasRole('seller'))
-                                        <label id="">Seller</label>
+                                            <label id="">Seller</label>
 
 
-                                        <select value="" name="seller_id" id="paid" required>
-                                            <option disabled selected value> -- seller --</option>
-                                            @foreach($sellers as $seller)
-                                                <option value="{{$seller->id}}">{{$seller->name}}</option>
-                                            @endforeach
-                                        </select>
+                                            <select value="" name="seller_id" id="paid" required>
+                                                <option disabled selected value> -- seller --</option>
+                                                @foreach($sellers as $seller)
+                                                    <option value="{{$seller->id}}">{{$seller->name}}</option>
+                                                @endforeach
+                                            </select>
                                         @endif
                                         <label id="">Buyer</label>
                                         <select value="" name="buyer_id" id="paid" required>
@@ -162,14 +178,14 @@
                                     <div class="row" style="margin-left: 5px;">
                                         <div class="col-sm-6 mb-3">
                                             <label id="">Buyer</label>
-                                            <select value="" name="buyer_id" id="paid" >
+                                            <select value="" name="buyer_id" id="paid">
                                                 <option disabled selected value> -- buyer --</option>
                                                 @foreach($buyers as $buyer)
                                                     <option value="{{$buyer->id}}">{{$buyer->name}}</option>
                                                 @endforeach
                                             </select>
                                             <label id="">Destination</label><br>
-                                            <select value="" name="destination_id" id="itemDesti" >
+                                            <select value="" name="destination_id" id="itemDesti">
                                                 <option disabled selected value> -- select destination --</option>
                                                 @foreach($location as $area)
                                                     <option value="{{$area->id}}">{{$area->area}}</option>
@@ -179,9 +195,10 @@
                                         </div>
                                         <div class="col-sm-6 mb-3">
                                             <label id="">Amount</label><br>
-                                            <input style="color:#222222;" type="text" placeholder="" id="amount" name="amount"><br>
+                                            <input style="color:#222222;" type="text" placeholder="" id="amount"
+                                                   name="amount"><br>
                                             <label id="">Payment Status</label><br>
-                                            <select value="" name="payment_status_id" id="paid" >
+                                            <select value="" name="payment_status_id" id="paid">
                                                 <option disabled selected value> -- paid/unpaid --</option>
                                                 @foreach($paid_statuses as $status)
                                                     <option value="{{$status->id}}">{{$status->status}}</option>
@@ -242,12 +259,12 @@
                     <thead>
                     <tr class="tHead">
                         <th scope="col" width="9%">Code</th>
-                        <th scope="col" width="10%">DropDate</th>
+                        <th scope="col" width="8%">DropDate</th>
                         <th scope="col" width="10%">Seller</th>
                         <th scope="col" width="10%">Buyer</th>
                         <th scope="col" width="5%">Origin</th>
                         <th scope="col" width="5%">Destination</th>
-                        <th scope="col" width="3%">TH/HF</th>
+{{--                        <th scope="col" width="3%">TH/HF</th>--}}
                         <th scope="col" width="3%">DF</th>
                         <th scope="col" width="3%">TF</th>
                         <th scope="col" width="5%">Amount</th>
@@ -263,229 +280,234 @@
 
                     <tbody id="myTable">
                     @foreach($items as $item)
-                        @if($item->status_id !== 6)
-                        <tr>
-                            <td>
-                                @if($item->code)
-                                    {{$item->code}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->drop_date)
-                                    {{$item->drop_date}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->seller)
-                                    {{$item->seller}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->buyer)
-                                    {{$item->buyer}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->origin)
-                                    {{$item->origin}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->destination)
-                                    {{$item->destination}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->fee)
-                                    {{$item->fee}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->df)
-                                    {{$item->df}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->tf)
-                                    {{$item->tf}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->amount)
-                                    {{$item->amount}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->payment_status)
-                                    {{$item->payment_status}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->status)
-                                    {{$item->status}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->current_location)
-                                    {{$item->current_location}}
-                                @else
-                                    In-Transit
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->claimed_date)
-                                    {{$item->claimed_date}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->release_date)
-                                    {{$item->release_date}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->approval_status)
-                                    {{$item->approval_status}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if(auth()->user()->hasRole('seller') && is_null($item->status_id))
-                                    <button class='fas fa-pen-to-square' style="font-size: 24px;"
-                                            data-id="{{$item->id}}"
-                                            data-buyer="{{$item->buyer}}"
-                                            data-d="{{$item->destination}}"
-                                            data-amount="{{$item->amount}}"
-                                            data-p_id="{{$item->payment_status_id}}"
-                                            data-toggle="modal"
-                                            data-target="#editItem"
-                                    ></button>
-                                @endif
-                                @if(auth()->user()->hasRole(['Admin','da']))
-
-                                    @if($item->approval_status_id == 2) {{--if item status is pending show approve button--}}
-                                    {{--approve item--}}
-                                    <form method="post" action="{{route('update-item-status')}}">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{$item->id}}">
-                                        <input type="hidden" name="status" value="1">
-                                        <button type="submit" class='fas fa-thumbs-up' style="font-size: 24px;"
-                                                data-toggle="tooltip" data-placement="top" title="approveitem"
-                                        ></button>
-                                    </form>
-                                    @elseif($item->status_id!==3) {{--if item status is not pull out show buttons--}}
-                                    @if(is_null($item->status_id) && $da_loc!==$item->destination_id){{--if item status is null show ready and intransit button--}}
-                                    {{--transfer item--}}
-                                    <form method="post" action="{{route('update-item-status')}}">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{$item->id}}">
-                                        <input type="hidden" name="status" value="2">
-                                        <button type="submit" class='fas fa-truck' style="font-size: 24px;"
-                                                data-toggle="tooltip" data-placement="top" title="transfer item"
-                                        ></button>
-                                    </form>
-                                    @endif
-                                    @if(is_null($item->status_id) || $item->status_id==2){{--if item status is not pull or item status is transffered--}}
-                                    {{--ready item--}}
-                                    <form method="post" action="{{route('update-item-status')}}">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{$item->id}}">
-                                        <input type="hidden" name="status" value="3">
-                                        <button type="submit" class='fas fa-clipboard-check' style="font-size: 24px;"
-                                                data-toggle="tooltip" data-placement="top" title="ready item"
-                                        ></button>
-                                    </form>
+                        @if($item->status_id !== 6 || $show_released)
+                            <tr>
+                                <td>
+                                    @if($item->code)
+                                        {{$item->code}}
                                     @else
-                                        @if($item->status_id==2 && is_null($item->current_location_id) &&  $da_loc==$item->destination_id)
-                                            {{--transferred item--}}
-                                            <form method="post" action="{{route('update-item-status')}}">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{$item->id}}">
-                                                <input type="hidden" name="status" value="4">
-                                                <button type="submit" class='fas fa-arrow-down' style="font-size: 24px;"
-                                                        data-toggle="tooltip" data-placement="top" title="receive item"
-                                                ></button>
-                                            </form>
-                                        @elseif($item->status_id==4)
-                                            @if($item->payment_status_id ==2)
-                                                {{--paid item--}}
-                                                <form method="post" action="{{route('update-item-status')}}">
-                                                    @csrf
-                                                    <input type="hidden" name="id" value="{{$item->id}}">
-                                                    <input type="hidden" name="status" value="5">
-                                                    <button type="submit" class='fas fa-file-invoice-dollar'
-                                                            style="font-size: 24px;"
-                                                            data-toggle="tooltip" data-placement="top" title="Pay item"
-                                                    ></button>
-                                                </form>
-                                            @else
-                                                {{--claim item--}}
-                                                <form method="post" action="{{route('update-item-status')}}">
-                                                    @csrf
-                                                    <input type="hidden" name="id" value="{{$item->id}}">
-                                                    <input type="hidden" name="status" value="6">
-                                                    <button type="submit" class='fas fa-box-check'
-                                                            style="font-size: 24px;"
-                                                            data-toggle="tooltip" data-placement="top"
-                                                            title="Claim item"
-                                                    ></i></button>
-                                                </form>
-                                            @endif
-                                        @elseif($item->status_id == 1)
-                                            {{--release item--}}
-                                            <form method="post" action="{{route('update-item-status')}}">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{$item->id}}">
-                                                <input type="hidden" name="status" value="8">
-                                                <button type="submit" class='fas fa-inbox-out'
-                                                        style="font-size: 24px;"
-                                                        data-toggle="tooltip" data-placement="top" title="Release item"
-                                                ></button>
-                                            </form>
-                                        @endif
+                                        N/A
                                     @endif
-                                    @if($item->status_id !== 3 && $item->status_id !== 6)
-                                        {{--pull out item--}}
+                                </td>
+                                <td>
+                                    @if($item->drop_date)
+                                        {{$item->drop_date}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->seller)
+                                        {{$item->seller}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->buyer)
+                                        {{$item->buyer}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->origin)
+                                        {{$item->origin}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->destination)
+                                        {{$item->destination}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+{{--                                <td>--}}
+{{--                                    @if($item->fee)--}}
+{{--                                        {{$item->fee}}--}}
+{{--                                    @else--}}
+{{--                                        N/A--}}
+{{--                                    @endif--}}
+{{--                                </td>--}}
+                                <td>
+                                    @if($item->df)
+                                        {{$item->df}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->tf)
+                                        {{$item->tf}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->amount)
+                                        {{$item->amount}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->payment_status)
+                                        {{$item->payment_status}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->status)
+                                        {{$item->status}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->current_location)
+                                        {{$item->current_location}}
+                                    @else
+                                        In-Transit
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->claimed_date)
+                                        {{$item->claimed_date}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->release_date)
+                                        {{$item->release_date}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->approval_status)
+                                        {{$item->approval_status}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(auth()->user()->hasRole('seller') && is_null($item->status_id))
+                                        <button class='fas fa-pen-to-square' style="font-size: 24px;"
+                                                data-id="{{$item->id}}"
+                                                data-buyer="{{$item->buyer}}"
+                                                data-d="{{$item->destination}}"
+                                                data-amount="{{$item->amount}}"
+                                                data-p_id="{{$item->payment_status_id}}"
+                                                data-toggle="modal"
+                                                data-target="#editItem"
+                                        ></button>
+                                    @endif
+                                    @if(auth()->user()->hasRole(['Admin','da']))
+
+                                        @if($item->approval_status_id == 2) {{--if item status is pending show approve button--}}
+                                        {{--approve item--}}
                                         <form method="post" action="{{route('update-item-status')}}">
                                             @csrf
                                             <input type="hidden" name="id" value="{{$item->id}}">
-                                            <input type="hidden" name="status" value="7">
-                                            <button type="submit" class='fas fa-arrow-right-from-bracket'
-                                                    style="font-size: 24px;"
-                                                    data-toggle="tooltip" data-placement="top" title="Pull Out item"
+                                            <input type="hidden" name="status" value="1">
+                                            <button type="submit" class='fas fa-thumbs-up' style="font-size: 24px;"
+                                                    data-toggle="tooltip" data-placement="top" title="approveitem"
                                             ></button>
                                         </form>
+                                        @elseif($item->status_id!==3) {{--if item status is not pull out show buttons--}}
+                                        @if(is_null($item->status_id) && $da_loc!==$item->destination_id){{--if item status is null show ready and intransit button--}}
+                                        {{--transfer item--}}
+                                        <form method="post" action="{{route('update-item-status')}}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{$item->id}}">
+                                            <input type="hidden" name="status" value="2">
+                                            <button type="submit" class='fas fa-truck' style="font-size: 24px;"
+                                                    data-toggle="tooltip" data-placement="top" title="transfer item"
+                                            ></button>
+                                        </form>
+                                        @endif
+                                        @if(is_null($item->status_id) || $item->status_id==2){{--if item status is not pull or item status is transffered--}}
+                                        {{--ready item--}}
+                                        <form method="post" action="{{route('update-item-status')}}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{$item->id}}">
+                                            <input type="hidden" name="status" value="3">
+                                            <button type="submit" class='fas fa-clipboard-check'
+                                                    style="font-size: 24px;"
+                                                    data-toggle="tooltip" data-placement="top" title="ready item"
+                                            ></button>
+                                        </form>
+                                        @else
+                                            @if($item->status_id==2 && is_null($item->current_location_id) &&  $da_loc==$item->destination_id)
+                                                {{--transferred item--}}
+                                                <form method="post" action="{{route('update-item-status')}}">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{$item->id}}">
+                                                    <input type="hidden" name="status" value="4">
+                                                    <button type="submit" class='fas fa-arrow-down'
+                                                            style="font-size: 24px;"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="receive item"
+                                                    ></button>
+                                                </form>
+                                            @elseif($item->status_id==4)
+                                                @if($item->payment_status_id ==2)
+                                                    {{--paid item--}}
+                                                    <form method="post" action="{{route('update-item-status')}}">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{$item->id}}">
+                                                        <input type="hidden" name="status" value="5">
+                                                        <button type="submit" class='fas fa-file-invoice-dollar'
+                                                                style="font-size: 24px;"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Pay item"
+                                                        ></button>
+                                                    </form>
+                                                @else
+                                                    {{--claim item--}}
+                                                    <form method="post" action="{{route('update-item-status')}}">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{$item->id}}">
+                                                        <input type="hidden" name="status" value="6">
+                                                        <button type="submit" class='fas fa-box-check'
+                                                                style="font-size: 24px;"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Claim item"
+                                                        ></i></button>
+                                                    </form>
+                                                @endif
+                                            @elseif($item->status_id == 1)
+                                                {{--release item--}}
+                                                <form method="post" action="{{route('update-item-status')}}">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{$item->id}}">
+                                                    <input type="hidden" name="status" value="8">
+                                                    <button type="submit" class='fas fa-inbox-out'
+                                                            style="font-size: 24px;"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="Release item"
+                                                    ></button>
+                                                </form>
+                                            @endif
+                                        @endif
+                                        @if($item->status_id !== 3 && $item->status_id !== 6)
+                                            {{--pull out item--}}
+                                            <form method="post" action="{{route('update-item-status')}}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{$item->id}}">
+                                                <input type="hidden" name="status" value="7">
+                                                <button type="submit" class='fas fa-arrow-right-from-bracket'
+                                                        style="font-size: 24px;"
+                                                        data-toggle="tooltip" data-placement="top" title="Pull Out item"
+                                                ></button>
+                                            </form>
+                                        @endif
+                                        @endif
                                     @endif
-                                    @endif
-                                @endif
                                     @if(auth()->user()->hasPermissionTo('item-show-qr'))
                                         <a class='fas fa-qrcode'
                                            style="font-size: 24px;"
@@ -495,8 +517,8 @@
                                            data-toggle="tooltip" data-placement="top" title="Show item QR code"
                                         ></a>
                                     @endif
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
                         @endif
                     @endforeach
                     </tbody>

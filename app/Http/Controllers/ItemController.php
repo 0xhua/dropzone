@@ -314,6 +314,13 @@ class ItemController extends Controller
         }
 
 
+        $show_released = false;
+        if(!is_null($request->released)){
+                $items = $items->where('items.status_id', '=',6);
+            $show_released = true;
+        }
+
+
 
         $buyers = User::where('seller_id',auth()->id())->whereHas(
             'roles', function ($q) {
@@ -351,7 +358,8 @@ class ItemController extends Controller
             'items' => $items,
             'buyers' => $buyers,
             'sellers' => $sellers,
-            'da_loc' => $da_loc
+            'da_loc' => $da_loc,
+            'show_released'=>$show_released
         ])
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }

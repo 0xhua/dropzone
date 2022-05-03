@@ -89,7 +89,7 @@
 
                                         <div class="col-sm-6 mb-3">
                                             <label id="">Contact Number</label><br>
-                                            <input type="text" placeholder="" name="phone_number"><br>
+                                            <input style="color:#222222;" type="text" placeholder="" name="phone_number"><br>
 
                                             <label id="">Dropping Area</label>
                                             <select value="" name="location_id" id="paid" required>
