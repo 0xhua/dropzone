@@ -212,9 +212,9 @@ class ItemController extends Controller
                     ->where('date',Carbon::today())
                     ->where('payment_status_id','1')
                     ->sum('df');
-            $sellers = User::with(array('Roles' => function($query) {
-                $query->where('name','sellers');
-            }))->where('users.location_id',$da_loc->location_id)
+            $sellers = User::whereHas('roles', function($q) {
+                $q->whereName('insert_name_of_role');
+            })->where('users.location_id',$da_loc->location_id)
 
                 ->count();
 
