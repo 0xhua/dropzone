@@ -213,7 +213,7 @@ class ItemController extends Controller
                     ->where('payment_status_id','1')
                     ->sum('df');
             $sellers = User::where('users.location_id',$da_loc->location_id)->with(array('Roles' => function($query) {
-                $query->where('name','sellers');
+                $query->where('name','sellers')->count();
             }))
 
                 ->count();
