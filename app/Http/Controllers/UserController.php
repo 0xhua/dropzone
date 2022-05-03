@@ -385,15 +385,15 @@ class UserController extends Controller
     {
         $locations = \App\Models\Location::all();
         $da_loc = Auth::user();
-        $da_sellers = User::select('users.*', 'locations.area', 'user_statuses.status')
-            ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
-            ->leftJoin('user_statuses', 'user_statuses.id', '=', 'users.status_id')
+        $da_sellers = DB::table('users')
+            ->select('*')
+            ->leftJoin('model_has_roles','model_has_roles.model_id','=','users.id')
             ->where('locations.id', $da_loc->location_id)
-            ->whereHas(
-                'roles', function ($q) {
-                $q->where('name', 'seller');
-            })
+            ->where('model_has_roles.role_id','=',2)
+            ->orWhereNull('model_has_roles.role_id')
             ->get();
+
+
         return view('da_sellers', [
             'da_sellers' => $da_sellers,
             'locations' => $locations,
