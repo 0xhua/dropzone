@@ -282,6 +282,7 @@
                     <tbody id="myTable">
                     @foreach($items as $item)
                         @if($item->status_id !== 6 || $show_released)
+{{--                            @if(auth()->user()->location_id ==)--}}
                             <tr>
                                 <td>
                                     @if($item->code)
@@ -431,7 +432,7 @@
                                             ></button>
                                         </form>
                                         @endif
-                                        @if(is_null($item->status_id) || $item->status_id==2){{--if item status is not pull or item status is transffered--}}
+                                        @if(is_null($item->status_id) || $item->status_id==2 && $item->destination_id == $da_loc){{--if item status is not pull or item status is transffered--}}
                                         {{--ready item--}}
                                         <form method="post" action="{{route('update-item-status')}}">
                                             @csrf
@@ -443,7 +444,7 @@
                                             ></button>
                                         </form>
                                         @else
-                                            @if($item->status_id==2 && is_null($item->current_location_id) &&  $da_loc==$item->destination_id)
+                                            @if($item->status_id==2 && $da_loc==$item->destination_id)
                                                 {{--transferred item--}}
                                                 <form method="post" action="{{route('update-item-status')}}">
                                                     @csrf
@@ -455,7 +456,7 @@
                                                             title="receive item"
                                                     ></button>
                                                 </form>
-                                            @elseif($item->status_id==4)
+                                            @elseif($item->status_id==4 && $item->destination_id == $da_loc)
                                                 @if($item->payment_status_id ==2)
                                                     {{--paid item--}}
                                                     <form method="post" action="{{route('update-item-status')}}">
@@ -495,7 +496,7 @@
                                                 </form>
                                             @endif
                                         @endif
-                                        @if($item->status_id !== 3 && $item->status_id !== 6)
+                                        @if($item->status_id !== 3 && $item->status_id !== 6 && $item->destination_id == $da_loc)
                                             {{--pull out item--}}
                                             <form method="post" action="{{route('update-item-status')}}">
                                                 @csrf

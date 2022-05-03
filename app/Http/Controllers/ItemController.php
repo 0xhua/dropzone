@@ -309,7 +309,8 @@ class ItemController extends Controller
             $da_loc =  Auth::user()->location_id;
             $items = $items->where('current_location_id', '=', $da_loc)
                 ->orWhereNull('current_location_id')
-                ->Where('destination_id', '=', $da_loc);
+                ->orWhere('destination_id', '=', $da_loc)
+                ->orWhere('origin_id', '=', $da_loc);
         } elseif(auth()->user()->hasRole('seller')) {
             $items = $items->where('items.seller_id', '=', auth()->id());
         }
