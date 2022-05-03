@@ -421,7 +421,8 @@ class UserController extends Controller
                     break;
                 case 2://set status to in approved
                     $user->status_id = 1;
-                    $sms_message = "Your dropzone registration has been rejected by the DA";
+                    $user->assignRole([]);
+                    $sms_message = "Your dropzone account is deactivated";
                     $message = 'User successfully deactivated';
                     break;
             }
