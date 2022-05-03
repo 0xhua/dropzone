@@ -390,7 +390,7 @@ class UserController extends Controller
             ->leftJoin('model_has_roles','model_has_roles.model_id','=','users.id')
             ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
              ->leftJoin('user_statuses', 'user_statuses.id', '=', 'users.status_id')
-            ->where('users.location_id',$da_loc)
+            ->where('users.location_id',$da_loc->location_id)
             ->where('model_has_roles.role_id','=',2)
             ->orWhereNull('model_has_roles.role_id')
             ->get();
@@ -416,7 +416,7 @@ class UserController extends Controller
                 case 1://set status to in approved
                     $user->status_id = 2;
                     $user->assignRole([2]);
-                    $sms_message = "Congratulations ".$user->name.", You dropzone seller account is now activated";
+                    $sms_message = "Congratulations ".$user->name.", Your dropzone seller account is now activated";
                     $message = 'User successfully activated';
                     break;
                 case 2://set status to in approved

@@ -189,9 +189,9 @@
                                                 <input style="color:#222222;" type="text" placeholder=""
                                                        name="phone_number" required><br>
 
-                                                <label id="">Email</label><br>
-                                                <input style="color:#222222;" type="text" placeholder=""
-                                                       name="email"><br>
+{{--                                                <label id="">Email</label><br>--}}
+{{--                                                <input style="color:#222222;" type="text" placeholder=""--}}
+{{--                                                       name="email"><br>--}}
                                             </div>
 
                                         </div>
