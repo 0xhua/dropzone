@@ -421,7 +421,7 @@ class UserController extends Controller
                     break;
                 case 2://set status to in approved
                     $user->status_id = 1;
-                    $user->assignRole([5]);
+                    $user->roles()->detach();
                     $sms_message = "Your dropzone account is deactivated";
                     $message = 'User successfully deactivated';
                     break;
