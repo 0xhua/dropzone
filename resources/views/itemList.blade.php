@@ -69,11 +69,12 @@
                     <div class="modal-content">
 
                         <!-- Modal Header -->
+                        @if(!auth()->user()->hasRole('seller'))
                         <div class="modal-header">
                             <h4 class="modal-title" style="color:#222222;">Add Item</h4>
                             <button type="button" class="btn-close" data-dismiss="modal"></button>
                         </div>
-
+                        @endif
                         <!-- Modal body -->
                         <form method="post" action="{{route('add-item')}}">
                             <div class="modal-body">

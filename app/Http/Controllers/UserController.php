@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SmsApiHelper;
 use App\Models\da_info;
 use App\Models\Item;
 use App\Models\itemRequest;
@@ -203,7 +204,6 @@ class UserController extends Controller
             $user = User::create($input);
             $user->status_id = $request->status_id;
             $user->save();
-            $user->assignRole([2]);
 
             $token = $user->createToken('Laravel8PassportAuth')->accessToken;
 
@@ -278,7 +278,8 @@ class UserController extends Controller
             )
                 ->leftJoin('da_infos', 'users.id', '=', 'da_infos.da_id')
                 ->leftJoin('locations', 'users.location_id', '=', 'locations.id')
-                ->leftJoin('locations as ul', 'users.location_id', 'ul.id');
+                ->leftJoin('locations as ul', 'users.location_id', 'ul.id')
+                ->leftJoin('model_has_roles as role', 'users.id', 'role.model_id');
             if (auth()->user()->hasRole('seller')) {
                 $data = $data->where('seller_id', auth()->id());
             }
@@ -287,13 +288,39 @@ class UserController extends Controller
                 $data = $data->where('users.name', 'like', '%' . $request->search . '%');
             }
 
+            $show_da = false;
+            if(!is_null($request->da)) {
+                $data = $data->whereHas('roles', function ($q) {
+                    $q->whereName('da');
+                });
+                $show_da = true;
+            }
+
+            $show_seller = false;
+            if(!is_null($request->seller)) {
+                $data = $data->whereHas('roles', function ($q) {
+                    $q->whereName('seller');
+                });
+                $show_seller = true;
+            }
+
+            $show_buyer = false;
+            if(!is_null($request->buyer)) {
+                $data = $data->whereHas('roles', function ($q) {
+                    $q->whereName('buyer');
+                });
+                $show_seller = true;
+            }
+
+
+
             if ($request->wantsJson()) {
                 return response()->json(['location' => $locations, 'data' => $data->get()]);
             }
 
 
             $data = $data->orderBy('users.name', 'asc')->paginate(20);
-            return view('userlist', compact(['data', 'locations']))
+            return view('userlist', compact(['data', 'locations','show_buyer','show_seller','show_da']))
                 ->with('i', ($request->input('page', 1) - 1) * 5);
         } else {
             return abort(403);
@@ -384,14 +411,20 @@ class UserController extends Controller
             switch ($request->status) {
                 case 1://set status to in approved
                     $user->status_id = 2;
+                    $user->assignRole([2]);
+                    $sms_message = "Congratulations ".$user->name.", You dropzone seller account is now activated";
                     $message = 'User successfully activated';
                     break;
                 case 2://set status to in approved
                     $user->status_id = 1;
+                    $sms_message = "Your dropzone registration has been rejected by the DA";
                     $message = 'User successfully deactivated';
                     break;
             }
             if ($user->save()) {
+                if(!empty($sms_message)){
+                    app(SmsApiHelper::class)->send_sms($user->phone_number,$sms_message);
+                }
                 notify()->success($message);
                 return back();
             }
