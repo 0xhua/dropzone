@@ -72,6 +72,8 @@ class RequestController extends Controller
         }
         $category = requestCategory::orderby('id', 'asc')->get();
 
+        $now = time();
+
         $sellers = User::whereHas(
             'roles', function ($q) {
             $q->where('name', 'seller');
@@ -79,8 +81,11 @@ class RequestController extends Controller
         )->get();
 
         $location = Location::orderby('id', 'asc')->get();
-        $request_list = $request_list->paginate(20);
+        if(!is_null($request->search)){
+            $request_list = $request_list->where('users.name', 'like', '%' . $request->search . '%');
+        }
         if($request->wantsJson()){
+            $request_list = $request_list->get();
             return response()->json(
                 [
                     'categories' => $category,
@@ -89,12 +94,14 @@ class RequestController extends Controller
                     'location' => $location
                 ], 200);
         }
+        $request_list = $request_list->paginate(20);
         return view('itemrequest',
             [
                 'categories' => $category,
                 'request_lists' => $request_list,
                 'sellers' => $sellers,
-                'location' => $location
+                'location' => $location,
+                'now' => $now
             ]
         )->with('i', ($request->input('page', 1) - 1) * 5);;
     }

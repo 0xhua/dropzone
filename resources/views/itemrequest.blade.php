@@ -15,19 +15,27 @@
         <div class="row" style=" margin-top: 40px;">
             <div class="col-sm-3">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control input-text" id="myInput" placeholder="Search....">
+                    <form action="{{route('itemrequest')}}" method="get">
+                        <div class="input-group mb-3">
+                            {{@csrf_field()}}
+                            <input name="search" type="text" class="form-control input-text" id="myInput"
+                                   placeholder="Search....">
+                            <button class="addNew btn btn-outline-warning" type="submit">Search
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
 
             <!------ REQUEST BUTTON ------------------>
-                <div class="col-sm-5 mb-3" style="padding-top: 0px;">
-                    @if(auth()->user()->hasRole('seller'))
+            <div class="col-sm-5 mb-3" style="padding-top: 0px;">
+                @if(auth()->user()->hasRole('seller'))
                     <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
                             data-target="#request">Request
                     </button>
-                    @endif
-                </div>
+                @endif
+            </div>
 
             <div class="col-sm-4 mb-3">
                 <form action="{{route('export_excel.itemrequestlist')}}" method="get">
@@ -179,125 +187,136 @@
 
                     <tbody id="myTable">
                     @foreach($request_lists as $request)
-                        <tr>
-                            <td>
-                                @if($request->id)
-                                    {{$request->id}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($request->date)
-                                    {{$request->date}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($request->category)
-                                    {{$request->category}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($request->name)
-                                    {{$request->name}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($request->contact_no)
-                                    {{$request->contact_no}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($request->request)
-                                    {{$request->request}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($request->location)
-                                    {{$request->location}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($request->fee)
-                                    {{$request->fee}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($request->status)
-                                    {{$request->status}}
-                                @else
-                                    Pending
-                                @endif
-                            </td>
-                            <td>
-                                @if(auth()->user()->hasRole('seller') && is_null($request->status_id))
-                                    <button class='fas fa-pen-to-square' style="font-size: 24px;"
-                                            data-request="{{$request->request}}"
-                                            data-id="{{$request->id}}"
-                                            data-phone="{{$request->contact_no}}"
-                                            data-toggle="modal"
-                                            data-target="#editrequest"
-                                    ></button>
-                                @endif
-                                @if(auth()->user()->hasRole('Admin'))
-                                    @if(is_null($request->status_id))
-                                        <form method="post" action="{{route('update-request-status')}}">
-                                            @csrf
-                                            <input type="hidden" name="id" value="{{$request->id}}">
-                                            <input type="hidden" name="status" value="1">
-                                            <button type="submit" class='fas fa-thumbs-up' style="font-size: 24px;"
-                                                    data-toggle="tooltip" data-placement="top" title="approveitem"
+                        @if($request->status_id !== 4)
+                            @if(($request->status_id == 2 && (round(($now - strtotime($request->date))/ (60 * 60 * 24)) > 10)   ))
+                                @continue
+                            @else
+                                <tr>
+                                    <td>
+                                        @if($request->id)
+                                            {{$request->id}}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($request->date)
+                                            {{$request->date}}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($request->category)
+                                            {{$request->category}}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($request->name)
+                                            {{$request->name}}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($request->contact_no)
+                                            {{$request->contact_no}}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($request->request)
+                                            {{$request->request}}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($request->location)
+                                            {{$request->location}}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($request->fee)
+                                            {{$request->fee}}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($request->status)
+                                            {{$request->status}}
+                                        @else
+                                            Pending
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(auth()->user()->hasRole('seller') && is_null($request->status_id))
+                                            <button class='fas fa-pen-to-square' style="font-size: 24px;"
+                                                    data-request="{{$request->request}}"
+                                                    data-id="{{$request->id}}"
+                                                    data-phone="{{$request->contact_no}}"
+                                                    data-toggle="modal"
+                                                    data-target="#editrequest"
                                             ></button>
-                                        </form>
-                                        <form method="post" action="{{route('update-request-status')}}">
-                                            @csrf
-                                            <input type="hidden" name="id" value="{{$request->id}}">
-                                            <input type="hidden" name="status" value="2">
-                                            <button type="submit" class='fas fa-xmark-to-slot'
-                                                    style="font-size: 24px;"
-                                                    data-toggle="tooltip" data-placement="top" title="Release item"
-                                            ></button>
-                                        </form>
-                                    @endif
-                                    @if($request->status_id == '1')
-                                        <form method="post" action="{{route('update-request-status')}}">
-                                            @csrf
-                                            <input type="hidden" name="id" value="{{$request->id}}">
-                                            <input type="hidden" name="status" value="3">
-                                            <button type="submit" class='fas fa-truck'
-                                                    style="font-size: 24px;"
-                                                    data-toggle="tooltip" data-placement="top" title="Release item"
-                                            ></button>
-                                        </form>
-                                    @endif
-                                    @if($request->status_id ==3)
-                                        <form method="post" action="{{route('update-request-status')}}">
-                                            @csrf
-                                            <input type="hidden" name="id" value="{{$request->id}}">
-                                            <input type="hidden" name="status" value="4">
-                                            <button type="submit" class='fas fa-check'
-                                                    style="font-size: 24px;"
-                                                    data-toggle="tooltip" data-placement="top" title="Release item"
-                                            ></button>
-                                        </form>
-                                    @endif
-                                @endif
-                            </td>
-                        </tr>
+                                        @endif
+                                        @if(auth()->user()->hasRole('Admin'))
+                                            @if(is_null($request->status_id))
+                                                <form method="post" action="{{route('update-request-status')}}">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{$request->id}}">
+                                                    <input type="hidden" name="status" value="1">
+                                                    <button type="submit" class='fas fa-thumbs-up'
+                                                            style="font-size: 24px;"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="approveitem"
+                                                    ></button>
+                                                </form>
+                                                <form method="post" action="{{route('update-request-status')}}">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{$request->id}}">
+                                                    <input type="hidden" name="status" value="2">
+                                                    <button type="submit" class='fas fa-xmark-to-slot'
+                                                            style="font-size: 24px;"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="Release item"
+                                                    ></button>
+                                                </form>
+                                            @endif
+                                            @if($request->status_id == '1')
+                                                <form method="post" action="{{route('update-request-status')}}">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{$request->id}}">
+                                                    <input type="hidden" name="status" value="3">
+                                                    <button type="submit" class='fas fa-truck'
+                                                            style="font-size: 24px;"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="Release item"
+                                                    ></button>
+                                                </form>
+                                            @endif
+                                            @if($request->status_id ==3)
+                                                <form method="post" action="{{route('update-request-status')}}">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{$request->id}}">
+                                                    <input type="hidden" name="status" value="4">
+                                                    <button type="submit" class='fas fa-check'
+                                                            style="font-size: 24px;"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="Release item"
+                                                    ></button>
+                                                </form>
+                                            @endif
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endif
+                        @endif
                     @endforeach
                     </tbody>
                 </center>

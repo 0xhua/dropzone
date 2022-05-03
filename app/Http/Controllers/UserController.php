@@ -283,6 +283,10 @@ class UserController extends Controller
                 $data = $data->where('seller_id', auth()->id());
             }
 
+            if(!is_null($request->search)){
+                $data = $data->where('users.name', 'like', '%' . $request->search . '%');
+            }
+
             if ($request->wantsJson()) {
                 return response()->json(['location' => $locations, 'data' => $data->get()]);
             }

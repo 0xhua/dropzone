@@ -263,6 +263,7 @@
 
                     <tbody id="myTable">
                     @foreach($items as $item)
+                        @if($item->status_id !== 6)
                         <tr>
                             <td>
                                 @if($item->code)
@@ -496,6 +497,7 @@
                                     @endif
                             </td>
                         </tr>
+                        @endif
                     @endforeach
                     </tbody>
                 </center>
@@ -511,7 +513,12 @@
 @section('javascript')
     <script>
         $(document).ready(function () {
-
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
             $('#editItem').on('shown.bs.modal', function (e) {
 
                 let link = e.relatedTarget,

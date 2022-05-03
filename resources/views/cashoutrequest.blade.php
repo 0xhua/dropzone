@@ -16,11 +16,14 @@
         <div class="row" style=" margin-top: 40px;">
             <div class="col-sm-3">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control input-text" id="myInput" placeholder="Search....">
-
-                    <div class="input-group-append">
-
-                    </div>
+                    <form action="{{route('cashout')}}" method="get">
+                        <div class="input-group mb-3">
+                            {{@csrf_field()}}
+                            <input name="search" type="text" class="form-control input-text" id="myInput" placeholder="Search....">
+                            <button class="addNew btn btn-outline-warning"  type="submit">Search
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -159,6 +162,7 @@
 
                     <tbody id="myTable">
                     @foreach($items as $cashout)
+                        @if($cashout->status !== 'Released')
                         <tr>
 
                             <td>
@@ -228,6 +232,7 @@
                             </td>
                             @endif
                         </tr>
+                        @endif
                     @endforeach
 
                     </tbody>

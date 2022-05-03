@@ -44,6 +44,10 @@ class CashoutController extends Controller
             $items = $items->where('cashout_requests.seller_id', '=', auth()->id());
         }
 
+        if(!is_null($request->search)){
+            $items = $items->where('users.name', 'like', '%' . $request->search . '%');
+        }
+
         $items = $items->paginate(20);
 
         return view('cashoutrequest',  [
