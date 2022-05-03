@@ -198,8 +198,13 @@ class ItemController extends Controller
             $pending = itemRequest::where('location_id', '=', $da_loc->location_id)
                 ->wherenull('status_id')
                 ->count();
-            $collection = Item::where('items.destination_id', '=', $da_loc->location_id)
-                ->sum('amount');
+            $collection =
+                DB::table('payments')
+                    ->select('items.amount')
+                    ->leftJoin('items', 'payments.item_id', '=', 'items.id')
+                    ->whereNull('cashout_id')
+                    ->where('items.current_location_id', '=', $da_loc->location_id)
+                    ->sum('amount');
             $income = Item::where('items.current_location_id', '=', Auth::user()->location_id)
                 ->where('date',Carbon::today())
                 ->where('payment_status_id','1')
