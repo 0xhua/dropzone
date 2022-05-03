@@ -309,7 +309,8 @@ class ItemController extends Controller
             $da_loc =  Auth::user()->location_id;
             $items = $items->where('current_location_id', '=', $da_loc)
                 ->orWhereNull('current_location_id')
-                ->Where('destination_id', '=', $da_loc);
+                ->Where('destination_id', '=', $da_loc)
+                ->Where('origin_id', '=', $da_loc);
         } elseif(auth()->user()->hasRole('seller')) {
             $items = $items->where('items.seller_id', '=', auth()->id());
         }
@@ -525,6 +526,7 @@ class ItemController extends Controller
                         $sum = Item::where('id','=',$item->id)->sum(\DB::raw('tf + df + amount'));
                         $sms_message .= PHP_EOL . "Please prepare exact amount of ₱" . $sum;
                     }
+                    $item->current_location_id = $item->destination_id;
                     $item->status_id = 4;
                     $message = 'Item marked as ready';
                     break;
