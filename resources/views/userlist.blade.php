@@ -19,7 +19,6 @@
 
         <div class="row" style=" margin-top: 40px;">
             <div class="col-sm-3">
-                <div class="input-group mb-3">
                     <form action="{{route('user-list')}}" method="get">
                         <div class="input-group mb-3">
                             {{@csrf_field()}}
@@ -28,7 +27,6 @@
                             </button>
                         </div>
                     </form>
-                </div>
             </div>
 
             <!------ ADD NEW BUTTON ------------------>
