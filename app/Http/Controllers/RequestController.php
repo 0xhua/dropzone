@@ -90,6 +90,17 @@ class RequestController extends Controller
             $show_done_rejected = true;
         }
 
+        $show_done = false;
+        $show_rejected = false;
+        if(!is_null($request->rejected)){
+            $request_list = $request_list->where('item_requests.status_id', '=',2);
+            $show_rejected = true;
+        }
+        if(!is_null($request->done)){
+            $request_list = $request_list->where('item_requests.status_id', '=',4);
+            $show_done = true;
+        }
+
 
         if($request->wantsJson()){
             $request_list = $request_list->get();
@@ -109,7 +120,8 @@ class RequestController extends Controller
                 'sellers' => $sellers,
                 'location' => $location,
                 'now' => $now,
-                'show_done_rejected'=>$show_done_rejected
+                'show_rejected'=>$show_rejected,
+                'show_done'=>$show_done
             ]
         )->with('i', ($request->input('page', 1) - 1) * 5);;
     }

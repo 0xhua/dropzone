@@ -33,18 +33,29 @@
                             data-target="#request">Request
                     </button>
                 @endif
-                    <form action="{{route('itemrequest')}}" method="get">
-                        {{@csrf_field()}}
-                        @if(!$show_done_rejected)
-                            <input name="rejected_done" type="hidden" value="1">
-                            <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show done/rejected
+                    @if(!$show_done)
+                        <form action="{{route('itemrequest')}}" method="get">
+                            {{@csrf_field()}}
+                            <input name="done" type="hidden" value="1">
+                            <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show done
                             </button>
-                        @else
+                        </form>
+                    @endif
+                    @if(!$show_rejected)
+                        <form action="{{route('itemrequest')}}" method="get">
+                            {{@csrf_field()}}
+                            <input name="rejected" type="hidden" value="1">
+                            <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show rejected
+                            </button>
+                        </form>
+                    @endif
+                    @if($show_done || $show_rejected)
+                        <form action="{{route('itemrequest')}}" method="get">
+                            {{@csrf_field()}}
                             <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show all
                             </button>
-                        @endif
-
-                    </form>
+                        </form>
+                    @endif
             </div>
 
             <div class="col-sm-4 mb-3">

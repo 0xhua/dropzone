@@ -12,7 +12,7 @@
 
 <!--------------------------CONTAINER MAIN START---------------------------------->
     <div class="container">
-        <h2 style="font-size: 32px;">
+        <h2 style="font-size: 32px;  margin-bottom: 16px;">
         @if(auth()->user()->hasRole('Admin'))
             Admin Updates
         @else
@@ -20,7 +20,7 @@
 
         @endif
         </h2>
-        <p>Post Updates on this page</p>
+        <p style="margin-bottom: 16px;">Post Updates on this page</p>
         <div class="row">
             <div class="col-sm-12" id="form_div">
                 <form action="{{route('add-announcement')}}" method="post">
@@ -36,10 +36,9 @@
     </div>
 
          <div class="container">
-        <h2>Updates and Announcements</h2>
-        <p>Check updates on this page</p>
+        <h2 style="font-size: 32px; margin-bottom: 16px;">Updates and Announcements</h2>
+        <p style="margin-bottom: 16px;">Check updates on this page</p>
         <div class="row">
-            <div class="table-responsive">
                 <table class="table table-responsive table-borderless" >
                 <thead>
                     <tr class="tHead">
@@ -66,7 +65,6 @@
                     @endforeach
                 </tbody>
                 </table>
-            </div>
         </div>
     </div>
 </body>

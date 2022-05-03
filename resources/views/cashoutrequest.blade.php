@@ -15,14 +15,15 @@
 
         <div class="row" style=" margin-top: 40px;">
             <div class="col-sm-3">
-                    <form action="{{route('cashout')}}" method="get">
-                        <div class="input-group mb-3">
-                            {{@csrf_field()}}
-                            <input name="search" type="text" class="form-control input-text" id="myInput" placeholder="Search....">
-                            <button class="addNew btn btn-outline-warning"  type="submit">Search
-                            </button>
-                        </div>
-                    </form>
+                <form action="{{route('cashout')}}" method="get">
+                    <div class="input-group mb-3">
+                        {{@csrf_field()}}
+                        <input name="search" type="text" class="form-control input-text" id="myInput"
+                               placeholder="Search....">
+                        <button class="addNew btn btn-outline-warning" type="submit">Search
+                        </button>
+                    </div>
+                </form>
             </div>
 
 
@@ -30,49 +31,63 @@
 
             <div class="col-sm-5 mb-3" style="padding-top: 0px;">
                 @if(auth()->user()->hasRole('seller'))
-                <form method="post" action="{{route('request_cashout')}}">
-                    @csrf
-                    <button type="submit" class="addNew btn btn-outline-warning" id="addNew" style="color: white;"
-                            data-bs-toggle="modal" data-bs-target="#addNewItem">Request
-                    </button>
+                    <form method="post" action="{{route('request_cashout')}}">
+                        @csrf
+                        <button type="submit" class="addNew btn btn-outline-warning" id="addNew" style="color: white;"
+                                data-bs-toggle="modal" data-bs-target="#addNewItem">Request
+                        </button>
 
-                    {{--                <button type="submit" class='fas fa-arrow-right-from-bracket'--}}
-                    {{--                        style="font-size: 24px;"--}}
-                    {{--                        data-toggle="tooltip" data-placement="top" title="Pull Out item"--}}
-                    {{--                ></button>--}}
-                </form>
-                @endif
-                    <form action="{{route('itemrequest')}}" method="get">
-                        {{@csrf_field()}}
-                        @if(!$show_done_rejected)
-                            <input name="rejected_done" type="hidden" value="1">
-                            <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show done/rejected
-                            </button>
-                        @else
-                            <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show all
-                            </button>
-                        @endif
-
+                        {{--                <button type="submit" class='fas fa-arrow-right-from-bracket'--}}
+                        {{--                        style="font-size: 24px;"--}}
+                        {{--                        data-toggle="tooltip" data-placement="top" title="Pull Out item"--}}
+                        {{--                ></button>--}}
                     </form>
+                @endif
+
+
+
+                @if(!$show_done)
+                    <form action="{{route('cashout')}}" method="get">
+                        {{@csrf_field()}}
+                        <input name="done" type="hidden" value="1">
+                        <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show done
+                        </button>
+                    </form>
+                @endif
+                @if(!$show_rejected)
+                    <form action="{{route('cashout')}}" method="get">
+                        {{@csrf_field()}}
+                        <input name="rejected" type="hidden" value="1">
+                        <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show rejected
+                        </button>
+                    </form>
+                    @endif
+                @if($show_done || $show_rejected)
+                    <form action="{{route('cashout')}}" method="get">
+                        {{@csrf_field()}}
+                        <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show all
+                        </button>
+                    </form>
+                    @endif
+
             </div>
 
 
-
             <!------ DOWNLOAD AND PRINT BUTTON ------------------>
-{{--            <div class="col-sm-4 mb-3">--}}
+        {{--            <div class="col-sm-4 mb-3">--}}
 
-{{--                <a class="downloadBtn" id="downloadBtn" style="color: white; margin-right: 3.5%;">--}}
-{{--                    <i class="bx bxs-cloud-download"></i>--}}
-{{--                </a>--}}
+        {{--                <a class="downloadBtn" id="downloadBtn" style="color: white; margin-right: 3.5%;">--}}
+        {{--                    <i class="bx bxs-cloud-download"></i>--}}
+        {{--                </a>--}}
 
-{{--                <a class="printBtn" id="printBtn" style="color: white;">--}}
-{{--                    <i class="bx bx-printer"></i>--}}
-{{--                </a>--}}
+        {{--                <a class="printBtn" id="printBtn" style="color: white;">--}}
+        {{--                    <i class="bx bx-printer"></i>--}}
+        {{--                </a>--}}
 
-{{--            </div>--}}
+        {{--            </div>--}}
 
 
-            <!---------------------- ADD ITEM MODAL------------------->
+        <!---------------------- ADD ITEM MODAL------------------->
             <div class="modal" id="addNewItem">
                 <div class="modal-dialog  modal-md">
                     <div class="modal-content">
@@ -130,12 +145,12 @@
                     </div>
 
                     <!-- Modal body -->
-                         <form method="post" action="{{route('update-cr-status')}}">
-                            @csrf
-                            <input id="vid" type="hidden" name="id" value="">
-                            <input  type="hidden" name="status" value="2">
-                            <label id="" style="font-size: 18px;">Verification code</label>
-                            <input style="color:#222222;" type="text" name="verfication_code" value="">
+                    <form method="post" action="{{route('update-cr-status')}}">
+                        @csrf
+                        <input id="vid" type="hidden" name="id" value="">
+                        <input type="hidden" name="status" value="2">
+                        <label id="" style="font-size: 18px;">Verification code</label>
+                        <input style="color:#222222;" type="text" name="verfication_code" value="">
 
 
                         <!-- Modal footer -->
@@ -165,7 +180,7 @@
                         <th scope="col">Amount</th>
                         <th scope="col">Status</th>
                         @if(auth()->user()->hasRole(['Admin','da']))
-                        <th scope="col">Action</th>
+                            <th scope="col">Action</th>
                         @endif
                     </tr>
                     </thead>
@@ -173,75 +188,75 @@
                     <tbody id="myTable">
                     @foreach($items as $cashout)
                         @if($cashout->status !== 'Released')
-                        <tr>
+                            <tr>
 
-                            <td>
-                                @if($cashout->code)
-                                    {{$cashout->code}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($cashout->date)
-                                    {{$cashout->date}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($cashout->name)
-                                    {{$cashout->name}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>
-                                @if($cashout->amount)
-                                    {{$cashout->amount}}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
+                                <td>
+                                    @if($cashout->code)
+                                        {{$cashout->code}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($cashout->date)
+                                        {{$cashout->date}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($cashout->name)
+                                        {{$cashout->name}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($cashout->amount)
+                                        {{$cashout->amount}}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
 
-                            <td>
-                                @if($cashout->status)
-                                    {{$cashout->status}}
-                                @else
-                                    Pending
+                                <td>
+                                    @if($cashout->status)
+                                        {{$cashout->status}}
+                                    @else
+                                        Pending
+                                    @endif
+                                </td>
+                                @if(auth()->user()->hasRole(['Admin','da']))
+                                    <td>
+                                        @if(is_null($cashout->status))
+                                            <form method="post" action="{{route('update-cr-status')}}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{$cashout->id}}">
+                                                <input type="hidden" name="status" value="1">
+                                                <button type="submit" class='fas fa-thumbs-up' style="font-size: 24px;"
+                                                        data-toggle="tooltip" data-placement="top" title="approveitem"
+                                                ></button>
+                                            </form>
+                                            <form method="post" action="{{route('update-cr-status')}}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{$cashout->id}}">
+                                                <input type="hidden" name="status" value="3">
+                                                <button type="submit" class='fas fa-xmark-to-slot'
+                                                        style="font-size: 24px;"
+                                                        data-toggle="tooltip" data-placement="top" title="Release item"
+                                                ></button>
+                                            </form>
+                                        @elseif($cashout->status_id == 1)
+                                            <button class='fas fa-hand-holding-dollar' style="font-size: 24px;"
+                                                    data-id="{{$cashout->id}}"
+                                                    data-toggle="modal"
+                                                    data-target="#verifyCashout"
+                                                    title="Release Cashout"
+                                            ></button>
+                                        @endif
+                                    </td>
                                 @endif
-                            </td>
-                            @if(auth()->user()->hasRole(['Admin','da']))
-                            <td>
-                                @if(is_null($cashout->status))
-                                    <form method="post" action="{{route('update-cr-status')}}">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{$cashout->id}}">
-                                        <input type="hidden" name="status" value="1">
-                                        <button type="submit" class='fas fa-thumbs-up' style="font-size: 24px;"
-                                                data-toggle="tooltip" data-placement="top" title="approveitem"
-                                        ></button>
-                                    </form>
-                                    <form method="post" action="{{route('update-cr-status')}}">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{$cashout->id}}">
-                                        <input type="hidden" name="status" value="3">
-                                        <button type="submit" class='fas fa-xmark-to-slot'
-                                                style="font-size: 24px;"
-                                                data-toggle="tooltip" data-placement="top" title="Release item"
-                                        ></button>
-                                    </form>
-                                @elseif($cashout->status_id == 1)
-                                    <button class='fas fa-hand-holding-dollar' style="font-size: 24px;"
-                                            data-id="{{$cashout->id}}"
-                                            data-toggle="modal"
-                                            data-target="#verifyCashout"
-                                            title="Release Cashout"
-                                    ></button>
-                                @endif
-                            </td>
-                            @endif
-                        </tr>
+                            </tr>
                         @endif
                     @endforeach
 

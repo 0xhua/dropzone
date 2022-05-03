@@ -48,17 +48,23 @@ class CashoutController extends Controller
             $items = $items->where('cashout_requests.code', 'like', '%' . $request->search . '%');
         }
 
-        $show_done_rejected = false;
-        if(!is_null($request->rejected_done)){
-            $request_list = $items->whereIn('cashout_requests.status', array('2','3'));
-            $show_done_rejected = true;
+        $show_done = false;
+        $show_rejected = false;
+        if(!is_null($request->rejected)){
+            $items = $items->where('cashout_requests.status', '=',3);
+            $show_rejected = true;
+        }
+        if(!is_null($request->done)){
+            $items = $items->where('cashout_requests.status', '=',2);
+            $show_done = true;
         }
 
         $items = $items->paginate(20);
 
         return view('cashoutrequest',  [
             'items' => $items,
-            'show_done_rejected' =>$show_done_rejected
+            'show_done' =>$show_done,
+            'show_rejected' =>$show_rejected,
         ])->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
