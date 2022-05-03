@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\DB;
 
 class RequestController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:Admin|seller|da']);
+    }
     public function index()
     {
 

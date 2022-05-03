@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class AnnouncementController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:Admin|seller|da']);
+    }
     public function index(){
         $announcements = announcement::select('announcements.*', 'locations.area')
             ->leftJoin('locations','locations.id','=','announcements.location_id')

@@ -26,6 +26,10 @@ use function PHPUnit\Framework\isNull;
 
 class ItemController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:Admin|seller|da']);
+    }
     public function index(Request $request)
     {
         return self::getNextId();

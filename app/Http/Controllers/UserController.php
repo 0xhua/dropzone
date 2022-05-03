@@ -18,6 +18,10 @@ use Illuminate\Support\Arr;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:Admin|seller|da']);
+    }
     /**
      * Display a listing of the resource.
      *

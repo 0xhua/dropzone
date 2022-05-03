@@ -18,6 +18,10 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ExportExcelController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:Admin|seller|da']);
+    }
     public function index()
     {
         $customer_data = DB::table('tbl_customer')->get();

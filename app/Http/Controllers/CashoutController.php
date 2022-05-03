@@ -17,6 +17,10 @@ use Illuminate\Validation\ValidationException;
 
 class CashoutController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:Admin|seller|da']);
+    }
     public function index(Request $request)
     {
         $items = cashoutRequest::selectRaw('	cashout_requests.id,cashout_requests.code as code,
