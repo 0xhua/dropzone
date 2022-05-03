@@ -388,7 +388,7 @@ class UserController extends Controller
         $da_sellers =DB::table('users.*', 'locations.area', 'user_statuses.status')
             ->select('*')
             ->leftJoin('model_has_roles','model_has_roles.model_id','=','users.id')
-            >leftJoin('locations', 'locations.id', '=', 'users.location_id')
+            ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
                 ->leftJoin('user_statuses', 'user_statuses.id', '=', 'users.status_id')
             ->where('model_has_roles.role_id','=',2)
             ->orWhereNull('model_has_roles.role_id')
