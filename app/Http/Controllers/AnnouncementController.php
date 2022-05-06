@@ -16,6 +16,7 @@ class AnnouncementController extends Controller
     public function index(){
         $announcements = announcement::select('announcements.*', 'locations.area')
             ->leftJoin('locations','locations.id','=','announcements.location_id')
+            ->orderBy('id', 'DESC')
             ->get();
         return view('admin_updates',[
             'announcements'=>$announcements
