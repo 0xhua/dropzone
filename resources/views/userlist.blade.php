@@ -32,49 +32,35 @@
 
             <!------ ADD NEW BUTTON ------------------>
             <div class="col-sm-5 mb-3" style="padding-top: 0px;">
-
                 @if(auth()->user()->hasRole('Admin'))
-                    <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
-                            data-target="#addNewDA">
-                        Add DA
+                    <form style="display: inline">
+                        <div class="input-group mb-3">
+                    <select name="filter" type="text" class="form-control input-text filter" id="myInput">
+                        <option {{ empty(app('request')->input('filter') )?'selected':''}} value="all">All </option>
+                        <option {{ app('request')->input('filter')=='DA'?'selected':''}} value="DA"> DA </option>
+                        <option {{ app('request')->input('filter')=='sellers'?'selected':''}} value="sellers"> Sellers</option>
+                        <option {{ app('request')->input('filter')=='buyers'?'selected':''}} value="buyers"> Buyers</option>
+                    </select>
+                    <button class="addNew btn btn-outline-warning" type="submit">Filter
                     </button>
-                    @if(!$show_da)
-                        <form action="{{route('user-list')}}" method="get">
-                            {{@csrf_field()}}
-                            <input name="da" type="hidden" value="1">
-                            <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show DA
-                            </button>
-                        </form>
-                    @endif
-                    @if(!$show_seller)
-                        <form action="{{route('user-list')}}" method="get">
-                            {{@csrf_field()}}
-                            <input name="seller" type="hidden" value="1">
-                            <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show Seller
-                            </button>
-                        </form>
-                    @endif
-                    @if(!$show_buyer)
-                        <form action="{{route('user-list')}}" method="get">
-                            {{@csrf_field()}}
-                            <input name="buyer" type="hidden" value="1">
-                            <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show Buyer
-                            </button>
-                        </form>
-                    @endif
-                    @if($show_buyer || $show_seller || $show_da)
-                        <form action="{{route('user-list')}}" method="get">
-                            {{@csrf_field()}}
-                            <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show all
-                            </button>
-                        </form>
-                    @endif
-                @elseif(auth()->user()->hasRole('seller'))
-                    <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
-                            data-target="#addNewBuyer">
-                        Add Buyer
-                    </button>
+
+                            <div style="margin-left: 10px">
+
+                                    <button type="button" class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
+                                            data-target="#addNewDA">
+                                        Add DA
+                                    </button>
+                            </div>
+
+                        </div>
+                    </form>
                 @endif
+                    @if(auth()->user()->hasRole('seller'))
+                        <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
+                                data-target="#addNewBuyer">
+                            Add Buyer
+                        </button>
+                    @endif
 
 
             </div>
@@ -189,9 +175,9 @@
                                                 <input style="color:#222222;" type="text" placeholder=""
                                                        name="phone_number" required><br>
 
-{{--                                                <label id="">Email</label><br>--}}
-{{--                                                <input style="color:#222222;" type="text" placeholder=""--}}
-{{--                                                       name="email"><br>--}}
+                                                {{--                                                <label id="">Email</label><br>--}}
+                                                {{--                                                <input style="color:#222222;" type="text" placeholder=""--}}
+                                                {{--                                                       name="email"><br>--}}
                                             </div>
 
                                         </div>
@@ -344,6 +330,8 @@
                                                 @foreach($user->getRoleNames() as $v)
                                                     {{ $v }}
                                                 @endforeach
+                                            @else
+                                                Not activated
                                             @endif
                                         </td>
                                         <td>

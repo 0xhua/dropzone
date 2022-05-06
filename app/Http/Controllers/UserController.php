@@ -20,8 +20,12 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['role:Admin|seller|da']);
+        if($this->middleware('auth')){
+            $this->middleware(['role:Admin|seller|da']);
+        }
+
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -152,9 +156,9 @@ class UserController extends Controller
      */
     public function destroy(Request $request)
     {
-        Item::where('seller_id',$request->id)->delete();
-        itemRequest::where('seller_id',$request->id)->delete();
-        User::where('seller_id',$request->id)->delete();
+        Item::where('seller_id', $request->id)->delete();
+        itemRequest::where('seller_id', $request->id)->delete();
+        User::where('seller_id', $request->id)->delete();
         User::find($request->id)->delete();
         notify()->success('User successfully deleted');
         return back();
@@ -245,7 +249,6 @@ class UserController extends Controller
             $user->save();
 
 
-
             if ($request->wantsJson()) {
                 DB::table('model_has_roles')->insert(
                     array('role_id' => '3',
@@ -253,7 +256,7 @@ class UserController extends Controller
                         'model_id' => $user->id,)
                 );
                 return response()->json(['status' => 'success', 'message' => 'Buyer successfully added']);
-            }else{
+            } else {
                 $user->assignRole([3]);
             }
 
@@ -288,51 +291,70 @@ class UserController extends Controller
                 $data = $data->where('seller_id', auth()->id());
             }
 
-            if(!is_null($request->search)){
-                $data = $data->where('users.name', 'like', '%' . $request->search . '%');
+            if (!is_null($request->filter)) {
+                switch ($request->filter) {
+                    case 'DA':
+                        $data = $data->whereHas('roles', function ($q) {
+                            $q->whereName('da');
+                        });
+                        break;
+                    case 'sellers':
+                        $data = $data->whereHas('roles', function ($q) {
+                            $q->whereName('seller');
+                        });
+                        break;
+                    case 'buyers':
+                        $data = $data->whereHas('roles', function ($q) {
+                            $q->whereName('buyer');
+                        });
+                        break;
+                }
             }
 
-            $show_da = false;
-            if(!is_null($request->da)) {
-                $data = $data->whereHas('roles', function ($q) {
-                    $q->whereName('da');
-                });
-                $show_da = true;
-            }
-
-            $show_seller = false;
-            if(!is_null($request->seller)) {
-                $data = $data->whereHas('roles', function ($q) {
-                    $q->whereName('seller');
-                });
-                $show_seller = true;
-            }
-
-            $show_buyer = false;
-            if(!is_null($request->buyer)) {
-                $data = $data->whereHas('roles', function ($q) {
-                    $q->whereName('buyer');
-                });
-                $show_seller = true;
-            }
-
-
+//            if(!is_null($request->search)){
+//                $data = $data->where('users.name', 'like', '%' . $request->search . '%');
+//            }
+//
+//            $show_da = false;
+//            if(!is_null($request->da)) {
+//                $data = $data->whereHas('roles', function ($q) {
+//                    $q->whereName('da');
+//                });
+//                $show_da = true;
+//            }
+//
+//            $show_seller = false;
+//            if(!is_null($request->seller)) {
+//                $data = $data->whereHas('roles', function ($q) {
+//                    $q->whereName('seller');
+//                });
+//                $show_seller = true;
+//            }
+//
+//            $show_buyer = false;
+//            if(!is_null($request->buyer)) {
+//                $data = $data->whereHas('roles', function ($q) {
+//                    $q->whereName('buyer');
+//                });
+//                $show_seller = true;
+//            }
 
             if ($request->wantsJson()) {
                 return response()->json(['location' => $locations, 'data' => $data->get()]);
             }
 
-
             $data = $data->orderBy('users.name', 'asc')->paginate(20);
-            return view('userlist', compact(['data', 'locations','show_buyer','show_seller','show_da']))
-                ->with('i', ($request->input('page', 1) - 1) * 5);
+            return view('userlist', compact(['data', 'locations']))
+                ->with('i', ($request->input('page', 1) - 1) * 5)
+                ->with('i',($request->input('filter',$request->filter)));
         } else {
             return abort(403);
         }
     }
 
     //USER update = email contact no
-    public function update_user(Request $request)
+    public
+    function update_user(Request $request)
     {
         try {
             $user = User::query()->findOrFail($request->id);
@@ -352,7 +374,8 @@ class UserController extends Controller
         }
     }
 
-    public function update_settings(Request $request)
+    public
+    function update_settings(Request $request)
     {
         try {
             $user = User::query()->findOrFail(auth()->id());
@@ -381,17 +404,18 @@ class UserController extends Controller
         }
     }
 
-    public function da_sellers()
+    public
+    function da_sellers()
     {
         $locations = \App\Models\Location::all();
         $da_loc = Auth::user();
-        $da_sellers =DB::table('users')
-            ->select('users.*','locations.area', 'user_statuses.status')
-            ->leftJoin('model_has_roles','model_has_roles.model_id','=','users.id')
+        $da_sellers = DB::table('users')
+            ->select('users.*', 'locations.area', 'user_statuses.status')
+            ->leftJoin('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
             ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
-             ->leftJoin('user_statuses', 'user_statuses.id', '=', 'users.status_id')
-            ->where('users.location_id',$da_loc->location_id)
-            ->where('model_has_roles.role_id','=',2)
+            ->leftJoin('user_statuses', 'user_statuses.id', '=', 'users.status_id')
+            ->where('users.location_id', $da_loc->location_id)
+            ->where('model_has_roles.role_id', '=', 2)
             ->orWhereNull('model_has_roles.role_id')
             ->get();
         return view('da_sellers', [
@@ -401,7 +425,8 @@ class UserController extends Controller
         ]);
     }
 
-    public function updateSellerStatus(Request $request)
+    public
+    function updateSellerStatus(Request $request)
     {
         try {
             $this->validate($request, [
@@ -416,7 +441,7 @@ class UserController extends Controller
                 case 1://set status to in approved
                     $user->status_id = 2;
                     $user->assignRole([2]);
-                    $sms_message = "Congratulations ".$user->name.", Your dropzone seller account is now activated";
+                    $sms_message = "Congratulations " . $user->name . ", Your dropzone seller account is now activated";
                     $message = 'User successfully activated';
                     break;
                 case 2://set status to in approved
@@ -427,8 +452,8 @@ class UserController extends Controller
                     break;
             }
             if ($user->save()) {
-                if(!empty($sms_message)){
-                    app(SmsApiHelper::class)->send_sms($user->phone_number,$sms_message);
+                if (!empty($sms_message)) {
+                    app(SmsApiHelper::class)->send_sms($user->phone_number, $sms_message);
                 }
                 notify()->success($message);
                 return back();
