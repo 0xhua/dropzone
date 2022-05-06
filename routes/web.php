@@ -53,7 +53,8 @@ Route::post('login', [AuthController::class, 'authenticate'])->name('login');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::view('/scan', 'scan')->name('scan');
-Route::middleware('auth')->group(function () {
+Route::view('/not-activated','redirect')->name('not-activated');
+Route::middleware(['auth','activated'])->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
 
