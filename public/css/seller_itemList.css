@@ -142,3 +142,8 @@ input:hover{
 input{
     color: #222222;
 }
+
+.filter{
+    min-width: auto;
+    max-width: 150px;
+}
