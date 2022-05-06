@@ -81,7 +81,7 @@
                             <h5 class="card-title">SELLERS/DROPPERS</h5>
                             <p class="card-text"><i class="bx bxs-user-circle" id="card_icon"></i>{{$sellers}}</p>
                             <div class="card-footer">
-                                <p class="footer_text"><i class="bx bx-show" id="icon_footer"></i> View Sellers </p>
+                                <a href="{{route('user-list',['filter'=>'sellers'])}}" class="footer_text"><i class="bx bx-show" id="icon_footer"></i> View Sellers </a>
                             </div>
                         </div>
                     </div>
