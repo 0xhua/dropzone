@@ -7,23 +7,33 @@ use App\Models\User;
 use App\Models\Users;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class DASellersRequestsExport implements FromCollection
+class DASellersRequestsExport implements FromCollection, WithHeadings
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         $da_loc = Auth::user();
-        return User::select('users.*', 'locations.area', 'user_statuses.status')
+        $users =  User::select('users.id',
+            'users.name',
+            'users.email',
+            'users.phone_number', 'locations.area', 'user_statuses.status')
             ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
-            ->leftJoin('user_statuses', 'user_statuses.id', '=', 'users.status_id')
-            ->where('locations.id', $da_loc->location_id)
-            ->whereHas(
-                'roles', function ($q) {
-                $q->where('name', 'seller');
-            })
-            ->get();
+            ->leftJoin('user_statuses', 'user_statuses.id', '=', 'users.status_id');
+
+        if(auth()->user()->hasRole('da')) $users = $users->where('locations.id', $da_loc->location_id);
+        $users = $users->whereHas(
+            'roles', function ($q) {
+            $q->where('name', 'seller');
+        })->get();
+        return $users;
+    }
+
+    public function headings(): array
+    {
+        return ["ID", "Name", "Email", "Phone Number","Location","Status"];
     }
 }

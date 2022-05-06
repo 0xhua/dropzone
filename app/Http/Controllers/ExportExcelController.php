@@ -37,6 +37,7 @@ class ExportExcelController extends Controller
     public function excel_itemlist()
     {
         $file_name = 'items'.Carbon::now();
+//        return (new ItemExport)->download('invoices.xlsx');
         return Excel::download(new ItemExport, $file_name.'.xlsx');
     }
     public function excel_sellerlist()

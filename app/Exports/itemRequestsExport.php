@@ -6,8 +6,9 @@ use App\Models\da_info;
 use App\Models\itemRequest;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class itemRequestsExport implements FromCollection
+class itemRequestsExport implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -23,9 +24,7 @@ class itemRequestsExport implements FromCollection
             'item_requests.contact_no as contact_no',
             'item_requests.request as request',
             'locations.code as location',
-            'item_requests.fee as fee',
-            'item_requeststatuses.status as status',
-            'item_requests.status_id'
+            'item_requeststatuses.status as status'
         )
             ->leftJoin('users', 'item_requests.seller_id', '=', 'users.id')
             ->leftJoin('request_categories', 'item_requests.category', '=', 'request_categories.id')
@@ -42,5 +41,10 @@ class itemRequestsExport implements FromCollection
         }
 
         return $request_list;
+    }
+
+    public function headings(): array
+    {
+        return ["Code", "ID","Date","Name","Phone Number","Request","Location","Status"];
     }
 }

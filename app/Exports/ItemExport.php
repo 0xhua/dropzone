@@ -5,8 +5,9 @@ namespace App\Exports;
 use App\Models\da_info;
 use App\Models\Item;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class ItemExport implements FromCollection
+class ItemExport implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -54,6 +55,6 @@ class ItemExport implements FromCollection
 
     public function headings(): array
     {
-        return ["your", "headings", "here"];
+        return ["Code", "Drop Date", "Seller Name", "Buyer Name", "Origin", "Destination", "Fee", "Amount", "Paid Status", "Status", "Approval Status", "Claimed Date", "Released Date", "Current Location"];
     }
 }
