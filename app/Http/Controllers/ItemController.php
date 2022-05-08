@@ -213,10 +213,10 @@ class ItemController extends Controller
             $income = Item::where('items.current_location_id', '=', Auth::user()->location_id)
                 ->where('date',Carbon::today())
                 ->where('payment_status_id','1')
-                ->sum('tf')+Item::where('items.origin_id', '=', Auth::user()->location_id)
+                ->sum('df')+Item::where('items.origin_id', '=', Auth::user()->location_id)
                     ->where('date',Carbon::today())
                     ->where('payment_status_id','1')
-                    ->sum('df');
+                    ->sum('tf');
             $sellers = User::whereHas('roles', function($q) {
                 $q->whereName('seller');
             })->where('users.location_id',$da_loc->location_id)
