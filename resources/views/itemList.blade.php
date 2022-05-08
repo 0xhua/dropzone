@@ -410,7 +410,7 @@
                                     @endif
                                     @if(auth()->user()->hasRole(['Admin','da']))
 
-                                        @if($item->approval_status_id == 2 && $item->origin_id = $da_loc) {{--if item status is pending show approve button--}}
+                                        @if($item->approval_status_id == 2 && $item->destination = $da_loc) {{--if item status is pending show approve button--}}
                                         {{--approve item--}}
                                         <form method="post" action="{{route('update-item-status')}}">
                                             @csrf
