@@ -432,7 +432,7 @@
                                             ></button>
                                         </form>
                                         @endif
-                                        @if((is_null($item->status_id) || $item->status_id==2) && $item->destination_id == $da_loc){{--if item status is not pull or item status is transffered--}}
+                                        @if(is_null($item->status_id) || $item->status_id==2 && $item->destination_id == $da_loc){{--if item status is not pull or item status is transffered--}}
                                         {{--ready item--}}
                                         <form method="post" action="{{route('update-item-status')}}">
                                             @csrf
