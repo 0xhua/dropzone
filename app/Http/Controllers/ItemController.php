@@ -300,7 +300,8 @@ class ItemController extends Controller
                 'items.origin_id',
                 'c.area as current_location',
                 'items.tf',
-                'items.df'
+                'items.df',
+                'items.current_location_id'
             )
             ->leftJoin('approval_statuses', 'items.approval_status_id', '=', 'approval_statuses.id')
             ->leftJoin('paid_statuses', 'items.payment_status_id', '=', 'paid_statuses.id')

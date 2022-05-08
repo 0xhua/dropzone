@@ -410,8 +410,7 @@
                                         ></button>
                                     @endif
                                     @if(auth()->user()->hasRole(['Admin','da']))
-
-                                        @if($item->approval_status_id == 2 && $item->origin_id = $da_loc) {{--if item status is pending show approve button--}}
+                                        @if($item->approval_status_id == 2 && $item->origin_id == $da_loc) {{--if item status is pending show approve button--}}
                                         {{--approve item--}}
                                         <form method="post" action="{{route('update-item-status')}}">
                                             @csrf
@@ -433,7 +432,11 @@
                                             ></button>
                                         </form>
                                         @endif
-                                        @if(is_null($item->status_id) || $item->status_id==2 && $item->destination_id == $da_loc){{--if item status is not pull or item status is transffered--}}
+                                        @if($item->approval_status_id == 1
+                                            && in_array($item->status_id,array(5,null))
+                                            && $item->destination_id == $da_loc
+                                            && $item->current_location_id == $da_loc
+                                            ){{--if item status is not pull or item status is transffered--}}
                                         {{--ready item--}}
                                         <form method="post" action="{{route('update-item-status')}}">
                                             @csrf
@@ -497,7 +500,11 @@
                                                 </form>
                                             @endif
                                         @endif
-                                        @if(!in_array($item->status_id,[3,6,1]) && $item->destination_id == $da_loc)
+                                        @if($item->approval_status_id == 1
+                                            && !in_array($item->status_id,[3,6,1])
+                                            && $item->destination_id == $da_loc
+                                            && $item->current_location_id == $da_loc
+                                            )
                                             {{--pull out item--}}
                                             <form method="post" action="{{route('update-item-status')}}">
                                                 @csrf
