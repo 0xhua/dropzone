@@ -88,7 +88,7 @@ class ItemController extends Controller
                     ->backgroundColor(255,255,255)
                     ->size(200)->errorCorrection('H')
                     ->generate($code);
-                $output_file = 'public/qr_codes/' . $code . '.png';
+                $output_file = 'public/qr_codes/' . $code . '.jpeg';
                 Storage::disk('local')->put($output_file, $image);
                 if($request->wantsJson()){
                     return response()->json(['status' => 'success', 'message' => 'Item created successfully']);
