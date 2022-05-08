@@ -30,6 +30,7 @@ class ItemController extends Controller
     {
         $this->middleware(['role:Admin|seller|da']);
     }
+
     public function index(Request $request)
     {
         return self::getNextId();
@@ -43,10 +44,10 @@ class ItemController extends Controller
             $dropping_fee = transactionFee::find(1)['amount'];
             $transfer_fee = 0;
             $size_catergory_fee = transactionFee::select('transaction_fees.amount')
-                ->leftJoin('item_sizes','item_sizes.id','=','transaction_fees.size_id')
-                ->where('item_sizes.id','=',$request->itemSize)
+                ->leftJoin('item_sizes', 'item_sizes.id', '=', 'transaction_fees.size_id')
+                ->where('item_sizes.id', '=', $request->itemSize)
                 ->first();
-            if($request->origin_id !== $request->destination_id){
+            if ($request->origin_id !== $request->destination_id) {
                 $transfer_fee = $size_catergory_fee->amount + 10;
             }
             $weight_base_fee = transactionFee::find(2)->amount;
@@ -56,7 +57,7 @@ class ItemController extends Controller
             $fee = $dropping_fee + $size_catergory_fee->amount + ($weight_base_fee * 10);
             $item = new Item();
             $item->date = Carbon::now();
-            $item->seller_id = (auth()->user()->hasRole('seller'))?Auth::id():$request->seller_id;
+            $item->seller_id = (auth()->user()->hasRole('seller')) ? Auth::id() : $request->seller_id;
             $item->buyer_id = $request->buyer_id;
             if (auth()->user()->hasRole('da')) {
                 $da_loc = Auth::user();
@@ -85,12 +86,12 @@ class ItemController extends Controller
                 File::isDirectory($path) or File::makeDirectory($path, 0777, true, true);
 
                 $image = QrCode::format('png')
-                    ->backgroundColor(255,255,255)
+                    ->backgroundColor(255, 255, 255)
                     ->size(200)->errorCorrection('H')
                     ->generate($code);
                 $output_file = 'public/qr_codes/' . $code . '.jpeg';
                 Storage::disk('local')->put($output_file, $image);
-                if($request->wantsJson()){
+                if ($request->wantsJson()) {
                     return response()->json(['status' => 'success', 'message' => 'Item created successfully']);
                 }
                 notify()->success('Item successfully added');
@@ -99,19 +100,20 @@ class ItemController extends Controller
             }
 
         } catch (\Exception $e) {
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
             }
             notify()->error($e->getMessage());
             return back()->withErrors($e->getMessage());
         }
     }
+
 //item update = buyer, destination amount payment
     public function updateItemDetails(Request $request)
     {
         try {
             $item = Item::query()->findOrFail($request->id);
-            $item->buyer_id =$request->input('buyer_id', $item->buyer_id);
+            $item->buyer_id = $request->input('buyer_id', $item->buyer_id);
             $item->destination_id = $request->input('destination_id', $item->destination_id);
             $item->amount = $request->input('amount', $item->amount);
 
@@ -121,7 +123,8 @@ class ItemController extends Controller
 //                return response()->json(['status' => 'success', 'message' => 'Item details updated successfully']);
             }
 
-        } catch (\Exception $e) { notify()->error($e->getMessage());
+        } catch (\Exception $e) {
+            notify()->error($e->getMessage());
             notify()->error($e->getMessage());
             return back()->withErrors($e->getMessage());
 //            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
@@ -178,18 +181,18 @@ class ItemController extends Controller
                 ->leftJoin('items', 'payments.item_id', '=', 'items.id')
                 ->whereNull('cashout_id')
                 ->sum('amount');
-           $income = Item::where('date',Carbon::today())
-                   ->where('status_id','1')
-                   ->sum('tf')+Item::where('date',Carbon::today())
-                   ->where('status_id','1')
-                   ->sum('df');
-            $sellers = User::with(array('Roles' => function($query) {
-                                    $query->where('name','sellers');
-                                }))
+            $income = Item::where('date', Carbon::today())
+                    ->where('status_id', '1')
+                    ->sum('tf') + Item::where('date', Carbon::today())
+                    ->where('status_id', '1')
+                    ->sum('df');
+            $sellers = User::with(array('Roles' => function ($query) {
+                $query->where('name', 'sellers');
+            }))
                 ->count();
         } elseif (auth()->user()->hasRole('da')) {
 
-            $da_loc =Auth::user();
+            $da_loc = Auth::user();
             $total_items = Item::where('current_location_id', '=', Auth::user()->location_id)->count();
             $pickup = Item::where('current_location_id', '=', $da_loc->location_id)
                 ->where('status_id', '=', '4')
@@ -211,16 +214,15 @@ class ItemController extends Controller
                     ->where('items.origin_id', '=', $da_loc->location_id)
                     ->sum('amount');
             $income = Item::where('items.current_location_id', '=', Auth::user()->location_id)
-                ->where('date',Carbon::today())
-                ->where('payment_status_id','1')
-                ->sum('df')+Item::where('items.origin_id', '=', Auth::user()->location_id)
-                    ->where('date',Carbon::today())
-                    ->where('payment_status_id','1')
+                    ->where('date', Carbon::today())
+                    ->where('payment_status_id', '1')
+                    ->sum('df') + Item::where('items.origin_id', '=', Auth::user()->location_id)
+                    ->where('date', Carbon::today())
+                    ->where('payment_status_id', '1')
                     ->sum('tf');
-            $sellers = User::whereHas('roles', function($q) {
+            $sellers = User::whereHas('roles', function ($q) {
                 $q->whereName('seller');
-            })->where('users.location_id',$da_loc->location_id)
-
+            })->where('users.location_id', $da_loc->location_id)
                 ->count();
 
         } else {
@@ -245,7 +247,7 @@ class ItemController extends Controller
                 ->sum('amount');
         }
 
-        if($request->wantsJson()){
+        if ($request->wantsJson()) {
             return response()->json(
                 [
                     'total_items' => $total_items,
@@ -264,8 +266,8 @@ class ItemController extends Controller
                 'in_transit' => $in_transit,
                 'pending' => $pending,
                 'income' => $income,
-                'collection'=>$collection,
-                'sellers'=>$sellers
+                'collection' => $collection,
+                'sellers' => $sellers
             ]
         );
     }
@@ -301,7 +303,8 @@ class ItemController extends Controller
                 'c.area as current_location',
                 'items.tf',
                 'items.df',
-                'items.current_location_id'
+                'items.current_location_id',
+                'items.pull_out_status_id'
             )
             ->leftJoin('approval_statuses', 'items.approval_status_id', '=', 'approval_statuses.id')
             ->leftJoin('paid_statuses', 'items.payment_status_id', '=', 'paid_statuses.id')
@@ -312,29 +315,28 @@ class ItemController extends Controller
             ->leftJoin('users as buyer', 'items.buyer_id', '=', 'buyer.id')
             ->leftJoin('users as seller', 'items.seller_id', '=', 'seller.id')->orderBy('date', 'DESC');
         if (auth()->user()->hasRole('da')) {
-            $da_loc =  Auth::user()->location_id;
+            $da_loc = Auth::user()->location_id;
             $items = $items->where('current_location_id', '=', $da_loc)
                 ->orWhereNull('current_location_id')
                 ->orWhere('destination_id', '=', $da_loc)
                 ->orWhere('origin_id', '=', $da_loc);
-        } elseif(auth()->user()->hasRole('seller')) {
+        } elseif (auth()->user()->hasRole('seller')) {
             $items = $items->where('items.seller_id', '=', auth()->id());
         }
 
-        if(!is_null($request->search)){
-                $items = $items->where('buyer.name', 'like', '%' . $request->search . '%');
+        if (!is_null($request->search)) {
+            $items = $items->where('buyer.name', 'like', '%' . $request->search . '%');
         }
 
 
         $show_released = false;
-        if(!is_null($request->released)){
-                $items = $items->where('items.status_id', '=',6);
+        if (!is_null($request->released)) {
+            $items = $items->where('items.status_id', '=', 6);
             $show_released = true;
         }
 
 
-
-        $buyers = User::where('seller_id',auth()->id())->whereHas(
+        $buyers = User::where('seller_id', auth()->id())->whereHas(
             'roles', function ($q) {
             $q->where('name', 'buyer');
         }
@@ -347,10 +349,8 @@ class ItemController extends Controller
         )->get();
 
 
-
-
-        if($request->wantsJson()){
-            $items=$items->get();
+        if ($request->wantsJson()) {
+            $items = $items->get();
             return response()->json(
                 [
                     'location' => $location,
@@ -363,7 +363,7 @@ class ItemController extends Controller
                 ], 200);
         }
         $items = $items->paginate(20);
-        return view('itemList',  [
+        return view('itemList', [
             'location' => $location,
             'sizes' => $sizes,
             'paid_statuses' => $paid_statuses,
@@ -371,7 +371,7 @@ class ItemController extends Controller
             'buyers' => $buyers,
             'sellers' => $sellers,
             'da_loc' => $da_loc,
-            'show_released'=>$show_released
+            'show_released' => $show_released
         ])
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -521,15 +521,18 @@ class ItemController extends Controller
                 case 2://set status to in transit
                     $item->status_id = 2;
                     $item->current_location_id = null;
+                    if ($item->pull_out_status_id == 1) {
+                        $item->pull_out_status_id = 2;
+                    }
                     $message = 'Item successfully sent out';
                     break;
                 case 3://set status to ready
                     $buyer = User::findOrFail($item->buyer_id);
                     $receiver = $buyer->phone_number;
                     $seller = User::findOrFail($item->seller_id);
-                    $sms_message = "Hello ".$buyer->name.", Your Item ".$item->code." from ".$seller->name." is now ready for pickup.";
-                    if($item->payment_status_id == 2){
-                        $sum = Item::where('id','=',$item->id)->sum(\DB::raw('tf + df + amount'));
+                    $sms_message = "Hello " . $buyer->name . ", Your Item " . $item->code . " from " . $seller->name . " is now ready for pickup.";
+                    if ($item->payment_status_id == 2) {
+                        $sum = Item::where('id', '=', $item->id)->sum(\DB::raw('tf + df + amount'));
                         $sms_message .= PHP_EOL . "Please prepare exact amount of ₱" . $sum;
                     }
                     $item->current_location_id = $item->destination_id;
@@ -537,14 +540,19 @@ class ItemController extends Controller
                     $message = 'Item marked as ready';
                     break;
                 case 4://set status to transferred
-                    $item->current_location_id = $item->destination_id;
+                    if ($item->pull_out_status_id == 2) {
+                        $item->current_location_id = $item->origin_id;
+                        $item->pull_out_status_id = 3;
+                    } else {
+                        $item->current_location_id = $item->destination_id;
+                    }
                     $item->status_id = 5;
                     $message = 'Item sucessfully transfered';
                     break;
                 case 5://set payment status to paid
                     $seller = User::findOrFail($item->seller_id);
                     $receiver = $seller->phone_number;
-                    $sms_message = "Item ".$item->code." has successfully claimed by the buyer";
+                    $sms_message = "Item " . $item->code . " has successfully claimed by the buyer";
                     $payment = new payment();
                     $payment->date = Carbon::now();
                     $payment->seller_id = $item->seller_id;
@@ -559,19 +567,26 @@ class ItemController extends Controller
                     $message = 'Item sucessfully claimed';
                     break;
                 case 7://set item status to PULLOUT
-                    $item->status_id = 3;
-                    $message = 'Item sucessfully pulled-out';
+                    $item->status_id = 8;
+                    $item->pull_out_status_id = 1;
+                    $message = 'Item sucessfully queued for pull out';
                     break;
                 case 8://set item status to released
                     $item->status_id = 6;
                     $item->release_date = Carbon::now();
                     $message = 'Item sucessfully payment released';
                     break;
+                case 9://set item status to PULLOUT
+                    $item->status_id = 3;
+                    $item->pull_out_status_id = 4;
+                    $message = 'Item sucessfully pulled-out';
+                    break;
+
             }
 
             if ($item->save()) {
-                if(!empty($sms_message)){
-                    app(SmsApiHelper::class)->send_sms($receiver,$sms_message);
+                if (!empty($sms_message)) {
+                    app(SmsApiHelper::class)->send_sms($receiver, $sms_message);
                 }
                 notify()->success($message);
                 return back();
@@ -583,7 +598,8 @@ class ItemController extends Controller
         }
     }
 
-    public function da_scanner(){
+    public function da_scanner()
+    {
         return view('da_scanner');
     }
 }

@@ -421,7 +421,11 @@
                                             ></button>
                                         </form>
                                         @elseif($item->status_id!==3) {{--if item status is not pull out show buttons--}}
-                                        @if(is_null($item->status_id) && $da_loc!==$item->destination_id){{--if item status is null show ready and intransit button--}}
+                                        {{is_null($item->pull_out_status_id)}}
+                                        @if((is_null($item->status_id)
+                                            && $da_loc!==$item->destination_id)
+                                            || ($item->status_id == 8 && $item->origin_id != $item->destination_id)
+                                            ){{--if item status is null show ready and intransit button--}}
                                         {{--transfer item--}}
                                         <form method="post" action="{{route('update-item-status')}}">
                                             @csrf
@@ -448,7 +452,7 @@
                                             ></button>
                                         </form>
                                         @else
-                                            @if($item->status_id==2 && $da_loc==$item->destination_id)
+                                            @if(($item->status_id==2 && $da_loc==$item->destination_id && is_null($item->pull_out_status_id)) || ($item->status_id==2 && !is_null($item->pull_out_status_id) && $da_loc==$item->origin_id))
                                                 {{--transferred item--}}
                                                 <form method="post" action="{{route('update-item-status')}}">
                                                     @csrf
@@ -501,9 +505,10 @@
                                             @endif
                                         @endif
                                         @if($item->approval_status_id == 1
-                                            && !in_array($item->status_id,[3,6,1])
+                                            && !in_array($item->status_id,[3,6,1,NULL])
                                             && $item->destination_id == $da_loc
                                             && $item->current_location_id == $da_loc
+                                            && is_null($item->pull_out_status_id)
                                             )
                                             {{--pull out item--}}
                                             <form method="post" action="{{route('update-item-status')}}">
@@ -516,6 +521,17 @@
                                                 ></button>
                                             </form>
                                         @endif
+                                            @if($item->pull_out_status_id ==3 ||($item->pull_out_status_id ==1 && $item->destination_id == $item->origin_id))
+                                                <form method="post" action="{{route('update-item-status')}}">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{$item->id}}">
+                                                    <input type="hidden" name="status" value="9">
+                                                    <button type="submit" class='fa-solid fa-right-from-bracket'
+                                                            style="font-size: 24px;"
+                                                            data-toggle="tooltip" data-placement="top" title="Pull Out item"
+                                                    ></button>
+                                                </form>
+                                            @endif
                                         @endif
                                     @endif
                                     @if(auth()->user()->hasPermissionTo('item-show-qr') && $item->approval_status_id == 1)
