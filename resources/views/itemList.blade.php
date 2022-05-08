@@ -35,10 +35,11 @@
 
             <!------ ADD NEW BUTTON ------------------>
             <div class="col-sm-5 mb-3" style="padding-top: 0px;">
+                @if(!auth()->user()->hasRole('seller'))
                 <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
                         data-target="#addNewItem">Add Item
                 </button>
-
+                @endif
                 <form action="{{route('itemlist')}}" method="get">
                     {{@csrf_field()}}
                     @if(!$show_released)
@@ -410,7 +411,7 @@
                                     @endif
                                     @if(auth()->user()->hasRole(['Admin','da']))
 
-                                        @if($item->approval_status_id == 2 && $item->destination = $da_loc) {{--if item status is pending show approve button--}}
+                                        @if($item->approval_status_id == 2 && $item->origin_id = $da_loc) {{--if item status is pending show approve button--}}
                                         {{--approve item--}}
                                         <form method="post" action="{{route('update-item-status')}}">
                                             @csrf
