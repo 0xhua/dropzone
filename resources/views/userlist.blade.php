@@ -77,7 +77,6 @@
                 </form>
 
 
-
                 @if(auth()->user()->hasRole('Admin'))
                     <div class="modal" id="addNewDA">
                         <div class="modal-dialog  modal-md">
@@ -332,10 +331,7 @@
                                             @if(!empty($user->getRoleNames()))
                                                 @foreach($user->getRoleNames() as $v)
                                                     {{ $v }}
-                                                    {{ $v }}
                                                 @endforeach
-                                            @else
-                                                Not activated
                                             @endif
                                         </td>
                                         <td>
