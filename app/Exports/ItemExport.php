@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\da_info;
 use App\Models\Item;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
