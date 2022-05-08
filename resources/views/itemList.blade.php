@@ -35,7 +35,7 @@
 
             <!------ ADD NEW BUTTON ------------------>
             <div class="col-sm-5 mb-3" style="padding-top: 0px;">
-                @if(!auth()->user()->hasRole('seller'))
+                @if(auth()->user()->hasRole('seller'))
                 <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
                         data-target="#addNewItem">Add Item
                 </button>
