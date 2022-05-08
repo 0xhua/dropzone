@@ -195,7 +195,7 @@ class UserController extends Controller
                 'location_id' => 'required',
                 'phone_number' => ['required', 'regex:/(09)|(9)[0-9]{9}/'],
                 'email' => 'required|email|unique:users',
-                'password' => 'required'
+                'password' => 'required|confirmed'
             ]);
 
             $input = $request->all();
