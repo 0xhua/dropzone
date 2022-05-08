@@ -20,7 +20,7 @@
                                 dropping shall be subjected to pull-out and shall incur a pull-out fee of Php10 per
                                 month.</p></li>
 
-                        <li><p>⦿ <b> Transferred Items - </b> All unclaimed transferred items shall be returned to GGOSH
+                        <li><p>⦿ <b> Transferred Items - </b> All unclaimed transferred items shall be returned to Dropping Area
                                 after thirty (30) days. Droppers shall be given another thirty (30) days to pull-out the
                                 returned items. All Transfer Fees shall be paid by the dropper upon pull-out. </p></li>
 
