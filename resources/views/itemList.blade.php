@@ -569,7 +569,7 @@
                 let link = e.relatedTarget,
                     modal = $(this),
                     code = $(link).data("code");
-                img = "{{asset('storage/qr_codes/')}}" + '/' + code + '.png';
+                img = "{{asset('storage/qr_codes/')}}" + '/' + code + '.jpeg';
                 $('#downloadQr').attr("href", img);
                 document.getElementById('modalImage').src = img;
             });
