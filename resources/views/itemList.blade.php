@@ -410,7 +410,7 @@
                                     @endif
                                     @if(auth()->user()->hasRole(['Admin','da']))
 
-                                        @if($item->approval_status_id == 2) {{--if item status is pending show approve button--}}
+                                        @if($item->approval_status_id == 2 && $item->origin_id = $da_loc) {{--if item status is pending show approve button--}}
                                         {{--approve item--}}
                                         <form method="post" action="{{route('update-item-status')}}">
                                             @csrf
@@ -496,7 +496,7 @@
                                                 </form>
                                             @endif
                                         @endif
-                                        @if($item->status_id !== 3 && $item->status_id !== 6 && $item->destination_id == $da_loc)
+                                        @if(!in_array($item->status_id,[3,6,1]) && $item->destination_id == $da_loc)
                                             {{--pull out item--}}
                                             <form method="post" action="{{route('update-item-status')}}">
                                                 @csrf
@@ -510,7 +510,7 @@
                                         @endif
                                         @endif
                                     @endif
-                                    @if(auth()->user()->hasPermissionTo('item-show-qr'))
+                                    @if(auth()->user()->hasPermissionTo('item-show-qr') && $item->approval_status_id == 1)
                                         <a class='fas fa-qrcode'
                                            style="font-size: 24px;"
                                            data-toggle="modal"
