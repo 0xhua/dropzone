@@ -406,7 +406,7 @@ class UserController extends Controller
             ->leftJoin('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
             ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
             ->leftJoin('user_statuses', 'user_statuses.id', '=', 'users.status_id')
-            ->whereIn('model_has_roles.role_id', array(2,''))
+            ->whereIn('model_has_roles.role_id', array(2,null))
 //            ->WhereNull('model_has_roles.role_id')
             ->where('users.location_id', $da_loc->location_id)
             ->get();
