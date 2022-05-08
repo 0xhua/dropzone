@@ -85,6 +85,7 @@ class ItemController extends Controller
                 File::isDirectory($path) or File::makeDirectory($path, 0777, true, true);
 
                 $image = QrCode::format('png')
+                    ->backgroundColor(255,255,255)
                     ->size(200)->errorCorrection('H')
                     ->generate($code);
                 $output_file = 'public/qr_codes/' . $code . '.png';
