@@ -70,12 +70,12 @@
 
                         <!-- Modal Header -->
                         @if(!auth()->user()->hasRole('seller'))
-                            <div class="modal-header">
-                                <h4 class="modal-title" style="color:#222222;">Add Item</h4>
-                                <button type="button" class="btn-close" data-dismiss="modal"></button>
-                            </div>
-                    @endif
-                    <!-- Modal body -->
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="color:#222222;">Add Item</h4>
+                            <button type="button" class="btn-close" data-dismiss="modal"></button>
+                        </div>
+                        @endif
+                        <!-- Modal body -->
                         <form method="post" action="{{route('add-item')}}">
                             <div class="modal-body">
                                 <div class="row" style="margin-left: 5px;">
@@ -265,7 +265,7 @@
                         <th scope="col" width="10%">Buyer</th>
                         <th scope="col" width="5%">Origin</th>
                         <th scope="col" width="5%">Destination</th>
-                        {{--                        <th scope="col" width="3%">TH/HF</th>--}}
+{{--                        <th scope="col" width="3%">TH/HF</th>--}}
                         <th scope="col" width="3%">DF</th>
                         <th scope="col" width="3%">TF</th>
                         <th scope="col" width="5%">Amount</th>
@@ -282,7 +282,7 @@
                     <tbody id="myTable">
                     @foreach($items as $item)
                         @if($item->status_id !== 6 || $show_released)
-                            {{--                            @if(auth()->user()->location_id ==)--}}
+{{--                            @if(auth()->user()->location_id ==)--}}
                             <tr>
                                 <td>
                                     @if($item->code)
@@ -326,13 +326,13 @@
                                         N/A
                                     @endif
                                 </td>
-                                {{--                                <td>--}}
-                                {{--                                    @if($item->fee)--}}
-                                {{--                                        {{$item->fee}}--}}
-                                {{--                                    @else--}}
-                                {{--                                        N/A--}}
-                                {{--                                    @endif--}}
-                                {{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    @if($item->fee)--}}
+{{--                                        {{$item->fee}}--}}
+{{--                                    @else--}}
+{{--                                        N/A--}}
+{{--                                    @endif--}}
+{{--                                </td>--}}
                                 <td>
                                     @if($item->df)
                                         {{$item->df}}
@@ -410,7 +410,7 @@
                                     @endif
                                     @if(auth()->user()->hasRole(['Admin','da']))
 
-                                        @if($item->approval_status_id == 2 && $item->origin_id == $da_loc || auth()->user()->hasRole('Admin')) {{--if item status is pending show approve button--}}
+                                        @if($item->approval_status_id == 2 && $item->origin_id = $da_loc || auth()->user()->hasRole('Admin')) {{--if item status is pending show approve button--}}
                                         {{--approve item--}}
                                         <form method="post" action="{{route('update-item-status')}}">
                                             @csrf
@@ -432,7 +432,7 @@
                                             ></button>
                                         </form>
                                         @endif
-                                        @if(is_null($item->status_id) || $item->status_id==2 && $item->destination_id == $da_loc){{--if item status is not pull or item status is transffered--}}
+                                        @if((is_null($item->status_id) || $item->status_id==2) && $item->destination_id == $da_loc){{--if item status is not pull or item status is transffered--}}
                                         {{--ready item--}}
                                         <form method="post" action="{{route('update-item-status')}}">
                                             @csrf
