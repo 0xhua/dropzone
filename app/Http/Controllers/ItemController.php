@@ -207,7 +207,7 @@ class ItemController extends Controller
                     ->select('items.amount')
                     ->leftJoin('items', 'payments.item_id', '=', 'items.id')
                     ->whereNull('cashout_id')
-                    ->where('items.current_location_id', '=', $da_loc->location_id)
+                    ->where('items.origin_id', '=', $da_loc->location_id)
                     ->sum('amount');
             $income = Item::where('items.current_location_id', '=', Auth::user()->location_id)
                 ->where('date',Carbon::today())

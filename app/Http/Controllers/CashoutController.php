@@ -145,7 +145,7 @@ class CashoutController extends Controller
                         ->whereIn('id',$items->get()->toArray())
                         ->update(
                             [
-                                'status_id'=>'6',
+                                'status_id'=>'7',
                                 'release_date'=>Carbon::now()
                             ]);
 
