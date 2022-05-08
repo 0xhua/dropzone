@@ -408,7 +408,6 @@ class UserController extends Controller
             ->leftJoin('user_statuses', 'user_statuses.id', '=', 'users.status_id')
             ->where('users.location_id', $da_loc->location_id)
             ->where('model_has_roles.role_id', '=', 2)
-            ->orWhereNull('model_has_roles.role_id')
             ->get();
         return view('da_sellers', [
             'da_sellers' => $da_sellers,
