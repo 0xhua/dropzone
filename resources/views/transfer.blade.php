@@ -10,8 +10,8 @@
 <!------------------------------------- FOR TRANSFER TABLE ---------------------------------------->
 <div class="content">
 	<br>
-	<h1> Transfer Schedules and Rates </h1>
-    <h3> Remit same as errand day! </h3><br>
+	<h1 style="font-size: 32px;"> Transfer Schedules and Rates </h1>
+    <h3 style="font-size: 21px;"> Remit same as errand day! </h3><br>
 	<center>
 	<div style="overflow-x:auto;">
   <table>
