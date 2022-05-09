@@ -15,14 +15,14 @@
     <div class="container-fluid">
 
 
-        <div class="row" style="margin-left: 10px; margin-top: 3%;">
+        <div id="scanner" class="row" style="margin-left: 10px; margin-top: 3%;">
             <center>
                 <h3 style="color:#ffbf00;">QR SCANNER</h3>
                 <p> Note:<i> Align the image on the camera.</i></p>
                 <div>
-                        <center>
-                            <video class="scanner" id="preview"></video>
-                        </center>
+                    <center>
+                        <video class="scanner" id="preview"></video>
+                    </center>
 
                 </div>
             </center>
@@ -32,7 +32,7 @@
         <div class="container" style="padding-top: 30px;">
             <div class="row" style="padding: 20px; background-color:#2E2E2E; border-radius: 25px;">
                 <h3>Item Details</h3>
-                <div class="col-sm-4" style=" font-size: 15px; margin-top: -15px;">
+                <div class="col-sm-2" style=" font-size: 15px; margin-top: -15px;">
                     <label style="margin-top: 13px;"> Item Code: </label><br>
                     <p id="sCode"></p> <br>
 
@@ -46,7 +46,7 @@
                     <p id="sBuyer"></p> <br>
                 </div>
 
-                <div class="col-sm-4" style=" font-size: 15px; margin-top: -15px;">
+                <div class="col-sm-2" style=" font-size: 15px; margin-top: -15px;">
                     <label style="margin-top: 13px;"> Origin: </label><br>
                     <p id="sOrigin"></p> <br>
 
@@ -60,11 +60,36 @@
                     <p id="sAmount"></p> <br>
                 </div>
 
+                <div class="col-sm-2" style=" font-size: 15px; margin-top: -15px;">
+                    <label style="margin-top: 13px;"> Payment: </label><br>
+                    <p id="sPayment"></p> <br>
+
+                    <label style="margin-top: 13px;"> Status: </label><br>
+                    <p id="sStatus"></p> <br>
+
+                </div>
+
                 <style> input {
                         width: 100%;
                     }</style>
 
+
                 <div class="col-sm-4 mb-3" style="font-size: 18px; margin-top: 40px; text-align: center;">
+                    <div style="display: none;" id="payBtn">
+                    <form method="post" action="{{route('update-item-status')}}">
+                        @csrf
+                        <input type="hidden" name="id" value="" id="citemId">
+                        <input type="hidden" name="status" value="10">
+                        <button type="submit" class='btn btn-outline-warning btn-lg'
+                                style="font-size: 24px;"
+                                data-toggle="tooltip" data-placement="top" title="Pull Out item"
+                        >Pay & Claim Item
+                        </button>
+                    </form>
+
+                        </div>
+                    <br>
+                    <div style="display: none;"  id="claimBtn">
                     <form method="post" action="{{route('update-item-status')}}">
                         @csrf
                         <input type="hidden" name="id" value="" id="citemId">
@@ -72,10 +97,12 @@
                         <button type="submit" class='btn btn-outline-warning btn-lg'
                                 style="font-size: 24px;"
                                 data-toggle="tooltip" data-placement="top" title="Pull Out item"
-                        >Claimed
+                        >Claim
                         </button>
                     </form>
+                        </div>
                     <br>
+                    <div style="display: none;"  id="pullOutBtn">
                     <form method="post" action="{{route('update-item-status')}}">
                         @csrf
                         <input type="hidden" name="id" value="" id="pitemId">
@@ -86,6 +113,7 @@
                         >Pull Out
                         </button>
                     </form>
+                    </div>
                 </div>
 
 
@@ -99,18 +127,17 @@
 @endsection
 @section('javascript')
     <script>
-        let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+        let scanner = new Instascan.Scanner({video: document.getElementById('preview')});
         scanner.addListener('scan', function (content) {
             $.ajax({
                 url: "{{route('scan-item')}}",
-                type:"POST",
-                data:{
+                type: "POST",
+                data: {
                     _token: "{{ csrf_token() }}",
-                    code:content,
+                    code: content,
                 },
-                success:function(response){
-                    console.log(response);
-                    if(response) {
+                success: function (response) {
+                    if (response.status !== 'error') {
                         $('#sCode').text(response.data.code);
                         $('#sDate').text(response.data.drop_date);
                         $('#sSeller').text(response.data.seller);
@@ -121,27 +148,38 @@
                         $('#sAmount').text(response.data.amount);
                         $('#pitemId').val(response.data.id);
                         $('#citemId').val(response.data.id);
+                        $('#sPayment').text(response.data.payment_status);
+                        $('#sStatus').text(response.data.status);
+                        if(response.data.status_id == '4'){
+                            $('#pullOutBtn').show();
+                            $('#scanner').hide();
+
+                            if(response.data.payment_status_id =='2'){
+                                $('#payBtn').show();
+                            }else{
+                                $('#claimBtn').show();
+
+                            }
+                        }
+                    } else {
+                        alert('Item Not found')
                     }
                 },
-                error: function(error) {
-                    console.log(error);
+                error: function (error) {
+                    alert(error)
                 }
             });
         });
-        Instascan.Camera.getCameras().then(function(cameras){
-            if(cameras.length > 0 ){
+        Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
                 scanner.start(cameras[0]);
-            } else{
+            } else {
                 alert('No cameras found');
             }
 
-        }).catch(function(e) {
+        }).catch(function (e) {
             console.error(e);
         });
 
-        scanner.addListener('scan',function(c){
-            document.getElementById('searchID').value=c;
-
-        });
     </script>
 @endsection

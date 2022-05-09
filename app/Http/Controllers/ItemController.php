@@ -26,10 +26,6 @@ use function PHPUnit\Framework\isNull;
 
 class ItemController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['role:Admin|seller|da']);
-    }
 
     public function index(Request $request)
     {
@@ -486,7 +482,11 @@ class ItemController extends Controller
                 ->leftJoin('users as seller', 'items.seller_id', '=', 'seller.id')
                 ->where('items.code', '=', $request->code)
                 ->first();
-            return response()->json(['status' => 'success', 'data' => $item]);
+            if (!is_null($item)) {
+                return response()->json(['status' => 'success', 'data' => $item]);
+            } else {
+                abort(500, 'Item not found');
+            }
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
@@ -580,6 +580,20 @@ class ItemController extends Controller
                     $item->status_id = 3;
                     $item->pull_out_status_id = 4;
                     $message = 'Item sucessfully pulled-out';
+                    break;
+                case 10://Pay and claim
+                    $seller = User::findOrFail($item->seller_id);
+                    $item->status_id = 1;
+                    $item->payment_status_id = 1;
+                    $item->claimed_date = Carbon::now();
+                    $receiver = $seller->phone_number;
+                    $sms_message = "Item " . $item->code . " has successfully paid and claimed by the buyer";
+                    $payment = new payment();
+                    $payment->date = Carbon::now();
+                    $payment->seller_id = $item->seller_id;
+                    $payment->item_id = $item->id;
+                    $payment->save();
+                    $message = 'Item successfully paid and claimed';
                     break;
 
             }

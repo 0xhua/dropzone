@@ -421,7 +421,6 @@
                                             ></button>
                                         </form>
                                         @elseif($item->status_id!==3) {{--if item status is not pull out show buttons--}}
-                                        {{is_null($item->pull_out_status_id)}}
                                         @if((is_null($item->status_id)
                                             && $da_loc!==$item->destination_id)
                                             || ($item->status_id == 8 && $item->origin_id != $item->destination_id)

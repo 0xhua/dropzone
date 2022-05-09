@@ -62,9 +62,9 @@
 
                 <div class="content">
                     <form id="track">
+                        {{@csrf_field()}}
                         <input type="text" name="code" id="searchID" placeholder="ITEM CODE" required/>
-                        <button type="submit" class="track btn btn-outline-warning" style="color: white;"
-                                data-toggle="modal" data-target="#trackItem">TRACK
+                        <button type="submit" class="track btn btn-outline-warning" style="color: white;">TRACK
                         </button>
                     </form>
                 </div>
@@ -108,21 +108,22 @@
     );
     scanner.addListener('scan', function (content) {
         $.ajax({
-            url: "{{route('scan-item')}}",
+            url: "{{route('scan-public')}}",
             type:"POST",
             data:{
                 _token: "{{ csrf_token() }}",
                 code:content,
             },
             success:function(response){
-                console.log(response);
-                if(response) {
+                if (response.status !== 'error') {
                     $('#tCode').text(response.data.code);
                     $('#tSeller').text(response.data.seller);
                     $('#tBuyer').text(response.data.buyer);
                     $('#tAmount').text(response.data.amount);
                     $('#tStatus').text(response.data.status);
                     $('#trackItem').modal('show');
+                }else{
+                    alert('Item Not found')
                 }
             },
             error: function(error) {
@@ -167,18 +168,23 @@
                 $inputs.prop("disabled", true);
                 // Fire off the request to /form.php
                 request = $.ajax({
-                    url: "http://192.168.50.5:8080/api/scanqr",
+                    url: "http://192.168.50.5:8080/scan-public",
                     type: "post",
                     data: serializedData,
                 });
                 // Callback handler that will be called on success
                 request.done(function (response, textStatus, jqXHR) {
-                    console.log(response);
-                    $('#tCode').text(response.item.code);
-                    $('#tSeller').text(response.item.seller);
-                    $('#tBuyer').text(response.item.buyer);
-                    $('#tAmount').text(response.item.amount);
-                    $('#tStatus').text(response.item.status);
+                    console.log(response)
+                    if (response.status !== 'error') {
+                    $('#tCode').text(response.data.code);
+                    $('#tSeller').text(response.data.seller);
+                    $('#tBuyer').text(response.data.buyer);
+                    $('#tAmount').text(response.data.amount);
+                    $('#tStatus').text(response.data.status);
+                    $('#trackItem').modal('show');
+                    }else{
+                        alert('Item Not found')
+                    }
                 });
 
                 // Callback handler that will be called on failure
