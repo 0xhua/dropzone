@@ -25,52 +25,82 @@
                     </div>
                 </form>
             </div>
+            <div class="col-sm-3">
+                <form style="display: inline">
+                    <div class="input-group mb-3">
+                        <select name="filter" type="text" class="form-control input-text filter" id="myInput">
+                            <option {{ empty(app('request')->input('filter') )?'selected':''}} value="all">All </option>
+                            <option {{ app('request')->input('filter')=='done'?'selected':''}} value="done"> Done </option>
+                            <option {{ app('request')->input('filter')=='rejected'?'selected':''}} value="rejected"> Rejected</option>
+                        </select>
+                        <button class="addNew btn btn-outline-warning" type="submit">Filter
+                        </button>
+
+                        <div style="margin-left: 10px">
+                            @if(auth()->user()->hasRole('seller'))
+                                <form method="post" action="{{route('request_cashout')}}">
+                                    @csrf
+                                    <button type="submit" class="addNew btn btn-outline-warning" id="addNew" style="color: white;"
+                                            data-bs-toggle="modal" data-bs-target="#addNewItem">Request
+                                    </button>
+
+                                    {{--                <button type="submit" class='fas fa-arrow-right-from-bracket'--}}
+                                    {{--                        style="font-size: 24px;"--}}
+                                    {{--                        data-toggle="tooltip" data-placement="top" title="Pull Out item"--}}
+                                    {{--                ></button>--}}
+                                </form>
+                            @endif
+                        </div>
+
+                    </div>
+                </form>
+            </div>
 
 
             <!------ ADD NEW BUTTON ------------------>
 
-            <div class="col-sm-5 mb-3" style="padding-top: 0px;">
-                @if(auth()->user()->hasRole('seller'))
-                    <form method="post" action="{{route('request_cashout')}}">
-                        @csrf
-                        <button type="submit" class="addNew btn btn-outline-warning" id="addNew" style="color: white;"
-                                data-bs-toggle="modal" data-bs-target="#addNewItem">Request
-                        </button>
+{{--            <div class="col-sm-5 mb-3" style="padding-top: 0px;">--}}
+{{--                @if(auth()->user()->hasRole('seller'))--}}
+{{--                    <form method="post" action="{{route('request_cashout')}}">--}}
+{{--                        @csrf--}}
+{{--                        <button type="submit" class="addNew btn btn-outline-warning" id="addNew" style="color: white;"--}}
+{{--                                data-bs-toggle="modal" data-bs-target="#addNewItem">Request--}}
+{{--                        </button>--}}
 
-                        {{--                <button type="submit" class='fas fa-arrow-right-from-bracket'--}}
-                        {{--                        style="font-size: 24px;"--}}
-                        {{--                        data-toggle="tooltip" data-placement="top" title="Pull Out item"--}}
-                        {{--                ></button>--}}
-                    </form>
-                @endif
+{{--                        --}}{{--                <button type="submit" class='fas fa-arrow-right-from-bracket'--}}
+{{--                        --}}{{--                        style="font-size: 24px;"--}}
+{{--                        --}}{{--                        data-toggle="tooltip" data-placement="top" title="Pull Out item"--}}
+{{--                        --}}{{--                ></button>--}}
+{{--                    </form>--}}
+{{--                @endif--}}
 
 
 
-                @if(!$show_done)
-                    <form action="{{route('cashout')}}" method="get">
-                        {{@csrf_field()}}
-                        <input name="done" type="hidden" value="1">
-                        <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show done
-                        </button>
-                    </form>
-                @endif
-                @if(!$show_rejected)
-                    <form action="{{route('cashout')}}" method="get">
-                        {{@csrf_field()}}
-                        <input name="rejected" type="hidden" value="1">
-                        <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show rejected
-                        </button>
-                    </form>
-                    @endif
-                @if($show_done || $show_rejected)
-                    <form action="{{route('cashout')}}" method="get">
-                        {{@csrf_field()}}
-                        <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show all
-                        </button>
-                    </form>
-                    @endif
+{{--                @if(!$show_done)--}}
+{{--                    <form action="{{route('cashout')}}" method="get">--}}
+{{--                        {{@csrf_field()}}--}}
+{{--                        <input name="done" type="hidden" value="1">--}}
+{{--                        <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show done--}}
+{{--                        </button>--}}
+{{--                    </form>--}}
+{{--                @endif--}}
+{{--                @if(!$show_rejected)--}}
+{{--                    <form action="{{route('cashout')}}" method="get">--}}
+{{--                        {{@csrf_field()}}--}}
+{{--                        <input name="rejected" type="hidden" value="1">--}}
+{{--                        <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show rejected--}}
+{{--                        </button>--}}
+{{--                    </form>--}}
+{{--                    @endif--}}
+{{--                @if($show_done || $show_rejected)--}}
+{{--                    <form action="{{route('cashout')}}" method="get">--}}
+{{--                        {{@csrf_field()}}--}}
+{{--                        <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;">Show all--}}
+{{--                        </button>--}}
+{{--                    </form>--}}
+{{--                    @endif--}}
 
-            </div>
+{{--            </div>--}}
 
 
             <!------ DOWNLOAD AND PRINT BUTTON ------------------>

@@ -48,27 +48,36 @@ class CashoutController extends Controller
             $items = $items->where('cashout_requests.seller_id', '=', auth()->id());
         }
 
-        if(!is_null($request->search)){
-            $items = $items->where('cashout_requests.code', 'like', '%' . $request->search . '%');
+        if (!is_null($request->filter)) {
+            switch ($request->filter) {
+                case 'done':
+                    $items = $items->where('cashout_requests.status', '=',2);
+                    break;
+                case 'rejected':
+                    $items = $items->where('cashout_requests.status', '=',3);
+                    break;
+            }
         }
 
-        $show_done = false;
-        $show_rejected = false;
-        if(!is_null($request->rejected)){
-            $items = $items->where('cashout_requests.status', '=',3);
-            $show_rejected = true;
-        }
-        if(!is_null($request->done)){
-            $items = $items->where('cashout_requests.status', '=',2);
-            $show_done = true;
-        }
+//        if(!is_null($request->search)){
+//            $items = $items->where('cashout_requests.code', 'like', '%' . $request->search . '%');
+//        }
+//
+//        $show_done = false;
+//        $show_rejected = false;
+//        if(!is_null($request->rejected)){
+//            $items = $items->where('cashout_requests.status', '=',3);
+//            $show_rejected = true;
+//        }
+//        if(!is_null($request->done)){
+//            $items = $items->where('cashout_requests.status', '=',2);
+//            $show_done = true;
+//        }
 
         $items = $items->paginate(20);
 
         return view('cashoutrequest',  [
-            'items' => $items,
-            'show_done' =>$show_done,
-            'show_rejected' =>$show_rejected,
+            'items' => $items
         ])->with('i', ($request->input('page', 1) - 1) * 5);
     }
 

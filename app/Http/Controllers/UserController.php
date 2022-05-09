@@ -303,9 +303,9 @@ class UserController extends Controller
                 }
             }
 
-//            if(!is_null($request->search)){
-//                $data = $data->where('users.name', 'like', '%' . $request->search . '%');
-//            }
+            if(!is_null($request->search)){
+                $data = $data->where('users.name', 'like', '%' . $request->search . '%');
+            }
 //
 //            $show_da = false;
 //            if(!is_null($request->da)) {
