@@ -61,11 +61,12 @@ class ItemController extends Controller
                 $item->current_location_id = $da_loc->location_id;
                 $item->code = $code;
                 $item->origin_id = $da_loc->location_id;
-            } else {
-                $code = self::generateCode($request->origin_id);
+            }
+            if (auth()->user()->hasRole('seller')) {
+                $code = self::generateCode(Auth::user()->location_id);
                 $item->code = $code;
-                $item->current_location_id = $request->origin_id;
-                $item->origin_id = $request->origin_id;
+                $item->current_location_id = Auth::user()->location_id;
+                $item->origin_id = Auth::user()->location_id;
             }
             $item->destination_id = $request->destination_id;
             $item->tf = $transfer_fee;
@@ -208,6 +209,15 @@ class ItemController extends Controller
                     ->leftJoin('items', 'payments.item_id', '=', 'items.id')
                     ->whereNull('cashout_id')
                     ->where('items.origin_id', '=', $da_loc->location_id)
+                    ->where('items.status_id',6)
+                    ->sum('amount')
+                +
+                DB::table('payments')
+                    ->select('items.amount')
+                    ->leftJoin('items', 'payments.item_id', '=', 'items.id')
+                    ->whereNull('cashout_id')
+                    ->where('items.destination_id', '=', $da_loc->location_id)
+                    ->where('items.status_id',1)
                     ->sum('amount');
             $income = Item::where('items.current_location_id', '=', Auth::user()->location_id)
                     ->where('date', Carbon::today())

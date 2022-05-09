@@ -112,15 +112,15 @@
 
 
                                     <div class="col-sm-6 mb-3">
-                                        @if(auth()->user()->hasRole('Admin') || auth()->user()->hasRole('seller'))
-                                            <label id="">Origin</label><br>
-                                            <select value="" name="origin_id" id="itemOrigin" required>
-                                                <option disabled selected value> -- select origin --</option>
-                                                @foreach($location as $area)
-                                                    <option value="{{$area->id}}">{{$area->area}}</option>
-                                                @endforeach
-                                            </select> <br>
-                                        @endif
+{{--                                        @if(auth()->user()->hasRole('Admin') || auth()->user()->hasRole('seller'))--}}
+{{--                                            <label id="">Origin</label><br>--}}
+{{--                                            <select value="" name="origin_id" id="itemOrigin" required>--}}
+{{--                                                <option disabled selected value> -- select origin --</option>--}}
+{{--                                                @foreach($location as $area)--}}
+{{--                                                    <option value="{{$area->id}}">{{$area->area}}</option>--}}
+{{--                                                @endforeach--}}
+{{--                                            </select> <br>--}}
+{{--                                        @endif--}}
 
                                         <label id="" style="margin-top: 20px;">Destination </label><br>
                                         <select value="" name="destination_id" id="itemDesti" required>
