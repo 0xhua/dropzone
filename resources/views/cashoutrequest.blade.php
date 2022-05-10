@@ -30,7 +30,7 @@
                     <div class="input-group mb-3">
                         <select name="filter" type="text" class="form-control input-text filter" id="myInput">
                             <option {{ empty(app('request')->input('filter') )?'selected':''}} value="all">All </option>
-                            <option {{ app('request')->input('filter')=='done'?'selected':''}} value="done"> Done </option>
+                            <option {{ app('request')->input('filter')=='done'?'selected':''}} value="done">C/O Done</option>
                             <option {{ app('request')->input('filter')=='rejected'?'selected':''}} value="rejected"> Rejected</option>
                         </select>
                         <button class="addNew btn btn-outline-warning" type="submit">Filter
