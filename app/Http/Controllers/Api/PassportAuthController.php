@@ -73,11 +73,16 @@ class PassportAuthController extends Controller
         ];
 
         if (auth()->attempt($data)) {
+            $role = null;
             $token = auth()->user()->createToken('Laravel8PassportAuth')->accessToken;
+            if (auth()->user()->hasRole('seller')) {
+                $role = 'seller';
+            }
             return response()->json(
                 [
                     'success' => true,
-                    'token' => $token
+                    'token' => $token,
+                    'role' => $role
                 ], 200
             );
         } else {
