@@ -86,7 +86,12 @@ class RequestController extends Controller
 
         $location = Location::orderby('id', 'asc')->get();
         if(!is_null($request->search)){
-            $request_list = $request_list->where('users.name', 'like', '%' . $request->search . '%');
+            if($request->wantsJson()){
+                $request_list = $request_list->where('users.id', 'like', '%' . $request->search . '%');
+            }else{
+                $request_list = $request_list->where('users.name', 'like', '%' . $request->search . '%');
+            }
+
         }
         if (!is_null($request->filter)) {
             switch ($request->filter) {
