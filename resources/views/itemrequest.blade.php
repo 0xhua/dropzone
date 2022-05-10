@@ -274,7 +274,7 @@
                                                     data-target="#editrequest"
                                             ></button>
                                         @endif
-                                        @if(auth()->user()->hasRole('Admin'))
+                                        @if(auth()->user()->hasRole(['Admin','da']))
                                             @if(is_null($request->status_id))
                                                 <form method="post" action="{{route('update-request-status')}}">
                                                     @csrf
