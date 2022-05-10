@@ -282,7 +282,7 @@ class ItemController extends Controller
     {
         $location = Location::orderby('id', 'asc')->get();
         $sizes = item_size::orderby('id', 'asc')->get();
-        $paid_statuses = paid_status::orderby('id', 'asc')->get();
+        $paid_statuses = paid_status::where('id','!=','3')->orderby('id', 'asc')->get();
         $items = Item::query();
         $da_loc = null;
         $items = $items
@@ -605,7 +605,13 @@ class ItemController extends Controller
                     $payment->save();
                     $message = 'Item successfully paid and claimed';
                     break;
-
+                case 11:
+                    $buyer = User::findOrFail($item->buyer_id);
+                    $receiver = $buyer->phone_number;
+                    $sms_message = "Item " . $item->code . " has successfully paid via gcash";
+                    $item->payment_status_id = 3;
+                    $message = 'Item sucessfully paid via gcash';
+                    break;
             }
 
             if ($item->save()) {

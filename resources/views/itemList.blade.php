@@ -36,9 +36,9 @@
             <!------ ADD NEW BUTTON ------------------>
             <div class="col-sm-5 mb-3" style="padding-top: 0px;">
                 @if(auth()->user()->hasRole('seller'))
-                <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
-                        data-target="#addNewItem">Add Item
-                </button>
+                    <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
+                            data-target="#addNewItem">Add Item
+                    </button>
                 @endif
                 <form action="{{route('itemlist')}}" method="get">
                     {{@csrf_field()}}
@@ -71,12 +71,12 @@
 
                         <!-- Modal Header -->
                         @if(!auth()->user()->hasRole('seller'))
-                        <div class="modal-header">
-                            <h4 class="modal-title" style="color:#222222;">Add Item</h4>
-                            <button type="button" class="btn-close" data-dismiss="modal"></button>
-                        </div>
-                        @endif
-                        <!-- Modal body -->
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:#222222;">Add Item</h4>
+                                <button type="button" class="btn-close" data-dismiss="modal"></button>
+                            </div>
+                    @endif
+                    <!-- Modal body -->
                         <form method="post" action="{{route('add-item')}}">
                             <div class="modal-body">
                                 <div class="row" style="margin-left: 5px;">
@@ -112,15 +112,15 @@
 
 
                                     <div class="col-sm-6 mb-3">
-{{--                                        @if(auth()->user()->hasRole('Admin') || auth()->user()->hasRole('seller'))--}}
-{{--                                            <label id="">Origin</label><br>--}}
-{{--                                            <select value="" name="origin_id" id="itemOrigin" required>--}}
-{{--                                                <option disabled selected value> -- select origin --</option>--}}
-{{--                                                @foreach($location as $area)--}}
-{{--                                                    <option value="{{$area->id}}">{{$area->area}}</option>--}}
-{{--                                                @endforeach--}}
-{{--                                            </select> <br>--}}
-{{--                                        @endif--}}
+                                        {{--                                        @if(auth()->user()->hasRole('Admin') || auth()->user()->hasRole('seller'))--}}
+                                        {{--                                            <label id="">Origin</label><br>--}}
+                                        {{--                                            <select value="" name="origin_id" id="itemOrigin" required>--}}
+                                        {{--                                                <option disabled selected value> -- select origin --</option>--}}
+                                        {{--                                                @foreach($location as $area)--}}
+                                        {{--                                                    <option value="{{$area->id}}">{{$area->area}}</option>--}}
+                                        {{--                                                @endforeach--}}
+                                        {{--                                            </select> <br>--}}
+                                        {{--                                        @endif--}}
 
                                         <label id="" style="margin-top: 20px;">Destination </label><br>
                                         <select value="" name="destination_id" id="itemDesti" required>
@@ -266,7 +266,7 @@
                         <th scope="col" width="10%">Buyer</th>
                         <th scope="col" width="5%">Origin</th>
                         <th scope="col" width="5%">Destination</th>
-{{--                        <th scope="col" width="3%">TH/HF</th>--}}
+                        {{--                        <th scope="col" width="3%">TH/HF</th>--}}
                         <th scope="col" width="3%">DF</th>
                         <th scope="col" width="3%">TF</th>
                         <th scope="col" width="5%">Amount</th>
@@ -283,7 +283,7 @@
                     <tbody id="myTable">
                     @foreach($items as $item)
                         @if($item->status_id !== 6 || $show_released)
-{{--                            @if(auth()->user()->location_id ==)--}}
+                            {{--                            @if(auth()->user()->location_id ==)--}}
                             <tr>
                                 <td>
                                     @if($item->code)
@@ -327,13 +327,13 @@
                                         N/A
                                     @endif
                                 </td>
-{{--                                <td>--}}
-{{--                                    @if($item->fee)--}}
-{{--                                        {{$item->fee}}--}}
-{{--                                    @else--}}
-{{--                                        N/A--}}
-{{--                                    @endif--}}
-{{--                                </td>--}}
+                                {{--                                <td>--}}
+                                {{--                                    @if($item->fee)--}}
+                                {{--                                        {{$item->fee}}--}}
+                                {{--                                    @else--}}
+                                {{--                                        N/A--}}
+                                {{--                                    @endif--}}
+                                {{--                                </td>--}}
                                 <td>
                                     @if($item->df)
                                         {{$item->df}}
@@ -398,16 +398,28 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if(auth()->user()->hasRole('seller') && is_null($item->status_id))
-                                        <button class='fas fa-pen-to-square' style="font-size: 24px;"
-                                                data-id="{{$item->id}}"
-                                                data-buyer="{{$item->buyer}}"
-                                                data-d="{{$item->destination}}"
-                                                data-amount="{{$item->amount}}"
-                                                data-p_id="{{$item->payment_status_id}}"
-                                                data-toggle="modal"
-                                                data-target="#editItem"
-                                        ></button>
+                                    @if(auth()->user()->hasRole('seller'))
+                                        @if(is_null($item->status_id))
+                                            <button class='fas fa-pen-to-square' style="font-size: 24px;"
+                                                    data-id="{{$item->id}}"
+                                                    data-buyer="{{$item->buyer}}"
+                                                    data-d="{{$item->destination}}"
+                                                    data-amount="{{$item->amount}}"
+                                                    data-p_id="{{$item->payment_status_id}}"
+                                                    data-toggle="modal"
+                                                    data-target="#editItem"
+                                            ></button>
+                                        @endif
+                                        @if($item->payment_status_id==2 && $item->approval_status_id == 1 && $item->status_id !== 3)
+                                                <form method="post" action="{{route('update-item-status')}}">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{$item->id}}">
+                                                    <input type="hidden" name="status" value="11">
+                                                    <button type="submit" class='fas fa-g' style="font-size: 24px;"
+                                                            data-toggle="tooltip" data-placement="top" title="Pay item via gcash"
+                                                    ></button>
+                                                </form>
+                                        @endif
                                     @endif
                                     @if(auth()->user()->hasRole(['Admin','da']))
                                         @if($item->approval_status_id == 2 && $item->origin_id == $da_loc) {{--if item status is pending show approve button--}}
@@ -520,17 +532,17 @@
                                                 ></button>
                                             </form>
                                         @endif
-                                            @if($item->pull_out_status_id ==3 ||($item->pull_out_status_id ==1 && $item->destination_id == $item->origin_id))
-                                                <form method="post" action="{{route('update-item-status')}}">
-                                                    @csrf
-                                                    <input type="hidden" name="id" value="{{$item->id}}">
-                                                    <input type="hidden" name="status" value="9">
-                                                    <button type="submit" class='fa-solid fa-right-from-bracket'
-                                                            style="font-size: 24px;"
-                                                            data-toggle="tooltip" data-placement="top" title="Pull Out item"
-                                                    ></button>
-                                                </form>
-                                            @endif
+                                        @if($item->pull_out_status_id ==3 ||($item->pull_out_status_id ==1 && $item->destination_id == $item->origin_id))
+                                            <form method="post" action="{{route('update-item-status')}}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{$item->id}}">
+                                                <input type="hidden" name="status" value="9">
+                                                <button type="submit" class='fa-solid fa-right-from-bracket'
+                                                        style="font-size: 24px;"
+                                                        data-toggle="tooltip" data-placement="top" title="Pull Out item"
+                                                ></button>
+                                            </form>
+                                        @endif
                                         @endif
                                     @endif
                                     @if(auth()->user()->hasPermissionTo('item-show-qr') && $item->approval_status_id == 1)
