@@ -57,12 +57,12 @@
 
                 <div class="col" id="btn_col" style="padding-top:30px;">
                     <button type="submit" class="post" value="submit" id="submit">UPDATE</button>
-{{--                    <button type="delete" class="discard" value="delete" id="delete">DISCARD</button>--}}
+                    {{--                    <button type="delete" class="discard" value="delete" id="delete">DISCARD</button>--}}
                 </div>
             </div>
-
+        </form>
     </div>
-    </body>
+
 @endsection
 @section('javascript')
     <script>
