@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\cashRequestExport;
 use App\Exports\DASellersRequestsExport;
 use App\Exports\ItemExport;
 use App\Exports\itemRequestsExport;
@@ -44,6 +45,11 @@ class ExportExcelController extends Controller
     {
         $file_name = 'sellers'.Carbon::now();
         return Excel::download(new DASellersRequestsExport, $file_name.'.xlsx');
+    }
+
+    public function excel_cashoutlist(){
+        $file_name = 'cashout'.Carbon::now();
+        return Excel::download(new cashRequestExport, $file_name.'.xlsx');
     }
 }
 

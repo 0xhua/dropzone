@@ -177,6 +177,7 @@ Route::middleware(['auth','activated'])->group(function () {
     Route::get('/excel/itemlist', [ExportExcelController::class,'excel_itemlist'])->name('export_excel.itemlist');
     Route::get('/excel/itemrequestlist', [ExportExcelController::class,'excel_request_list'])->name('export_excel.itemrequestlist');
     Route::get('/excel/sellerlist', [ExportExcelController::class,'excel_sellerlist'])->name('export_excel.sellerlist');
+    Route::get('/excel/cashoutlist', [ExportExcelController::class,'excel_cashoutlist'])->name('export_excel.cashoutlist');
 
 });
 
