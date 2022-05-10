@@ -55,6 +55,14 @@
                     </div>
                 </form>
             </div>
+            <div class="col-sm-4">
+                <form action="{{route('export_excel.cashoutlist')}}" method="get">
+                    <button type="submit" class="printBtn" id="printBtn" style="color: white;" data-bs-toggle="modal"
+                            data-bs-target="#printInfo">
+                        <i class="bx bxs-cloud-download"></i>
+                    </button>
+                </form>
+            </div>
 
 
             <!------ ADD NEW BUTTON ------------------>
@@ -217,7 +225,7 @@
 
                     <tbody id="myTable">
                     @foreach($items as $cashout)
-                        @if($cashout->status !== 'Released')
+                        @if($cashout->status !== 'Released' || app('request')->input('filter')=="done")
                             <tr>
 
                                 <td>
