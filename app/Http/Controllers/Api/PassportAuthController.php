@@ -50,6 +50,7 @@ class PassportAuthController extends Controller
             $input['password'] = Hash::make($input['password']);
 
             $user = User::create($input);
+            $user->assignRole([2]);
 
             $token = $user->createToken('Laravel8PassportAuth')->accessToken;
 
