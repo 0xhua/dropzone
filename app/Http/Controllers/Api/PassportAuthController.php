@@ -77,6 +77,8 @@ class PassportAuthController extends Controller
             $token = auth()->user()->createToken('Laravel8PassportAuth')->accessToken;
             if (auth()->user()->hasRole('seller')) {
                 $role = 'seller';
+            }elseif (auth()->user()->hasRole(['Admin','da'])){
+                $role = 'non-seller';
             }
             return response()->json(
                 [
