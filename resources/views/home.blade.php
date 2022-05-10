@@ -73,6 +73,7 @@
                                        type="password">
                             </div>
                         </div>
+                        <a href="/#forgotpass" id="forgotPass"> forgot your password? Reset it here.</a>
 
                         <div class="form-group row">
                             <div class="col-xs-12">
@@ -165,6 +166,81 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="forgotPassModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" width="" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <h1 style="font-size: 32px">Forgot Password</h1>
+                    @if($errors->any())
+                        @foreach($errors->all() as $error)
+                            <p style="color: red;">{{$error}}</p>
+                        @endforeach
+                    @endif
+                    <form method="post" action="{{route('forget.password.post')}}">
+                        {{csrf_field()}}
+                        <div class="form-group row">
+                            <div class="col-xs-12">
+                                <input class="form-control input-lg" placeholder="email" id="" type="text"
+                                       name="email" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <div class="col-xs-12">
+                                <button class="btn" id="createbtn" style="width: auto;" type="submit">  Send Password Reset Link</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if(request()->get('token'))
+    <div class="modal fade" id="newPassword" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" width="" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <h1 style="font-size: 32px">Reset Password</h1>
+                    <form method="post" action="{{route('reset.password.post')}}">
+                        {{csrf_field()}}
+                        <div class="form-group row">
+                            <div class="col-xs-12">
+                                @csrf
+
+                                <input type="hidden" name="token" value="{{ request()->get('token') }}">
+                                <input class="form-control input-lg" placeholder="New password" id="" type="password"
+                                       name="password" required>
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-12">
+                                <input class="form-control input-lg" placeholder="Confirm password" id="" type="password"
+                                       name="password_confirmation" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <div class="col-xs-12">
+                                <button class="btn" id="createbtn" style="width: auto;" type="submit">  Change password</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
     <div class="row" id="newcontainer">
         <div class="col-sm-4" id="txt1new">
             <p><img src="{{asset('images/arrowright.png')}}" class="arrow1"></p>
@@ -224,13 +300,25 @@
 
     $(document).ready(function () {
 
+        @if(request()->get('token'))
+        $('#newPassword').modal('show');
+        @endif
+
         url = '{{ url()->previous() }}';
-        if (url.indexOf('#login') !== -1) {
-            $('#loginModal').modal('show');
-        }
         if (window.location.href.indexOf('#login') !== -1) {
             $('#loginModal').modal('show');
         }
+        if (window.location.href.indexOf('#forgotpass') !== -1) {
+            $('#forgotPassModal').modal('show');
+        }
+        if (window.location.href.indexOf('?token') !== -1) {
+            $('#newPassword').modal('show');
+        }
+
+        $('#forgotPass').click(function (){
+            $('#loginModal').modal('hide');
+            $('#forgotPassModal').modal('show');
+        });
 
     });
 </script>

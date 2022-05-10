@@ -11,6 +11,7 @@
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\Api\PassportAuthController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\CashoutController;
 use App\Http\Controllers\ExportExcelController;
 use App\Http\Controllers\ItemController;
@@ -181,5 +182,8 @@ Route::middleware(['auth','activated'])->group(function () {
 
 });
 
-Route::post('/post', [ItemController::class, 'index']);
+Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
+Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
