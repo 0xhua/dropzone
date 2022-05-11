@@ -25,7 +25,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-5">
                 <form style="display: inline">
                     <div class="input-group mb-3">
                         <select name="filter" type="text" class="form-control input-text filter" id="myInput">
@@ -38,22 +38,22 @@
 
                     </div>
                 </form>
-            </div>
-            <div class="col-sm-4">
-                @if(auth()->user()->hasRole('seller'))
-                    <form method="post" action="{{route('request_cashout')}}">
-                        @csrf
-                        <button type="submit" class="addNew btn btn-outline-warning" id="addNew" style="color: white;"
-                                data-bs-toggle="modal" data-bs-target="#addNewItem">Request
-                        </button>
 
-                        {{--                <button type="submit" class='fas fa-arrow-right-from-bracket'--}}
-                        {{--                        style="font-size: 24px;"--}}
-                        {{--                        data-toggle="tooltip" data-placement="top" title="Pull Out item"--}}
-                        {{--                ></button>--}}
-                    </form>
-                @endif
+                    @if(auth()->user()->hasRole('seller'))
+                        <form method="post" action="{{route('request_cashout')}}">
+                            @csrf
+                            <button type="submit" class="addNew btn btn-outline-warning" id="addNew" style="color: white;"
+                                    data-bs-toggle="modal" data-bs-target="#addNewItem">Request
+                            </button>
+
+                            {{--                <button type="submit" class='fas fa-arrow-right-from-bracket'--}}
+                            {{--                        style="font-size: 24px;"--}}
+                            {{--                        data-toggle="tooltip" data-placement="top" title="Pull Out item"--}}
+                            {{--                ></button>--}}
+                        </form>
+                    @endif
             </div>
+
             <div class="col-sm-4">
                 <form action="{{route('export_excel.cashoutlist')}}" method="get">
                     <button type="submit" class="printBtn" id="printBtn" style="color: white;" data-bs-toggle="modal"
