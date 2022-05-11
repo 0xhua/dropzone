@@ -25,7 +25,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-2">
                 <form style="display: inline">
                     <div class="input-group mb-3">
                         <select name="filter" type="text" class="form-control input-text filter" id="myInput">
@@ -39,7 +39,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-2">
                 @if(auth()->user()->hasRole('seller'))
                     <form method="post" action="{{route('request_cashout')}}">
                         @csrf
