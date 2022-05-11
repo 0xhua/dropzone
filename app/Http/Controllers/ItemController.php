@@ -252,7 +252,7 @@ class ItemController extends Controller
                 ->leftJoin('items', 'payments.item_id', '=', 'items.id')
                 ->whereNull('cashout_id')
                 ->where('items.seller_id', '=', auth()->id())
-                ->where('items.status', '6')
+                ->where('items.status_id', '6')
                 ->sum('amount');
         }
 
