@@ -14,17 +14,17 @@
 
         <div class="row" style=" margin-top: 40px;">
             <div class="col-sm-3">
-                    <form action="{{route('itemrequest')}}" method="get">
-                        <div class="input-group mb-3">
-                            {{@csrf_field()}}
-                            <input name="search" type="text" class="form-control input-text" id="myInput"
-                                   placeholder="Search....">
-                            <button class="addNew btn btn-outline-warning" type="submit">Search
-                            </button>
-                        </div>
-                    </form>
+                <form action="{{route('itemrequest')}}" method="get">
+                    <div class="input-group mb-3">
+                        {{@csrf_field()}}
+                        <input name="search" type="text" class="form-control input-text" id="myInput"
+                               placeholder="Search....">
+                        <button class="addNew btn btn-outline-warning" type="submit">Search
+                        </button>
+                    </div>
+                </form>
             </div>
-            <div class="col-sm-5" >
+            <div class="col-sm-2" >
                 <form style="display: inline">
                     <div class="input-group mb-3">
                         <select name="filter" type="text" class="form-control input-text filter" id="myInput">
@@ -36,6 +36,8 @@
                         </button>
                     </div>
                 </form>
+            </div>
+            <div class="col-sm-3" >
                 @if(auth()->user()->hasRole('seller'))
                     <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
                             data-target="#request">Request
