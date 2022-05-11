@@ -50,6 +50,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('announcements', [AnnouncementController::class, 'seller_updates']);
     Route::get('user-list', [UserController::class, 'userList']);
     Route::post('register-buyer', [UserController::class, 'register_buyer']);
+    Route::post('update-item-status', [ItemController::class, 'updateItemStatus']);
 });
 
 
