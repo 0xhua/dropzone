@@ -49,11 +49,9 @@ class PassportAuthController extends Controller
             $input = $request->all();
             $input['password'] = Hash::make($input['password']);
 
-            $user = User::create($input);
+            User::create($input);
 
-            $token = $user->createToken('Laravel8PassportAuth')->accessToken;
-
-            return response()->json(['status' => 'success', 'message' => 'User Registered successfully', 'token' => $token]);
+            return response()->json(['status' => 'success', 'message' => 'User Registered successfully']);
 
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
