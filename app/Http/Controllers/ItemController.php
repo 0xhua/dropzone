@@ -609,6 +609,7 @@ class ItemController extends Controller
                     $buyer = User::findOrFail($item->buyer_id);
                     $receiver = $buyer->phone_number;
                     $sms_message = "Item " . $item->code . " has successfully paid via gcash";
+                    $item->amount = 0;
                     $item->payment_status_id = 3;
                     $message = 'Item sucessfully paid via gcash';
                     break;
