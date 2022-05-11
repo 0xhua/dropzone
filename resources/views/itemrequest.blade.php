@@ -24,7 +24,7 @@
                         </div>
                     </form>
             </div>
-            <div class="col-sm-2" >
+            <div class="col-sm-5" >
                 <form style="display: inline">
                     <div class="input-group mb-3">
                         <select name="filter" type="text" class="form-control input-text filter" id="myInput">
@@ -36,13 +36,11 @@
                         </button>
                     </div>
                 </form>
-            </div>
-            <div class="col-sm-3" >
-            @if(auth()->user()->hasRole('seller'))
-                <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
-                        data-target="#request">Request
-                </button>
-            @endif
+                @if(auth()->user()->hasRole('seller'))
+                    <button class="addNew btn btn-outline-warning" id="addNew" style="color: white;" data-toggle="modal"
+                            data-target="#request">Request
+                    </button>
+                @endif
             </div>
 
 
