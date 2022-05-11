@@ -134,7 +134,9 @@ class PassportAuthController extends Controller
                     'items.approval_status_id',
                     'items.payment_status_id',
                     'items.claimed_date',
-                    'items.status_id'
+                    'items.status_id',
+                    'items.df',
+                    'items.tf'
                 )
                 ->leftJoin('approval_statuses', 'items.approval_status_id', '=', 'approval_statuses.id')
                 ->leftJoin('paid_statuses', 'items.payment_status_id', '=', 'paid_statuses.id')
