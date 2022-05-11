@@ -187,7 +187,8 @@ class ItemController extends Controller
                 $query->where('name', 'sellers');
             }))
                 ->count();
-        } elseif (auth()->user()->hasRole('da')) {
+        }
+        elseif (auth()->user()->hasRole('da')) {
 
             $da_loc = Auth::user();
             $total_items = Item::where('current_location_id', '=', Auth::user()->location_id)->count();
@@ -231,7 +232,8 @@ class ItemController extends Controller
             })->where('users.location_id', $da_loc->location_id)
                 ->count();
 
-        } else {
+        }
+        else {
             $total_items = Item::where('seller_id', '=', auth()->id())->count();
             $pickup = Item::where('seller_id', '=', auth()->id())
                 ->where('status_id', '=', '4')
@@ -250,6 +252,7 @@ class ItemController extends Controller
                 ->leftJoin('items', 'payments.item_id', '=', 'items.id')
                 ->whereNull('cashout_id')
                 ->where('items.seller_id', '=', auth()->id())
+                ->where('items.status', '6')
                 ->sum('amount');
         }
 
