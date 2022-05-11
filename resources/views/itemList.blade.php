@@ -289,84 +289,84 @@
                                     @if($item->code)
                                         {{$item->code}}
                                     @else
-                                        N/A
+                                        - - -
                                     @endif
                                 </td>
                                 <td>
                                     @if($item->drop_date)
                                         {{$item->drop_date}}
                                     @else
-                                        N/A
+                                        - - -
                                     @endif
                                 </td>
                                 <td>
                                     @if($item->seller)
                                         {{$item->seller}}
                                     @else
-                                        N/A
+                                        - - -
                                     @endif
                                 </td>
                                 <td>
                                     @if($item->buyer)
                                         {{$item->buyer}}
                                     @else
-                                        N/A
+                                        - - -
                                     @endif
                                 </td>
                                 <td>
                                     @if($item->origin)
                                         {{$item->origin}}
                                     @else
-                                        N/A
+                                        - - -
                                     @endif
                                 </td>
                                 <td>
                                     @if($item->destination)
                                         {{$item->destination}}
                                     @else
-                                        N/A
+                                        - - -
                                     @endif
                                 </td>
                                 {{--                                <td>--}}
                                 {{--                                    @if($item->fee)--}}
                                 {{--                                        {{$item->fee}}--}}
                                 {{--                                    @else--}}
-                                {{--                                        N/A--}}
+                                {{--                                        - - ---}}
                                 {{--                                    @endif--}}
                                 {{--                                </td>--}}
                                 <td>
                                     @if($item->df)
                                         {{$item->df}}
                                     @else
-                                        N/A
+                                        - - -
                                     @endif
                                 </td>
                                 <td>
                                     @if($item->tf)
                                         {{$item->tf}}
                                     @else
-                                        N/A
+                                        0
                                     @endif
                                 </td>
                                 <td>
                                     @if($item->amount)
                                         {{$item->amount}}
                                     @else
-                                        N/A
+                                        0
                                     @endif
                                 </td>
                                 <td>
                                     @if($item->payment_status)
                                         {{$item->payment_status}}
                                     @else
-                                        N/A
+                                        - - -
                                     @endif
                                 </td>
                                 <td>
                                     @if($item->status)
                                         {{$item->status}}
                                     @else
-                                        N/A
+                                        - - -
                                     @endif
                                 </td>
                                 <td>
@@ -380,21 +380,21 @@
                                     @if($item->claimed_date)
                                         {{$item->claimed_date}}
                                     @else
-                                        N/A
+                                        - - -
                                     @endif
                                 </td>
                                 <td>
                                     @if($item->release_date)
                                         {{$item->release_date}}
                                     @else
-                                        N/A
+                                        - - -
                                     @endif
                                 </td>
                                 <td>
                                     @if($item->approval_status)
                                         {{$item->approval_status}}
                                     @else
-                                        N/A
+                                        - - -
                                     @endif
                                 </td>
                                 <td>
