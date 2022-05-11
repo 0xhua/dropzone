@@ -16,5 +16,6 @@ class adminInfoSeeder extends Seeder
     {
         $user = User::where('email','sheantel@dz.com')->get();
         $user->email = 'csheantel@gmail.com';
+        $user->save();
     }
 }
