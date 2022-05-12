@@ -81,7 +81,11 @@
                             <h5 class="card-title">SELLERS/DROPPERS</h5>
                             <p class="card-text"><i class="bx bxs-user-circle" id="card_icon"></i>{{$sellers}}</p>
                             <div class="card-footer">
-                                <a href="{{route('user-list',['filter'=>'sellers'])}}" class="footer_text"><i class="bx bx-show" id="icon_footer"></i> View Sellers </a>
+                                @if(auth()->user()->hasRole('da'))
+                                <a href="{{route('da-sellers')}}" class="footer_text"><i class="bx bx-show" id="icon_footer"></i> View Sellers </a>
+                                @else
+                                    <a href="{{route('user-list',['filter'=>'sellers'])}}" class="footer_text"><i class="bx bx-show" id="icon_footer"></i> View Sellers </a>
+                                @endif
                             </div>
                         </div>
                     </div>
