@@ -222,11 +222,11 @@ class ItemController extends Controller
                     ->sum('amount');
             $income = Item::where('items.current_location_id', '=', Auth::user()->location_id)
                     ->where('date', Carbon::today())
-                    ->where('payment_status_id', '1')
+//                    ->whereIn('payment_status_id', array(1,3))
                     ->where('items.status_id', '6')
                     ->sum('df') + Item::where('items.origin_id', '=', Auth::user()->location_id)
                     ->where('date', Carbon::today())
-                    ->where('payment_status_id', '1')
+//                    ->whereIn('payment_status_id', array(1,3))
                     ->where('items.status_id', '6')
                     ->sum('tf');
             $sellers = User::whereHas('roles', function ($q) {

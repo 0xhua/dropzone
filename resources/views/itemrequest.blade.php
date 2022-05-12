@@ -283,7 +283,7 @@
                                                     <button type="submit" class='fas fa-thumbs-up'
                                                             style="font-size: 24px;"
                                                             data-toggle="tooltip" data-placement="top"
-                                                            title="approveitem"
+                                                            title="Approve Request"
                                                     ></button>
                                                 </form>
                                                 <form method="post" action="{{route('update-request-status')}}">
@@ -293,7 +293,7 @@
                                                     <button type="submit" class='fas fa-xmark-to-slot'
                                                             style="font-size: 24px;"
                                                             data-toggle="tooltip" data-placement="top"
-                                                            title="Release item"
+                                                            title="Reject Request"
                                                     ></button>
                                                 </form>
                                             @endif
@@ -305,7 +305,7 @@
                                                     <button type="submit" class='fas fa-truck'
                                                             style="font-size: 24px;"
                                                             data-toggle="tooltip" data-placement="top"
-                                                            title="Release item"
+                                                            title="Process request"
                                                     ></button>
                                                 </form>
                                             @endif
@@ -317,7 +317,7 @@
                                                     <button type="submit" class='fas fa-check'
                                                             style="font-size: 24px;"
                                                             data-toggle="tooltip" data-placement="top"
-                                                            title="Release item"
+                                                            title="Mark as Done"
                                                     ></button>
                                                 </form>
                                             @endif
