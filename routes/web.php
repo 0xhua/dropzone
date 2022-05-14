@@ -61,9 +61,9 @@ Route::middleware(['auth','activated'])->group(function () {
     Route::resource('users', UserController::class);
 
     Route::get('user-list', [UserController::class, 'userList'])->name('user-list');
-    Route::post('regiter-buyer', [UserController::class, 'register_buyer'])->name('register-buyer');
-    Route::post('regiter-da', [UserController::class, 'register_da'])->name('register-da');
-    Route::post('regiter-seller', [UserController::class, 'register_seller'])->name('register-seller');
+    Route::post('register-buyer', [UserController::class, 'register_buyer'])->name('register-buyer');
+    Route::post('register-da', [UserController::class, 'register_da'])->name('register-da');
+    Route::post('register-seller', [UserController::class, 'register_seller'])->name('register-seller');
 
     Route::post('delete-user', [UserController::class, 'destroy'])->name('delete-user');
 
