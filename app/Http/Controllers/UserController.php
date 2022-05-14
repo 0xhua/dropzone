@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
@@ -196,6 +197,15 @@ class UserController extends Controller
                 'phone_number' => ['required', 'regex:/(09)|(9)[0-9]{9}/'],
                 'email' => 'required|email|unique:users',
                 'password' => 'required|confirmed'
+            ],         [
+                'name.required' => 'Full Name is required',
+                'phone_number.required' => 'Phone number is required',
+                'phone_number.regex' => 'Phone number is required',
+                'email.required' => 'Email is required',
+                'email.email' => 'Please enter a valid email address',
+                'email.unique' => 'Email address already taken',
+                'password.required' => 'Password is required',
+                'password.confirmed' => 'Password confirmation does not match',
             ]);
 
             $input = $request->all();
@@ -214,9 +224,13 @@ class UserController extends Controller
             notify()->success('User successfully registered');
             return back();
 
-        } catch (\Exception $e) {
-            notify()->error($e->getMessage());
-            return back()->withErrors($e->getMessage());
+        } catch (ValidationException $e) {
+            $errors = '';
+            foreach ($e->errors() as $error){
+                $errors .= $error[0].PHP_EOL;
+            }
+            notify()->error($errors);
+            return back()->withInput()->withErrors($errors);
         }
 
     }
