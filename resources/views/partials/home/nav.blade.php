@@ -11,7 +11,7 @@
             </div>
             <div class="collapse navbar-collapse" id="micon">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a class="{{request()->is('home')?'active':''}}" href="{{route('home')}}">Home</a></li>
+                    <li><a class="{{request()->is('/')?'active':''}}" href="{{route('home')}}">Home</a></li>
                     <li><a class="{{request()->is('branches')?'active':''}}" href="{{route('branches')}}">Branches</a></li>
                     <li><a class="{{request()->is('trasnfer-schedule')?'active':''}}" href="{{route('trasnfer-schedule')}}">Transfer Schedule</a></li>
                     <li><a class="{{request()->is('rules')?'active':''}}" href="{{route('rules')}}">Rules</a></li>

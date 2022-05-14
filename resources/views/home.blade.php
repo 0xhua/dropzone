@@ -1,49 +1,52 @@
 <!DOCTYPE html>
 <head>
     <title> Dropzone | Homepage </title>
-    <link rel="stylesheet" type="text/css" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/front.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/style.css')}}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"/>
 
+    <!---- SCRIPTS --->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     @notifyCss
     <style type="text/css"> .notify {
             z-index: 1000000;
             margin-top: 5%;
         } </style>
+
 </head>
 
 
 <body id="bootstrap-overrides">
 @include('notify::components.notify')
 <x:notify-messages/>
+<!-------------------------- NAVIGATION BAR ------------------------------------------------->
 @include('partials.home.nav')
+
+<!-------------------------- 1ST ROW/ LOGIN/SIGNUP ------------------------------------------------>
 <div class="container-fluid">
     <div class="row" id="bgonly">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <h1 class="droptxt">Drop Now,</h1>
             <h1 class="pickuptxt">Pick up later!</h1>
 
             <p><img src="{{asset('images/dlogo.png')}}" class="dlogo"></p>
             <p class="trusttxt">TRUSTED BY ONLINE SELLERS.</p>
-            <img src="{{asset('images/human.png')}}" class="img-responsive" id="vector1">
+
             <div class="btn-center">
                 <button class="btn btn-first" onclick="trackbtn()"> TRACK YOUR ITEMS</button>
-                <button class="btn btn-second" data-toggle="modal" data-target="#loginModal" onclick="changeurl()">LOG
-                    IN
-                </button>
+                <button class="btn btn-second" data-toggle="modal" data-target="#loginModal">LOG IN</button>
                 <button class="btn btn-third" data-toggle="modal" data-target="#signUpmodal"> SIGN UP</button>
             </div>
         </div>
-        <div class="col-md-6">
-            <p><img src="{{asset('images/vector.png')}}" class="img-responsive" id="vector"></p>
 
-        </div>
+
     </div>
 
+    <!-------------------------- LOGIN MODAL ------------------------------------------------------------>
     <div class="modal fade" id="loginModal" role="dialog">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -52,18 +55,19 @@
                 </div>
 
                 <div class="modal-body" style="padding-right:70px; padding-left:70px;">
-                    <img src="{{asset('images/hello.png')}}" class="hello_img">
+                    <img src="images/hello.png" class="hello_img">
                     <p style="padding-bottom: 30px;">Join the community.</p>
                     @if($errors->any())
                         @foreach($errors->all() as $error)
                             <p style="color: red;">{{$error}}</p>
                         @endforeach
                     @endif
+
                     <form method="post" action="{{route('login')}}">
                         {{csrf_field()}}
                         <div class="form-group row">
                             <div class="col-xs-12">
-                                <input class="form-control input-lg" placeholder="User Name" name="email" type="text">
+                                <input class="form-control input-lg" placeholder="Email" name="email" type="text">
                             </div>
                         </div>
 
@@ -73,23 +77,20 @@
                                        type="password">
                             </div>
                         </div>
-                        <a href="/#forgotpass" id="forgotPass"> forgot your password? Reset it here.</a>
 
                         <div class="form-group row">
                             <div class="col-xs-12">
                                 <button class="btn" id="createbtn"> LOGIN</button>
-                                {{--                                    <p>OR</p>--}}
-                                {{--                                    <a href="#" class="btn btn-primary">--}}
-                                {{--                                        <i class="bx bxl-facebook"></i> Login with Facebook--}}
-                                {{--                                    </a>--}}
 
                             </div>
+                            <a href="/#forgotpass" id="forgotPass"> forgot your password? Reset it here.</a>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <!-------------------------- SIGN UP MODAL ------------------------------------------------------------>
     <div class="modal fade" id="signUpmodal" role="dialog">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -105,18 +106,19 @@
                             <p style="color: red;">{{$error}}</p>
                         @endforeach
                     @endif
+
                     <form method="post" action="{{route('register')}}">
-                        {{csrf_field()}}
+                        {{@csrf_field()}}
                         <div class="form-group row">
                             <div class="col-xs-12">
-                                <input class="form-control input-lg" placeholder="Full Name" id="" type="text"
-                                       name="name" required>
+                                <input class="form-control input-lg" placeholder="Full Name(e.g. Joe D. Doe)" id="" type="text"
+                                       name="name" pattern="^([A-Za-z]+[,.]?[ ]?|[A-Za-z]+['-]?)+$" required value="{{old('name')}}">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <div class="col-xs-6">
-                                <select class="form-control input-lg" value="" name="location_id" id="itemOrigin"
+                                <select class="form-control input-lg" value="{{old('location_id')}}" name="location_id" id="itemOrigin"
                                         required>
                                     <option disabled selected value>Location</option>
                                     @foreach($locations as $area)
@@ -125,31 +127,25 @@
                                 </select>
                             </div>
                             <div class="col-xs-6">
-                                <input class="form-control input-lg" placeholder="Phone Number" id="" type="text"
-                                       name="phone_number" required>
+                                <input class="form-control input-lg" placeholder="Phone #(09123456789)" id="" type="tel"
+                                       name="phone_number" pattern="[09][0-9]{1-0}" required value="{{old('phone_number')}}">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <div class="col-xs-12">
-                                <input class="form-control input-lg" placeholder="Email" id="" type="text" name="email"
-                                       required>
+                                <input class="form-control input-lg" placeholder="Email" id="" type="email" name="email"
+                                       required value="{{old('email')}}">
                             </div>
-                            {{--                                <div class="col-xs-6">--}}
-                            {{--                                    <input class="form-control input-lg" placeholder="Username" id="" type="text">--}}
-                            {{--                                </div>--}}
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-xs-12">
+                            <div class="col-xs-6">
                                 <input class="form-control input-lg" placeholder="Password" id="" type="password"
                                        name="password" required>
                             </div>
-                        </div>
-                        <div class="form-group row">
-
-                            <div class="col-xs-12">
-                                <input class="form-control input-lg" placeholder="Confirm passwordPassword" id=""
+                            <div class="col-xs-6">
+                                <input class="form-control input-lg" placeholder="Confirm Password" id=""
                                        type="password" name="password_confirmation" required>
                             </div>
                         </div>
@@ -157,7 +153,7 @@
                         <div class="form-group row">
                             <div class="col-xs-12">
                                 <button class="btn" id="createbtn"> CREATE</button>
-                                <p><i>By creating an account you agree to our <a href="rules.blade.php">Terms &
+                                <p><i>By creating an account you agree to our <a href="rules.html">Terms &
                                             Conditions.</a></i></p>
                             </div>
                         </div>
@@ -166,6 +162,8 @@
             </div>
         </div>
     </div>
+
+    <!--------------------------FORGOT PASS MODAL ------------------------------------------------->
     <div class="modal fade" id="forgotPassModal" role="dialog">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -200,72 +198,15 @@
             </div>
         </div>
     </div>
-    @if(request()->get('token'))
-    <div class="modal fade" id="newPassword" role="dialog">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" width="" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <div class="modal-body">
-                    <h1 style="font-size: 32px">Reset Password</h1>
-                    <form method="post" action="{{route('reset.password.post')}}">
-                        {{csrf_field()}}
-                        <div class="form-group row">
-                            <div class="col-xs-12">
-                                @csrf
-
-                                <input type="hidden" name="token" value="{{ request()->get('token') }}">
-                                <input class="form-control input-lg" placeholder="New password" id="" type="password"
-                                       name="password" required>
-
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-xs-12">
-                                <input class="form-control input-lg" placeholder="Confirm password" id="" type="password"
-                                       name="password_confirmation" required>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <div class="col-xs-12">
-                                <button class="btn" id="createbtn" style="width: auto;" type="submit">  Change password</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
-    <div class="row" id="newcontainer">
-        <div class="col-sm-4" id="txt1new">
-            <p><img src="{{asset('images/arrowright.png')}}" class="arrow1"></p>
-            <h1 class="txt1">User-friendly,</h1>
-            <h1 class="txt2">Hassle free!</h1>
-            <h1 class="txt3">Cash out,</h1>
-            <h1 class="txt4">Anytime!</h1>
-            <p><img src="{{asset('images/arrowleft.png')}}" class="arrow2"></p>
-        </div>
-        <div class="col-sm-3">
-            <img src="{{asset('images/cp.png')}}" class="img-responsive" id="cp">
-        </div>
-        <div class="col-sm-5">
-            <p class="allitemstxt">All items are sorted by codes to speed up <br>searching and releasing process.
-                Real-time<br> updates are within your reach!</p>
-            <p class="fblink"><i class='bx bxl-facebook-square' style="font-size: 30px;"></i>&nbsp;https://facebook.com/dropzonelu
-            </p>
-        </div>
-    </div>
+    <!-------------------------- 3RD ROW / WHY CHOOSE US ------------------------------------------------->
 
     <div class="row" id="whycontainer">
         <div class="col-sm-12" id="why">
-            <h1 class="whytxt" style="font-size: 36px;">WHY CHOOSE US?</h1>
+            <h1 class="whytxt">WHY CHOOSE US?</h1>
         </div>
     </div>
+
+    <!-------------------------- 4TH ROW / REASONS ------------------------------------------------->
 
     <div class="row" id="columncontainer">
         <div class="col-sm-4" id="col1">
@@ -283,9 +224,6 @@
     </div>
 
 </div>
-
-
-</body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
@@ -304,7 +242,7 @@
         $('#newPassword').modal('show');
         @endif
 
-        url = '{{ url()->previous() }}';
+            url = '{{ url()->previous() }}';
         if (window.location.href.indexOf('#login') !== -1) {
             $('#loginModal').modal('show');
         }
@@ -322,4 +260,5 @@
 
     });
 </script>
+</body>
 </html>
