@@ -62,14 +62,16 @@
                                 {{csrf_field()}}
                             <div class="row" style="margin-left: 5px;">
                             <div class="col-sm-6 mb-3">
-                                <label id="" >Full Name</label><br>
-                                <input style="color:#222222;" type="text" placeholder="" name="name" required><br>
+                                <label>Full Name</label><br>
+                                <input style="color:#222222;" type="text" placeholder="Full Name" name="name" pattern="^([A-Za-z]+[,.]?[ ]?|[A-Za-z]+['-]?)+$" required value="{{old('name')}}"><br>
 
-                                <label id="">Contact No.</label><br>
+                                <label>Contact No.</label><br>
                                 <input style="color:#222222;" type="text" placeholder="" name="phone_number" required><br>
 
                                 <label id="">Password</label><br>
                                 <input style="color:#222222;" type="password" placeholder="" name="password" ><br>
+
+
                             </div>
 
 
@@ -84,7 +86,10 @@
                                         <option value="2">Activated</option>
                                         <option value="1">Not Activated</option>
                                     </select>
+                                    <label id="">Confirm Password</label><br>
+                                    <input style="color:#222222;" type="password" placeholder="" name="password_confirmation" ><br>
                                 </form>
+
                                 </div>
 
 
