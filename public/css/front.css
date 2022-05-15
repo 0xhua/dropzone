@@ -13,7 +13,7 @@ body{
 .pickuptxt{
     margin-left: 80px;
     color:  #ffbf00;
-    line-height: 2px;
+    /*line-height: 2px;*/
     font-size:55px;
 }
 .trusttxt{
