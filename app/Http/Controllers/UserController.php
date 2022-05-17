@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\newSeller;
 use App\Helpers\SmsApiHelper;
 use App\Models\da_info;
 use App\Models\Item;
 use App\Models\itemRequest;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -197,7 +199,7 @@ class UserController extends Controller
                 'phone_number' => ['required', 'regex:/(09)|(9)[0-9]{9}/'],
                 'email' => 'required|email|unique:users',
                 'password' => 'required|confirmed'
-            ],         [
+            ], [
                 'name.required' => 'Full Name is required',
                 'phone_number.required' => 'Phone number is required',
                 'phone_number.regex' => 'Phone number is required',
@@ -210,7 +212,6 @@ class UserController extends Controller
 
             $input = $request->all();
             $input['password'] = Hash::make($input['password']);
-
             $user = User::create($input);
             $user->status_id = $request->status_id;
             $user->save();
@@ -226,8 +227,8 @@ class UserController extends Controller
 
         } catch (ValidationException $e) {
             $errors = '';
-            foreach ($e->errors() as $error){
-                $errors .= $error[0].PHP_EOL;
+            foreach ($e->errors() as $error) {
+                $errors .= $error[0] . PHP_EOL;
             }
             notify()->error($errors);
             return back()->withInput()->withErrors($errors);
@@ -317,7 +318,7 @@ class UserController extends Controller
                 }
             }
 
-            if(!is_null($request->search)){
+            if (!is_null($request->search)) {
                 $data = $data->where('users.name', 'like', '%' . $request->search . '%');
             }
 //
@@ -352,7 +353,7 @@ class UserController extends Controller
             $data = $data->orderBy('users.name', 'asc')->paginate(20);
             return view('userlist', compact(['data', 'locations']))
                 ->with('i', ($request->input('page', 1) - 1) * 5)
-                ->with('i',($request->input('filter',$request->filter)));
+                ->with('i', ($request->input('filter', $request->filter)));
         } else {
             return abort(403);
         }
@@ -421,7 +422,7 @@ class UserController extends Controller
             ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
             ->leftJoin('user_statuses', 'user_statuses.id', '=', 'users.status_id')
             ->where(function ($query) {
-                $query->where('model_has_roles.role_id',2)
+                $query->where('model_has_roles.role_id', 2)
                     ->orWhereNull('model_has_roles.role_id');
             })
 //            ->whereIn('model_has_roles.role_id', array(2,null))
