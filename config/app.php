@@ -166,6 +166,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         andcarpi\Popper\PopperServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Spatie\Backup\BackupServiceProvider::class,
 
         /*
          * Package Service Providers...
