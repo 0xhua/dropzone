@@ -34,7 +34,8 @@ class NewUserNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)->view(
-            'email.newUser', ['user' => $this->user]);
+            'email.newUser', ['user' => $this->user])
+            ->subject('New User Registered');
     }
 
     /**

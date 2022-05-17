@@ -16,9 +16,9 @@ class newDroppedItem extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($item)
     {
-        //
+        $this->item =$item;
     }
 
     /**
@@ -40,10 +40,9 @@ class newDroppedItem extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        return (new MailMessage)->view(
+            'email.newDroppedItem', ['item' => $this->item])
+            ->subject('New Item added');
     }
 
     /**
@@ -55,7 +54,9 @@ class newDroppedItem extends Notification
     public function toArray($notifiable)
     {
         return [
-
+            'buyer' => $this->item->buyer,
+            'seller' => $this->item->seller,
+            'destination' => $this->item->destination,
         ];
     }
 }
