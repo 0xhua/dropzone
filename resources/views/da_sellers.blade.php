@@ -242,9 +242,9 @@
                                 @csrf
                                 <input type="hidden" name="id" value="{{$sellers->id}}">
                                 <input type="hidden" name="status" value="1">
-                                <button type="submit" class='fas fa-check' style="font-size: 24px;"
+                                <button type="submit" class='fas fa-check tooltip' style="font-size: 24px;"
                                         data-toggle="tooltip" data-placement="top" title="approveitem"
-                                ></button>
+                                ><span class="tooltiptext">Activate User</span></button>
                             </form>
                             @endif
                                 @if($sellers->status_id == 2)
@@ -252,9 +252,9 @@
                                 @csrf
                                 <input type="hidden" name="id" value="{{$sellers->id}}">
                                 <input type="hidden" name="status" value="2">
-                                <button type="submit" class='fas fa-xmark-to-slot' style="font-size: 24px;"
+                                <button type="submit" class='fas fa-xmark-to-slot tooltip' style="font-size: 24px;"
                                         data-toggle="tooltip" data-placement="top" title="Deactivate"
-                                ></button>
+                                ><span class="tooltiptext">Deactivate user</span></button>
                             </form>
                             @endif
                         </td>

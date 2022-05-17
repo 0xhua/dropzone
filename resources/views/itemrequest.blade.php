@@ -266,13 +266,13 @@
                                     </td>
                                     <td>
                                         @if(auth()->user()->hasRole('seller') && is_null($request->status_id))
-                                            <button class='fas fa-pen-to-square' style="font-size: 24px;"
+                                            <button class='fas fa-pen-to-square tooltip' style="font-size: 24px;"
                                                     data-request="{{$request->request}}"
                                                     data-id="{{$request->id}}"
                                                     data-phone="{{$request->contact_no}}"
                                                     data-toggle="modal"
                                                     data-target="#editrequest"
-                                            ></button>
+                                            ><span class="tooltiptext">Edit Request</span></button>
                                         @endif
                                         @if(auth()->user()->hasRole(['Admin','da']))
                                             @if(is_null($request->status_id))
@@ -280,21 +280,21 @@
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{$request->id}}">
                                                     <input type="hidden" name="status" value="1">
-                                                    <button type="submit" class='fas fa-thumbs-up'
+                                                    <button type="submit" class='fas fa-thumbs-up tooltip'
                                                             style="font-size: 24px;"
                                                             data-toggle="tooltip" data-placement="top"
                                                             title="Approve Request"
-                                                    ></button>
+                                                    ><span class="tooltiptext">Approve Request</span></button>
                                                 </form>
                                                 <form method="post" action="{{route('update-request-status')}}">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{$request->id}}">
                                                     <input type="hidden" name="status" value="2">
-                                                    <button type="submit" class='fas fa-xmark-to-slot'
+                                                    <button type="submit" class='fas fa-xmark-to-slot tooltip'
                                                             style="font-size: 24px;"
                                                             data-toggle="tooltip" data-placement="top"
                                                             title="Reject Request"
-                                                    ></button>
+                                                    ><span class="tooltiptext">Reject Request</span></button>
                                                 </form>
                                             @endif
                                             @if($request->status_id == '1')
@@ -302,11 +302,11 @@
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{$request->id}}">
                                                     <input type="hidden" name="status" value="3">
-                                                    <button type="submit" class='fas fa-truck'
+                                                    <button type="submit" class='fas fa-truck tooltip'
                                                             style="font-size: 24px;"
                                                             data-toggle="tooltip" data-placement="top"
                                                             title="Process request"
-                                                    ></button>
+                                                    ><span class="tooltiptext">Process request</span></button>
                                                 </form>
                                             @endif
                                             @if($request->status_id ==3)
@@ -314,11 +314,11 @@
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{$request->id}}">
                                                     <input type="hidden" name="status" value="4">
-                                                    <button type="submit" class='fas fa-check'
+                                                    <button type="submit" class='fas fa-check tooltip'
                                                             style="font-size: 24px;"
                                                             data-toggle="tooltip" data-placement="top"
                                                             title="Mark as Done"
-                                                    ></button>
+                                                    ><span class="tooltiptext">Mark as Done</span></button>
                                                 </form>
                                             @endif
                                         @endif

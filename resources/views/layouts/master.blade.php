@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{asset('css/sidenav.css')}}">
     <link rel="stylesheet" href="{{asset('css/dashboard.css')}}">
     <link rel="stylesheet" href="{{asset('css/tablelist.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tooltip.css')}}">
     @yield('css')
     @notifyCss
     <style type="text/css"> .notify{ z-index: 1000000; margin-top: 5%; } </style>

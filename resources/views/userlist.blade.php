@@ -344,10 +344,10 @@
                                             <form method="post" action="{{route('delete-user')}}">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{$user->id}}">
-                                                <button type="submit" class='fas fa-xmark'
+                                                <button type="submit" class='fas fa-xmark tooltip'
                                                         style="font-size: 24px;"
                                                         data-toggle="tooltip" data-placement="top" title="Delete user"
-                                                ></button>
+                                                ><span class="tooltiptext">Delete user</span></button>
                                             </form>
                                         </td>
                                     </tr>
@@ -395,13 +395,13 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <button class='fas fa-pen-to-square' style="font-size: 24px;"
+                                            <button class='fas fa-pen-to-square tooltip' style="font-size: 24px;"
                                                     data-id="{{$user->id}}"
                                                     data-email="{{$user->email}}"
                                                     data-phone="{{$user->phone_number}}"
                                                     data-toggle="modal"
                                                     data-target="#editBuyer"
-                                            ></button>
+                                            ><span class="tooltiptext">Edit user</span></button>
                                         </td>
                                     </tr>
                                 @endforeach

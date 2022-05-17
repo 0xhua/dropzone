@@ -400,7 +400,7 @@
                                 <td>
                                     @if(auth()->user()->hasRole('seller'))
                                         @if(is_null($item->status_id))
-                                            <button class='fas fa-pen-to-square' style="font-size: 24px;"
+                                            <button class='fas fa-pen-to-square tooltip' style="font-size: 24px;"
                                                     data-id="{{$item->id}}"
                                                     data-buyer="{{$item->buyer}}"
                                                     data-d="{{$item->destination}}"
@@ -408,16 +408,16 @@
                                                     data-p_id="{{$item->payment_status_id}}"
                                                     data-toggle="modal"
                                                     data-target="#editItem"
-                                            ></button>
+                                            >  <span class="tooltiptext">Edit Item</span></button>
                                         @endif
                                         @if($item->payment_status_id==2 && $item->approval_status_id == 1 && $item->status_id !== 3)
                                                 <form method="post" action="{{route('update-item-status')}}">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{$item->id}}">
                                                     <input type="hidden" name="status" value="11">
-                                                    <button type="submit" class='fas fa-g' style="font-size: 24px;"
+                                                    <button type="submit" class='fas fa-g tooltip tooltip' style="font-size: 24px;"
                                                             data-toggle="tooltip" data-placement="top" title="Pay item via gcash"
-                                                    ></button>
+                                                    ><span class="tooltiptext">Pay item via gcash</span></button>
                                                 </form>
                                         @endif
                                     @endif
@@ -428,9 +428,9 @@
                                             @csrf
                                             <input type="hidden" name="id" value="{{$item->id}}">
                                             <input type="hidden" name="status" value="1">
-                                            <button type="submit" class='fas fa-thumbs-up' style="font-size: 24px;"
+                                            <button type="submit" class='fas fa-thumbs-up tooltip' style="font-size: 24px;"
                                                     data-toggle="tooltip" data-placement="top" title="approveitem"
-                                            ></button>
+                                            ><span class="tooltiptext">Approve Item</span></button>
                                         </form>
                                         @elseif($item->status_id!==3) {{--if item status is not pull out show buttons--}}
                                         @if((is_null($item->status_id)
@@ -442,9 +442,9 @@
                                             @csrf
                                             <input type="hidden" name="id" value="{{$item->id}}">
                                             <input type="hidden" name="status" value="2">
-                                            <button type="submit" class='fas fa-truck' style="font-size: 24px;"
+                                            <button type="submit" class='fas fa-truck tooltip' style="font-size: 24px;"
                                                     data-toggle="tooltip" data-placement="top" title="transfer item"
-                                            ></button>
+                                            ><span class="tooltiptext">Transfer item</span></button>
                                         </form>
                                         @endif
                                         @if($item->approval_status_id == 1
@@ -457,10 +457,10 @@
                                             @csrf
                                             <input type="hidden" name="id" value="{{$item->id}}">
                                             <input type="hidden" name="status" value="3">
-                                            <button type="submit" class='fas fa-clipboard-check'
+                                            <button type="submit" class='fas fa-clipboard-check tooltip'
                                                     style="font-size: 24px;"
                                                     data-toggle="tooltip" data-placement="top" title="ready item"
-                                            ></button>
+                                            ><span class="tooltiptext">Ready Item</span></button>
                                         </form>
                                         @else
                                             @if(($item->status_id==2 && $da_loc==$item->destination_id && is_null($item->pull_out_status_id)) || ($item->status_id==2 && !is_null($item->pull_out_status_id) && $da_loc==$item->origin_id))
@@ -469,11 +469,11 @@
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{$item->id}}">
                                                     <input type="hidden" name="status" value="4">
-                                                    <button type="submit" class='fas fa-arrow-down'
+                                                    <button type="submit" class='fas fa-arrow-down tooltip'
                                                             style="font-size: 24px;"
                                                             data-toggle="tooltip" data-placement="top"
                                                             title="receive item"
-                                                    ></button>
+                                                    ><span class="tooltiptext">Receive item</span></button>
                                                 </form>
                                             @elseif($item->status_id==4 && $item->destination_id == $da_loc)
                                                 @if($item->payment_status_id ==2)
@@ -482,11 +482,11 @@
                                                         @csrf
                                                         <input type="hidden" name="id" value="{{$item->id}}">
                                                         <input type="hidden" name="status" value="5">
-                                                        <button type="submit" class='fas fa-file-invoice-dollar'
+                                                        <button type="submit" class='fas fa-file-invoice-dollar tooltip'
                                                                 style="font-size: 24px;"
                                                                 data-toggle="tooltip" data-placement="top"
                                                                 title="Pay item"
-                                                        ></button>
+                                                        ><span class="tooltiptext">Pay item</span></button>
                                                     </form>
                                                 @else
                                                     {{--claim item--}}
@@ -494,11 +494,11 @@
                                                         @csrf
                                                         <input type="hidden" name="id" value="{{$item->id}}">
                                                         <input type="hidden" name="status" value="6">
-                                                        <button type="submit" class='fas fa-box-check'
+                                                        <button type="submit" class='fas fa-box-check tooltip'
                                                                 style="font-size: 24px;"
                                                                 data-toggle="tooltip" data-placement="top"
                                                                 title="Claim item"
-                                                        ></i></button>
+                                                        ></i><span class="tooltiptext">Claim item</span></button>
                                                     </form>
                                                 @endif
                                             @elseif($item->status_id == 1)
@@ -507,11 +507,11 @@
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{$item->id}}">
                                                     <input type="hidden" name="status" value="8">
-                                                    <button type="submit" class='fas fa-inbox-out'
+                                                    <button type="submit" class='fas fa-inbox-out tooltip'
                                                             style="font-size: 24px;"
                                                             data-toggle="tooltip" data-placement="top"
                                                             title="Release item"
-                                                    ></button>
+                                                    ><span class="tooltiptext">Release item</span></button>
                                                 </form>
                                             @endif
                                         @endif
@@ -526,10 +526,10 @@
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{$item->id}}">
                                                 <input type="hidden" name="status" value="7">
-                                                <button type="submit" class='fas fa-arrow-right-from-bracket'
+                                                <button type="submit" class='fas fa-arrow-right-from-bracket tooltip'
                                                         style="font-size: 24px;"
                                                         data-toggle="tooltip" data-placement="top" title="Pull Out item"
-                                                ></button>
+                                                ><span class="tooltiptext">Pull Out item</span></button>
                                             </form>
                                         @endif
                                         @if($item->pull_out_status_id ==3 ||($item->pull_out_status_id ==1 && $item->destination_id == $item->origin_id))
@@ -537,22 +537,22 @@
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{$item->id}}">
                                                 <input type="hidden" name="status" value="9">
-                                                <button type="submit" class='fa-solid fa-right-from-bracket'
+                                                <button type="submit" class='fa-solid fa-right-from-bracket tooltip'
                                                         style="font-size: 24px;"
                                                         data-toggle="tooltip" data-placement="top" title="Pull Out item"
-                                                ></button>
+                                                ><span class="tooltiptext">Pull Out item</span></button>
                                             </form>
                                         @endif
                                         @endif
                                     @endif
                                     @if(auth()->user()->hasPermissionTo('item-show-qr') && $item->approval_status_id == 1)
-                                        <a class='fas fa-qrcode'
+                                        <a class='fas fa-qrcode tooltip'
                                            style="font-size: 24px;"
                                            data-toggle="modal"
                                            data-target="#generateQr"
                                            data-code="{{$item->code}}"
                                            data-toggle="tooltip" data-placement="top" title="Show item QR code"
-                                        ></a>
+                                        ><span class="tooltiptext">Show item QR code</span></a>
                                     @endif
                                 </td>
                             </tr>

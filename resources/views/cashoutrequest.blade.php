@@ -270,26 +270,26 @@
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{$cashout->id}}">
                                                 <input type="hidden" name="status" value="1">
-                                                <button type="submit" class='fas fa-thumbs-up' style="font-size: 24px;"
+                                                <button type="submit" class='fas fa-thumbs-up tooltip' style="font-size: 24px;"
                                                         data-toggle="tooltip" data-placement="top" title="approveitem"
-                                                ></button>
+                                                ><span class="tooltiptext">Approve Request</span></button>
                                             </form>
                                             <form method="post" action="{{route('update-cr-status')}}">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{$cashout->id}}">
                                                 <input type="hidden" name="status" value="3">
-                                                <button type="submit" class='fas fa-xmark-to-slot'
+                                                <button type="submit" class='fas fa-xmark-to-slot tooltip'
                                                         style="font-size: 24px;"
                                                         data-toggle="tooltip" data-placement="top" title="Release item"
-                                                ></button>
+                                                ><span class="tooltiptext">Reject Request</span></button>
                                             </form>
                                         @elseif($cashout->status_id == 1)
-                                            <button class='fas fa-hand-holding-dollar' style="font-size: 24px;"
+                                            <button class='fas fa-hand-holding-dollar tooltip' style="font-size: 24px;"
                                                     data-id="{{$cashout->id}}"
                                                     data-toggle="modal"
                                                     data-target="#verifyCashout"
                                                     title="Release Cashout"
-                                            ></button>
+                                            ><span class="tooltiptext">Release Request</span></button>
                                         @endif
                                     </td>
                                 @endif
